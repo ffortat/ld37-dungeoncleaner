@@ -126,7 +126,7 @@ Animator.prototype.Init = function (data) {
 
 	this.currentAnimation = this.animations[this.currentState][data.default];
 	this.currentAnimationName = data.default;
-	this.currentAnimation.position = new PIXI.Point(this.x, this.y);
+	this.currentAnimation.position = new PIXI.Point(this.x + this.currentAnimation.width / 2, this.y + this.currentAnimation.height / 2);
 	this.currentAnimation.play();
 
 	if (this.isDisplayed) {
@@ -198,8 +198,8 @@ Animator.prototype.MoveTo = function (x, y) {
 	this.x = x;
 	this.y = y;
 
-	this.currentAnimation.x = x;
-	this.currentAnimation.y = y;
+	this.currentAnimation.x = x + this.currentAnimation.width / 2;
+	this.currentAnimation.y = y + this.currentAnimation.height / 2;
 }
 
 Animator.prototype.Hide = function () {
@@ -225,7 +225,7 @@ Animator.prototype.UpdateAnim = function (animation, mirror) {
 
 			this.currentAnimation = this.animations[this.currentState][animation];
 			this.currentAnimationName = animation;
-			this.currentAnimation.position = new PIXI.Point(this.x, this.y);
+			this.currentAnimation.position = new PIXI.Point(this.x + this.currentAnimation.width / 2, this.y + this.currentAnimation.height / 2);
 
 			this.MirrorAnim(mirror);
 

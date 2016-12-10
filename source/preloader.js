@@ -12,6 +12,8 @@ function Preloader(renderer) {
 	this.assets = [
 		['ground_terrain', 'ground_terrain.png'],
 		['sea', 'sea.png'],
+		['broomstick', 'broomstick.png'],
+		['redcross', 'redcross.png'],
 		['background', 'background.png']
 	];
 

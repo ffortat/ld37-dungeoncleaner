@@ -1,0 +1,49 @@
+{
+	"default" : "dead",
+	"animations" : {
+		"dead" : {
+			"frames" : [
+				{"tile" : 0}
+			],
+			"speed" : 20,
+			"loop" : true,
+			"loopto" : 0
+		},
+		"healing" : {
+			"frames" : [
+				{"tile" : 1}
+			],
+			"speed" : 20,
+			"loop" : true,
+			"loopto" : 0
+		},
+		"healed" : {
+			"frames" : [
+				{"tile" : 2}
+			],
+			"speed" : 20,
+			"loop" : true,
+			"loopto" : 0
+		},
+		"alive" : {
+			"frames" : [
+				{"tile" : 3}
+			],
+			"speed" : 20,
+			"loop" : true,
+			"loopto" : 0
+		}
+	},
+	"tilesets" : [
+		{
+			"file" : "monster.png",
+			"tilewidth" : 64,
+			"tileheight" : 64,
+			"imagewidth" : 256,
+			"imageheight" : 64,
+			"firstgid" : 0
+		}
+	],
+	"stateful" : false,
+	"states" : 0
+}

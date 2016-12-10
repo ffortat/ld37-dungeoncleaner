@@ -8,6 +8,7 @@ function Level(name, renderer) {
 		w : 1280,
 		h : 720
 	};
+	this.grid = new PIXI.Rectangle(0, 0, 1, 1);
 
 	this.music = new Audio();
 	this.tiles = {};
@@ -26,20 +27,20 @@ function Level(name, renderer) {
 		width : 0,
 		height : 0
 	};
-	this.offset = {
+	this.margin = {
 		x : 40,
 		y : 40
 	}
 
 	this.origin = {x:0,y:0};
-	this.submarine = {};
+	this.character = null;
+	this.element = null;
 	this.interface = {};
-	this.interactable = null;
 	this.end = -1;
 
 	this.riddles = 0;
 	this.locations = [];
-	this.objects = {};
+	this.objects = [];
 	for (var tag in Tags) {
 		this.objects[Tags[tag]] = [];
 	}
@@ -80,25 +81,19 @@ function Level(name, renderer) {
 Level.prototype.Init = function(level) {
 	var self = this;
 
-	var submarineid = -1;
-	var seamarkid = -1;
-	var boatid = -1;
-	var boatProperties = {};
+	var itemid = -1;
+	var messid = -1;
+	var monsterid = -1;
 	var islandid = -1;
 
 	this.json = level;
 
 	level.tilesets.forEach(function (tileset, index) {
-		if (tileset.name === 'Placeholders') {
-			submarineid = tileset.firstgid;
-			seamarkid = tileset.firstgid + 1;
-			boatid = tileset.firstgid + 4;
-			boatProperties = tileset.tileproperties;
+		if (tileset.name === 'placeholders') {
+			itemid = tileset.firstgid;
+			messid = tileset.firstgid + 1;
+			monsterid = tileset.firstgid + 2;
 		} else {
-			if (tileset.name === 'IslandTerrain') {
-				islandid = tileset.firstgid;
-			}
-
 			var uri = tileset.image;
 			var texture = new Image();
 			texture.src = uri
@@ -136,8 +131,8 @@ Level.prototype.Init = function(level) {
 			layer.data.forEach(function (tileid, index) {
 				if (tileid > 0) {
 					var tile = new PIXI.Sprite(this.tiles[tileid].texture);
-					var x = (index % this.width) * this.tile.width + this.offset.x;
-					var y = Math.floor(index / this.width) * this.tile.height + this.offset.y;
+					var x = (index % this.width) * this.tile.width + this.margin.x;
+					var y = Math.floor(index / this.width) * this.tile.height + this.margin.y;
 
 					tile.position = new PIXI.Point(x, y);
 					this.map.addChild(tile);
@@ -146,55 +141,6 @@ Level.prototype.Init = function(level) {
 
 					if (tileid >= islandid && tileid <= islandid + 12) {
 						this.terrain.push(rectangle);
-					}
-
-					switch (tileid) {
-						case islandid : // top left
-							this.colliders.top.push(rectangle);
-							this.colliders.left.push(rectangle);
-							break;
-						case islandid + 1 : // top
-							this.colliders.top.push(rectangle);
-							break;
-						case islandid + 2 : // top right
-							this.colliders.top.push(rectangle);
-							this.colliders.right.push(rectangle);
-							break;
-						case islandid + 3 : // bottom right
-							this.colliders.bottom.push(rectangle);
-							this.colliders.right.push(rectangle);
-							break;
-						case islandid + 4 : // bottom left
-							this.colliders.bottom.push(rectangle);
-							this.colliders.left.push(rectangle);
-							break;
-						case islandid + 5 : // left
-							this.colliders.left.push(rectangle);
-							break;
-						case islandid + 6 : // none
-							break;
-						case islandid + 7 : // right
-							this.colliders.right.push(rectangle);
-							break;
-						case islandid + 8 : // top right
-							this.colliders.top.push(rectangle);
-							this.colliders.right.push(rectangle);
-							break;
-						case islandid + 9 : // top left
-							this.colliders.top.push(rectangle);
-							this.colliders.left.push(rectangle);
-							break;
-						case islandid + 10 : // bottom left
-							this.colliders.bottom.push(rectangle);
-							this.colliders.left.push(rectangle);
-							break;
-						case islandid + 11 : // bottom
-							this.colliders.bottom.push(rectangle);
-							break;
-						case islandid + 12 : // bottom right
-							this.colliders.bottom.push(rectangle);
-							this.colliders.right.push(rectangle);
-							break;
 					}
 				}
 			}, this);
@@ -205,19 +151,15 @@ Level.prototype.Init = function(level) {
 					var y = Math.floor(index / layer.width);
 
 					switch (tileid) {
-						case submarineid :
-							this.origin.x = x * level.tilewidth;
-							this.origin.y = y * level.tileheight;
-							// this.submarine = new Submarine(this.origin.x, this.origin.y, this);
-							// this.AddObject(this.submarine);
+						case itemid :
+							this.AddObject(new Item(x * level.tilewidth, y * level.tileheight, 'pot', this));
 							break;
-						case seamarkid :
-							// this.locations.push({x : x * level.tilewidth, y : y * level.tileheight, used : false});
+						case messid :
+							this.AddObject(new Mess(x * level.tilewidth, y * level.tileheight, 'crap', this));
 							break;
-					}
-
-					if (tileid >= boatid) {
-						// this.AddObject(new Boat(x * level.tilewidth, y * level.tileheight, this, boatProperties[tileid - submarineid].Rotation));
+						case monsterid :
+							this.AddObject(new Monster(x * level.tilewidth, y * level.tileheight, 'mage', this));
+							break;
 					}
 				}, this);
 			}
@@ -229,16 +171,6 @@ Level.prototype.Init = function(level) {
 	this.colliders.right.push(new PIXI.Rectangle(-this.tile.width, 0, this.tile.width, this.map.height));
 	this.colliders.bottom.push(new PIXI.Rectangle(-this.tile.width, -this.tile.height, this.map.width + this.tile.width * 2, this.tile.height));
 
-	for (var i = 0; i < this.riddles; i += 1) {
-		var location;
-		do {
-			location = this.locations[Math.floor(Math.random() * this.locations.length)];
-		} while (location.used);
-
-		// this.AddObject(new SeaMark(location.x, location.y, this, i, location));
-		location.used = true;
-	}
-
 	this.loaded = true;
 	this.listeners.ready.forEach(function (listener) {
 		listener();
@@ -247,7 +179,9 @@ Level.prototype.Init = function(level) {
 		(this.next.ready.shift())();
 	}
 
-	var mapRenderTexture = PIXI.RenderTexture.create(this.width * this.tile.width + 80, this.height * this.tile.height + 80);
+	this.grid.width = this.width * this.tile.width;
+	this.grid.height = this.height * this.tile.height;
+	var mapRenderTexture = PIXI.RenderTexture.create(this.grid.width + this.margin.x * 2, this.grid.height + this.margin.y * 2);
 	this.renderer.render(this.map, mapRenderTexture);
 	this.mapSprite = new PIXI.Sprite(mapRenderTexture);
 
@@ -256,8 +190,12 @@ Level.prototype.Init = function(level) {
 	this.game.addChild(this.dynamic);
 	this.container.addChild(this.game);
 	this.container.addChild(this.gui);
+	
+	this.dynamic.position = this.margin;
 
-	// this.interface = new GUI(this);
+	this.interface = new GUI(this);
+
+	mouse.on('click', this.UseCharacter, this);
 
 	// this.victorySpeech = new Dialog(this, 'victory');
 	// this.victorySpeech.on('end', function () {
@@ -307,56 +245,11 @@ Level.prototype.win = function() {
 	});
 };
 
-Level.prototype.RespawnSeamark = function (seamark) {
-	var location;
-
-	do {
-		location = this.locations[Math.floor(Math.random() * this.locations.length)];
-	} while (location.used);
-
-	seamark.location.used = false;
-	seamark.location = location;
-
-	seamark.Move(location.x, location.y);
-
-	location.used = true;
-}
-
 Level.prototype.CenterCamera = function (point) {
-	this.game.x = (renderer.width - (this.width * this.tile.width + 80)) / 2;
-	this.game.y = (renderer.height - (this.height * this.tile.height + 80)) / 2;
-	// this.game.x = -Math.min(Math.max(0, point.x - this.renderer.width / 2), this.mapSprite.width - this.renderer.width);
-	// this.game.y = -Math.min(Math.max(0, point.y - this.renderer.height / 2), this.mapSprite.height - this.renderer.height);
-}
-
-Level.prototype.SetInteractable = function (object) {
-	this.interactable = object;
-}
-
-Level.prototype.Interact = function () {
-	var self = this;
-
-	if (this.interactable) {
-		this.interactable.LaunchDialog(function (success) {
-			self.submarine.Unlock(true);
-			
-			if (success) {
-				self.submarine.Success(self.interactable);
-			} else {
-				self.submarine.Failure(self.interactable);
-			}
-		},
-		function () {
-			self.submarine.off('forceSurface', self.interactable.Timeout);
-			self.submarine.surface();
-		});
-
-		this.submarine.on('forceSurface', this.interactable.Timeout, this.interactable);
-
-		return true;
-	} else {
-		return false;
-	}
+	this.game.x = (renderer.width - (this.grid.width + this.margin.x * 2)) / 2;
+	this.game.y = (renderer.height - (this.grid.height + this.margin.y * 2)) / 2;
+	this.grid.x = this.game.x + this.margin.x;
+	this.grid.y = this.game.y + this.margin.y;
 }
 
 Level.prototype.Victory = function () {
@@ -369,7 +262,7 @@ Level.prototype.Defeat = function () {
 	this.defeatDialog.Display();
 }
 
-Level.prototype.Collides = function(shape) {
+Level.prototype.Collides = function(shape1, shape2) {
 	function intersectRectangles(rectangle1, rectangle2) {
 		var r1 = {
 			left : rectangle1.x,
@@ -413,69 +306,22 @@ Level.prototype.Collides = function(shape) {
 				intersectSegmentCircle(new PIXI.Point(r.right, r.top), new PIXI.Point(r.left, r.top), circle));
 	}
 
-	var collides = false;
-	var collisions = {
-		top : [],
-		left : [],
-		bottom : [],
-		right : []
-	};
-
-	if (shape.type === PIXI.SHAPES.RECT) {
-		for (var way in this.colliders) {
-			this.colliders[way].forEach(function (collider) {
-				if (intersectRectangles(collider, shape)) {
-					collides = true;
-					collisions[way].push(collider);
-				}
-			}, this);
+	if (shape1.type === PIXI.SHAPES.RECT) {
+		if (shape2.type === PIXI.SHAPES.RECT) {
+			return intersectRectangles(shape1, shape2);
 		}
-	} else if (shape.type === PIXI.SHAPES.CIRC) {
-		for (var way in this.colliders) {
-			this.colliders[way].forEach(function (collider) {
-				if (intersectRectangleCircle(collider, shape)) {
-					collides = true;
-					collisions[way].push(collider);
-				}
-			}, this);
-		}
-	}
-
-
-	return {
-		collides : collides,
-		colliders : collisions
 	}
 };
 
-Level.prototype.PingBoats = function (shape) {
-	this.objects[Tags.Ennemy].forEach(function (boat) {
-		boat.Ping(shape);
-	}, this);
-}
-
 Level.prototype.AddObject = function (object) {
-	this.objects[object.colliderTag].push(object);
-
-	if (object.triggerTag && object.triggerTag !== object.colliderTag) {
-		this.objects[object.triggerTag].push(object);
-	}
+	this.objects.push(object);
 }
 
 Level.prototype.RemoveObject = function (object) {
-	for (var i = 0; i < this.objects[object.colliderTag].length; i += 1) {
-		if (this.objects[object.colliderTag][i] === object) {
-			this.objects[object.colliderTag].splice(i, 1);
+	for (var i = 0; i < this.objects.length; i += 1) {
+		if (this.objects[i] === object) {
+			this.objects.splice(i, 1);
 			break;
-		}
-	}
-
-	if (object.triggerTag && object.triggerTag !== object.colliderTag) {
-		for (var i = 0; i < this.objects[object.triggerTag].length; i += 1) {
-			if (this.objects[object.triggerTag][i] === object) {
-				this.objects[object.triggerTag].splice(i, 1);
-				break;
-			}
 		}
 	}
 }
@@ -486,6 +332,49 @@ Level.prototype.GetObjects = function (tag) {
 	}
 
 	return this.objects[tag];
+}
+
+Level.prototype.Prepare = function (type, name) {
+	if (this.character) {
+		this.character.Hide();
+		this.character = null;
+	}
+
+	switch (type) {
+		case 'cleaner':
+			this.character = new Cleaner(-1 * this.tile.width, 0, this);
+			break;
+		case 'healer':
+			this.character = new Healer(-1 * this.tile.width, 0, this);
+			break;
+		case 'item':
+			this.element = new Item(-1 * this.tile.width, 0, name, this);
+			break;
+		case 'monster':
+			this.element = new Monster(-1 * this.tile.width, 0, name, this);
+			break;
+		default:
+			console.log('Type unknown to prepare');
+			break;
+	}
+}
+
+Level.prototype.UseCharacter = function () {
+	if (this.character) {
+		if (this.character.isDisplayed) {
+			this.objects.some(function (element) {
+				if (this.Collides(this.character.GetRectangle(), element.GetRectangle())) {
+					if (this.character.CanAct(element)) {
+						this.AddObject(this.character);
+						this.character.Act(element);
+
+						this.character = null;
+						return true;
+					}
+				}
+			}, this);
+		}
+	}
 }
 
 Level.prototype.GetColliders = function (whitelist) {
@@ -502,13 +391,25 @@ Level.prototype.Tick = function(length) {
 	if (this.loaded) {
 		var deltaTime = PIXI.ticker.shared.elapsedMS / 1000;
 
-		for (var tag in this.objects) {
-			this.objects[tag].forEach(function (object) {
-				object.Tick(deltaTime);
-			}, this);
-		}
+		this.objects.forEach(function (object) {
+			object.Tick(deltaTime);
+		}, this);
 
-		// this.interface.Tick(deltaTime);
+		this.interface.Tick(deltaTime);
+
+		if (this.grid.contains(mouse.x, mouse.y)) {
+			var x = mouse.x - this.grid.x;
+			var y = mouse.y - this.grid.y;
+
+			if (this.character) {
+				this.character.Display();
+				this.character.MoveTo(Math.floor(x / this.tile.width) * this.tile.width, Math.floor(y / this.tile.height) * this.tile.height);
+			}
+		} else {
+			if (this.character) {
+				this.character.Hide();
+			}
+		}
 
 		this.Draw();
 	}

@@ -1,10 +1,12 @@
-	- items
-		- state
-		- cleaners
+X - items
+	X - state
+	X - cleaners
 		- minigame
-	- monsters
-		- state
-		- nurses / doctors
+X - mess
+	X -state
+X - monsters
+	X - state
+	X - healers
 		- (minigame)
 	- powerups
 	- interface
