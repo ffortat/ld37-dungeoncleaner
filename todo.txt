@@ -1,0 +1,13 @@
+	- items
+		- state
+		- cleaners
+		- minigame
+	- monsters
+		- state
+		- nurses / doctors
+		- (minigame)
+	- powerups
+	- interface
+		- buttons
+	- actions (linked to buttons)
+	- timer, level duration, rounds

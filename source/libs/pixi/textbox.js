@@ -14,12 +14,12 @@ function TextBox(container, data) {
 		x : parameters.textbox.dimensions.x,
 		y : parameters.textbox.dimensions.y,
 		width : parameters.textbox.dimensions.width,
-		height : parameters.textbox.dimensions.height;
+		height : parameters.textbox.dimensions.height
 	}
 	this.characterdimensions = {
 		width : parameters.textbox.characterdimensions.width,
 		height : parameters.textbox.characterdimensions.height,
-		over : parameters.textbox.characterdimensions.over;
+		over : parameters.textbox.characterdimensions.over
 	}
 
 	this.rectangle = new PIXI.Graphics();

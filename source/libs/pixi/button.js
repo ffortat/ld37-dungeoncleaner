@@ -10,7 +10,7 @@ function Button(text, x, y, width, height) {
 
 	this.collider = new PIXI.Rectangle(x, y, width, height);
 
-	this.text = new PIXI.Text(text, {fontFamily : 'Arial', fontSize: 22, fill : 0xEEEEEE};
+	this.text = new PIXI.Text(text, {fontFamily : 'Arial', fontSize: 22, fill : 0xEEEEEE});
 
 	this.rectangle = new PIXI.Graphics()
 
