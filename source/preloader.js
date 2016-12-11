@@ -31,6 +31,8 @@ function Preloader(renderer) {
 		['broomstick', 'broomstick.png'],
 		['redcross', 'redcross.png'],
 		['crate', 'crate.png'],
+		['builder', 'builder.png'],
+		['hoven', 'hoven.png'],
 		['background', 'background.jpg']
 	];
 

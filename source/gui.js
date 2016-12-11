@@ -23,6 +23,10 @@ function GUI(level) {
 		ribs : {},
 		bones : {}
 	}
+	this.tools = {
+		builder : {},
+		hoven : {}
+	}
 	this.objectives = [];
 	this.score = {};
 
@@ -56,22 +60,37 @@ GUI.prototype.Init = function () {
 	this.buttons.pot.sprite = PIXI.Sprite.fromImage('textures/poticon.png');
 	this.buttons.pot.sprite.position = new PIXI.Point(renderer.width - this.buttons.pot.sprite.width, 52);
 	this.buttons.pot.collider = new PIXI.Rectangle(this.buttons.pot.sprite.x, this.buttons.pot.sprite.y, this.buttons.pot.sprite.width, this.buttons.pot.sprite.height);
+	this.buttons.pot.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.buttons.pot.counter.position = new PIXI.Point(this.buttons.pot.sprite.x + 5, this.buttons.pot.sprite.y + this.buttons.pot.sprite.height - 5 - this.buttons.pot.counter.height);
+	this.backgrounds.drawRoundedRect(this.buttons.pot.counter.x - 5, this.buttons.pot.counter.y - 2, this.buttons.pot.counter.width + 10, this.buttons.pot.counter.height + 4, 5);
 
 	this.buttons.skeleton.sprite = PIXI.Sprite.fromImage('textures/skeletonicon.png');
 	this.buttons.skeleton.sprite.position = new PIXI.Point(renderer.width - this.buttons.skeleton.sprite.width, 180);
 	this.buttons.skeleton.collider = new PIXI.Rectangle(this.buttons.skeleton.sprite.x, this.buttons.skeleton.sprite.y, this.buttons.skeleton.sprite.width, this.buttons.skeleton.sprite.height);
+	this.buttons.skeleton.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.buttons.skeleton.counter.position = new PIXI.Point(this.buttons.skeleton.sprite.x + 5, this.buttons.skeleton.sprite.y + this.buttons.skeleton.sprite.height - 5 - this.buttons.skeleton.counter.height);
+	this.backgrounds.drawRoundedRect(this.buttons.skeleton.counter.x - 5, this.buttons.skeleton.counter.y - 2, this.buttons.skeleton.counter.width + 10, this.buttons.skeleton.counter.height + 4, 5);
 
 	this.buttons.monster.sprite = PIXI.Sprite.fromImage('textures/monstericon.png');
 	this.buttons.monster.sprite.position = new PIXI.Point(renderer.width - this.buttons.monster.sprite.width, 308);
 	this.buttons.monster.collider = new PIXI.Rectangle(this.buttons.monster.sprite.x, this.buttons.monster.sprite.y, this.buttons.monster.sprite.width, this.buttons.monster.sprite.height);
+	this.buttons.monster.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.buttons.monster.counter.position = new PIXI.Point(this.buttons.monster.sprite.x + 5, this.buttons.monster.sprite.y + this.buttons.monster.sprite.height - 5 - this.buttons.monster.counter.height);
+	this.backgrounds.drawRoundedRect(this.buttons.monster.counter.x - 5, this.buttons.monster.counter.y - 2, this.buttons.monster.counter.width + 10, this.buttons.monster.counter.height + 4, 5);
 
 	this.buttons.coin.sprite = PIXI.Sprite.fromImage('textures/coinicon.png');
 	this.buttons.coin.sprite.position = new PIXI.Point(renderer.width - this.buttons.coin.sprite.width, 436);
 	this.buttons.coin.collider = new PIXI.Rectangle(this.buttons.coin.sprite.x, this.buttons.coin.sprite.y, this.buttons.coin.sprite.width, this.buttons.coin.sprite.height);
+	this.buttons.coin.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.buttons.coin.counter.position = new PIXI.Point(this.buttons.coin.sprite.x + 5, this.buttons.coin.sprite.y + this.buttons.coin.sprite.height - 5 - this.buttons.coin.counter.height);
+	this.backgrounds.drawRoundedRect(this.buttons.coin.counter.x - 5, this.buttons.coin.counter.y - 2, this.buttons.coin.counter.width + 10, this.buttons.coin.counter.height + 4, 5);
 
 	this.buttons.heart.sprite = PIXI.Sprite.fromImage('textures/hearticon.png');
 	this.buttons.heart.sprite.position = new PIXI.Point(renderer.width - this.buttons.heart.sprite.width, 564);
 	this.buttons.heart.collider = new PIXI.Rectangle(this.buttons.heart.sprite.x, this.buttons.heart.sprite.y, this.buttons.heart.sprite.width, this.buttons.heart.sprite.height);
+	this.buttons.heart.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.buttons.heart.counter.position = new PIXI.Point(this.buttons.heart.sprite.x + 5, this.buttons.heart.sprite.y + this.buttons.heart.sprite.height - 5 - this.buttons.heart.counter.height);
+	this.backgrounds.drawRoundedRect(this.buttons.heart.counter.x - 5, this.buttons.heart.counter.y - 2, this.buttons.heart.counter.width + 10, this.buttons.heart.counter.height + 4, 5);
 	
 	this.buttons.end = new Button('End', 5, renderer.height - 64 - 5, 128, 64);
 
@@ -99,6 +118,22 @@ GUI.prototype.Init = function () {
 	this.resources.bones.counter.position = new PIXI.Point(this.resources.bones.sprite.x + this.resources.bones.sprite.width, this.resources.bones.sprite.y + this.resources.bones.sprite.height - 5 - this.resources.bones.counter.height);
 	this.backgrounds.drawRoundedRect(this.resources.bones.counter.x - 5, this.resources.bones.counter.y - 2, this.resources.bones.counter.width + 10, this.resources.bones.counter.height + 4, 5);
 
+	this.tools.builder.sprite = PIXI.Sprite.fromImage('textures/builder.png');
+	this.tools.builder.sprite.position = new PIXI.Point(renderer.width / 2 - 5 - 96, renderer.height - 5 - 96);
+	this.tools.builder.collider = new PIXI.Rectangle(this.tools.builder.sprite.x, this.tools.builder.sprite.y, this.tools.builder.sprite.width, this.tools.builder.sprite.height);
+
+	this.tools.hoven.sprite = PIXI.Sprite.fromImage('textures/hoven.png');
+	this.tools.hoven.sprite.position = new PIXI.Point(renderer.width / 2 + 5, renderer.height - 5 - 96);
+	this.tools.hoven.collider = new PIXI.Rectangle(this.tools.hoven.sprite.x, this.tools.hoven.sprite.y, this.tools.hoven.sprite.width, this.tools.hoven.sprite.height);
+	this.tools.hoven.timer = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0x333333});
+	this.tools.hoven.timer.position = new PIXI.Point((this.tools.hoven.sprite.width - this.tools.hoven.timer.width) / 2, this.tools.hoven.sprite.height - 5 - this.tools.hoven.timer.height);
+	this.level.hoven.on('start', function () {
+		this.tools.hoven.sprite.addChild(this.tools.hoven.timer);
+	}, this);
+	this.level.hoven.on('end', function () {
+		this.tools.hoven.sprite.removeChild(this.tools.hoven.timer);
+	}, this);
+
 	this.container.addChild(this.buttons.fetcher.sprite);
 	this.container.addChild(this.buttons.cleaner.sprite);
 	this.container.addChild(this.buttons.healer.sprite);
@@ -114,11 +149,19 @@ GUI.prototype.Init = function () {
 	this.container.addChild(this.resources.ribs.sprite);
 	this.container.addChild(this.resources.bones.sprite);
 
+	this.container.addChild(this.tools.builder.sprite);
+	this.container.addChild(this.tools.hoven.sprite);
+
 	this.container.addChild(this.backgrounds);
 
 	this.container.addChild(this.buttons.fetcher.counter);
 	this.container.addChild(this.buttons.cleaner.counter);
 	this.container.addChild(this.buttons.healer.counter);
+	this.container.addChild(this.buttons.pot.counter);
+	this.container.addChild(this.buttons.skeleton.counter);
+	this.container.addChild(this.buttons.monster.counter);
+	this.container.addChild(this.buttons.coin.counter);
+	this.container.addChild(this.buttons.heart.counter);
 
 	this.container.addChild(this.resources.pots.counter);
 	this.container.addChild(this.resources.skulls.counter);
@@ -152,6 +195,12 @@ GUI.prototype.Update = function () {
 	this.buttons.fetcher.counter.text = '' + this.level.workers.fetcher;
 	this.buttons.cleaner.counter.text = '' + this.level.workers.cleaner;
 	this.buttons.healer.counter.text = '' + this.level.workers.healer;
+
+	this.buttons.pot.counter.text = '' + this.level.stuff.pot;
+	this.buttons.skeleton.counter.text = '' + this.level.stuff.skeleton;
+	this.buttons.monster.counter.text = '' + this.level.stuff.monster;
+	this.buttons.coin.counter.text = '' + this.level.stuff.coin;
+	this.buttons.heart.counter.text = '' + this.level.stuff.heart;
 
 	this.resources.pots.counter.text = '' + this.level.resources.pots;
 	this.resources.skulls.counter.text = '' + this.level.resources.skulls;
@@ -205,6 +254,14 @@ GUI.prototype.Click = function () {
 		if (this.buttons.end.collider.contains(mouse.x, mouse.y)) {
 			this.level.EndLevel();
 		}
+
+		if (this.tools.builder.collider.contains(mouse.x, mouse.y)) {
+			
+		}
+
+		if (this.tools.hoven.collider.contains(mouse.x, mouse.y)) {
+			this.level.CookPot();
+		}
 	}
 }
 
@@ -237,4 +294,5 @@ GUI.prototype.SecondsToDisplay = function (seconds) {
 
 GUI.prototype.Tick = function (length) {
 	this.timer.counter.text = this.SecondsToDisplay(this.level.timer);
+	this.tools.hoven.timer.text = this.SecondsToDisplay(this.level.hoven.timer);
 }

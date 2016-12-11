@@ -39,6 +39,7 @@ function Level(number, player, renderer) {
 	};
 	this.objects = [];
 	this.room = [];
+	this.hoven = new Timer(5);
 
 	this.interface = {};
 	this.score = 0;
@@ -151,6 +152,11 @@ Level.prototype.Init = function(level) {
 				this.AddObject(monster);
 				break;
 		}
+	}, this);
+
+	this.hoven.on('end', function () {
+		this.stuff.pot += 1;
+		this.update();
 	}, this);
 
 	this.grid.width = this.width * this.tile.width;
@@ -480,16 +486,22 @@ Level.prototype.Prepare = function (type, name) {
 			}
 			break;
 		case 'item':
-			this.element = new Item(-1 * this.tile.width, 0, name, this);
-			this.element.Hide();
-			break;
+			if (this.stuff[name]) {
+				this.element = new Item(-1 * this.tile.width, 0, name, this);
+				this.element.Hide();
+				break;
+			}
 		case 'monster':
-			this.element = new Monster(-1 * this.tile.width, 0, name, this);
-			this.element.Hide();
+			if (this.stuff[name]) {
+				this.element = new Monster(-1 * this.tile.width, 0, name, this);
+				this.element.Hide();
 			break;
+			}
 		case 'powerup':
-			this.element = new Powerup(-1 * this.tile.width, 0, name, this);
-			this.element.Hide();
+			if (this.stuff[name]) {
+				this.element = new Powerup(-1 * this.tile.width, 0, name, this);
+				this.element.Hide();
+			}
 			break;
 		default:
 			console.log('Type unknown to prepare');
@@ -512,9 +524,7 @@ Level.prototype.Use = function () {
 		if (this.element) {
 			if (this.element.isDisplayed) {
 				if (!this.objects.some(function (element) { return element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y); }, this)) {
-					this.AddObject(this.element);
-					this.UpdateObjectives(this.element);
-					this.element = null;
+					this.UseStuff();
 				} else {
 					console.log('collide!')
 				}
@@ -570,6 +580,15 @@ Level.prototype.UseWorker = function (element) {
 	return false;
 };
 
+Level.prototype.UseStuff = function () {
+	this.AddObject(this.element);
+	this.UpdateObjectives(this.element);
+	this.stuff[this.element.name] -= 1;
+	this.element = null;
+	
+	this.update();
+}
+
 Level.prototype.RemoveWorker = function (worker) {
 	var index = this.workers.queue.indexOf(worker);
 
@@ -582,6 +601,18 @@ Level.prototype.RemoveWorker = function (worker) {
 
 	this.update();
 };
+
+Level.prototype.CookPot = function () {
+	if (this.resources.pots >= 3 && !this.hoven.timer) {
+		this.resources.pots -= 3;
+		this.hoven.Start();
+		this.update();
+	}
+}
+
+Level.prototype.OpenBuilder = function () {
+
+}
 
 Level.prototype.TogglePause = function () {
 	if (this.paused) {
@@ -608,8 +639,8 @@ Level.prototype.Tick = function(length) {
 				object.Tick(length);
 			}, this);
 
-			this.interface.Tick(length);
-			
+			this.hoven.Tick(length);
+
 			this.timer -= length;
 
 			if (this.timer <= 0) {
@@ -617,6 +648,7 @@ Level.prototype.Tick = function(length) {
 				this.EndLevel();
 			}
 
+			this.interface.Tick(length);
 
 			this.Draw();
 		}
