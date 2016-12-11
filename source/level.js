@@ -6,10 +6,6 @@ function Level(name, renderer) {
 	this.grid = new PIXI.Rectangle(0, 0, 1, 1);
 
 	this.music = new Audio();
-	this.tiles = {};
-	this.tilesets = [];
-	this.layers = [];
-	this.terrain = [];
 	this.width = 0;
 	this.height = 0;
 	this.tile = new PIXI.Rectangle(0, 0, 1, 1);
@@ -67,41 +63,7 @@ function Level(name, renderer) {
 Level.prototype.Init = function(level) {
 	var self = this;
 
-	var itemid = -1;
-	var messid = -1;
-	var monsterid = -1;
-	var islandid = -1;
-
 	this.json = level;
-
-	level.tilesets.forEach(function (tileset, index) {
-		if (tileset.name === 'placeholders') {
-			itemid = tileset.firstgid;
-			messid = tileset.firstgid + 1;
-			monsterid = tileset.firstgid + 2;
-		} else {
-			var uri = tileset.image;
-			var texture = new Image();
-			texture.src = uri
-
-			this.tilesets[index] = {
-				baseTexture : new PIXI.BaseTexture(texture),
-				width : tileset.tilewidth,
-				height : tileset.tileheight
-			};
-
-			for (var i = 0; i < tileset.imageheight; i += tileset.tileheight) {
-				for (var j = 0; j < tileset.imagewidth; j += tileset.tilewidth) {
-					this.tiles[tileset.firstgid + i / tileset.tileheight * (tileset.imagewidth / tileset.tilewidth) + j / tileset.tilewidth] = {
-						x : j,
-						y : i,
-						set : index,
-						texture : new PIXI.Texture(this.tilesets[index].baseTexture, new PIXI.Rectangle(j, i, tileset.tilewidth, tileset.tileheight))
-					};
-				}
-			}
-		}
-	}, this);
 
 	this.layers = level.layers;
 	this.width = level.width;
@@ -111,46 +73,6 @@ Level.prototype.Init = function(level) {
 
 	var background = PIXI.Sprite.fromImage('textures/background.jpg');
 	this.map.addChild(background);
-
-	this.layers.forEach(function (layer) {
-		if (layer.visible) {
-			layer.data.forEach(function (tileid, index) {
-				if (tileid > 0) {
-					var tile = new PIXI.Sprite(this.tiles[tileid].texture);
-					var x = (index % this.width) * this.tile.width + this.margin.x;
-					var y = Math.floor(index / this.width) * this.tile.height + this.margin.y;
-
-					tile.position = new PIXI.Point(x, y);
-					this.map.addChild(tile);
-
-					var rectangle = new PIXI.Rectangle(x, y, this.tile.width, this.tile.height);
-
-					if (tileid >= islandid && tileid <= islandid + 12) {
-						this.terrain.push(rectangle);
-					}
-				}
-			}, this);
-		} else {
-			if (layer.name === 'Placeholders') {
-				layer.data.forEach(function (tileid, index) {
-					var x = index % layer.width;
-					var y = Math.floor(index / layer.width);
-
-					switch (tileid) {
-						case itemid :
-							this.AddObject(new Item(x * level.tilewidth, y * level.tileheight, 'pot', this));
-							break;
-						case messid :
-							this.AddObject(new Mess(x * level.tilewidth, y * level.tileheight, 'crap', this));
-							break;
-						case monsterid :
-							this.AddObject(new Monster(x * level.tilewidth, y * level.tileheight, 'mage', this));
-							break;
-					}
-				}, this);
-			}
-		}
-	}, this);
 
 	this.loaded = true;
 	this.listeners.ready.forEach(function (listener) {
@@ -166,7 +88,6 @@ Level.prototype.Init = function(level) {
 	this.renderer.render(this.map, mapRenderTexture);
 	this.mapSprite = new PIXI.Sprite(mapRenderTexture);
 
-	// this.game.addChild(this.map);
 	this.game.addChild(this.mapSprite);
 	this.game.addChild(this.dynamic);
 	this.container.addChild(this.game);
