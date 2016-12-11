@@ -2,6 +2,7 @@ function Resource(x, y, name, level) {
 	Animator.call(this, x, y, level.dynamic);
 
 	this.duration = 5;
+	this.amount = 0;
 	this.states = {
 		broken : 'broken',
 		clearing : 'clearing',
@@ -16,10 +17,27 @@ function Resource(x, y, name, level) {
 	this.timer = 0;
 
 	load.json('animations/resources/' + name + '.json', this.Init, this);
+	this.InitResource();
 }
 
 Resource.prototype = Object.create(Animator.prototype);
 Resource.prototype.constructor = Resource;
+
+Resource.prototype.InitResource = function () {
+	switch (this.name) {
+		case 'pots':
+			this.amount = 3;
+			break;
+		case 'bones':
+			this.amount = 2;
+			break;
+		case 'skulls':
+		case 'ribs':
+		default:
+			this.amount = 1;
+			break;
+	}
+}
 
 Resource.prototype.cleared = function () {
 	this.state = this.states.cleared;

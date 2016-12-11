@@ -1,4 +1,8 @@
 function Player() {
+	this.Reset();
+}
+
+Player.prototype.Reset = function () {
 	this.score = 0;
 	this.multiplier = 1;
 
@@ -11,6 +15,11 @@ function Player() {
 	this.monster = 0;
 	this.coin = 0;
 	this.heart = 0;
+
+	this.pots = 0;
+	this.skulls = 0;
+	this.ribs = 0;
+	this.bones = 0;
 
 	this.room = [];
 }
@@ -29,6 +38,11 @@ Player.prototype.Update = function (level) {
 	this.coin = level.stuff.coin;
 	this.heart = level.stuff.heart;
 
+	this.pots = level.resources.pots;
+	this.skulls = level.resources.skulls;
+	this.ribs = level.resources.ribs;
+	this.bones = level.resources.bones;
+
 	this.room = level.room;
 }
 
@@ -46,22 +60,10 @@ Player.prototype.Setup = function (level) {
 	level.stuff.coin = this.coin;
 	level.stuff.heart = this.heart;
 
+	level.resources.pots = this.pots;
+	level.resources.skulls = this.skulls;
+	level.resources.ribs = this.ribs;
+	level.resources.bones = this.bones;
+
 	level.room = this.room;
-}
-
-Player.prototype.Reset = function () {
-	this.score = 0;
-	this.multiplier = 1;
-
-	this.fetcher = 0;
-	this.cleaner = 0;
-	this.healer = 0;
-
-	this.pot = 0;
-	this.skeleton = 0;
-	this.monster = 0;
-	this.coin = 0;
-	this.heart = 0;
-
-	this.room = [];
 }

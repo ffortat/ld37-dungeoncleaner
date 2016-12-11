@@ -15,6 +15,7 @@
  "orientation":"orthogonal",
  "properties":
     {
+     "bones":0,
      "cleaner":2,
      "coin":2,
      "fetcher":2,
@@ -29,11 +30,15 @@
      "objective3":"",
      "objective3_quantity":0,
      "pot":2,
+     "pots":0,
+     "ribs":0,
      "skeleton":2,
+     "skulls":0,
      "timer":30
     },
  "propertytypes":
     {
+     "bones":"int",
      "cleaner":"int",
      "coin":"int",
      "fetcher":"int",
@@ -48,7 +53,10 @@
      "objective3":"string",
      "objective3_quantity":"int",
      "pot":"int",
+     "pots":"int",
+     "ribs":"int",
      "skeleton":"int",
+     "skulls":"int",
      "timer":"int"
     },
  "renderorder":"left-up",

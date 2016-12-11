@@ -1,8 +1,8 @@
-	- inventory (persistent)
+X - inventory (persistent)
 
-	- add score
-	- add multipliers
-	- add bonuses (clean level, time left, powerups)
+X - add score
+X - add multipliers
+X - add bonuses (clean level, time left, powerups)
 11pm
 
 	- interface

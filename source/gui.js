@@ -17,7 +17,14 @@ function GUI(level) {
 		heart : {},
 		end : {}
 	}
+	this.resources = {
+		pots : {},
+		skulls : {},
+		ribs : {},
+		bones : {}
+	}
 	this.objectives = [];
+	this.score = {};
 
 	this.Init();
 }
@@ -68,6 +75,30 @@ GUI.prototype.Init = function () {
 	
 	this.buttons.end = new Button('End', 5, renderer.height - 64 - 5, 128, 64);
 
+	this.resources.pots.sprite = PIXI.Sprite.fromImage('textures/pots.png');
+	this.resources.pots.sprite.position = new PIXI.Point(0, 436);
+	this.resources.pots.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.resources.pots.counter.position = new PIXI.Point(this.resources.pots.sprite.x + this.resources.pots.sprite.width, this.resources.pots.sprite.y + this.resources.pots.sprite.height - 5 - this.resources.pots.counter.height);
+	this.backgrounds.drawRoundedRect(this.resources.pots.counter.x - 5, this.resources.pots.counter.y - 2, this.resources.pots.counter.width + 10, this.resources.pots.counter.height + 4, 5);
+
+	this.resources.skulls.sprite = PIXI.Sprite.fromImage('textures/skulls.png');
+	this.resources.skulls.sprite.position = new PIXI.Point(0, 472);
+	this.resources.skulls.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.resources.skulls.counter.position = new PIXI.Point(this.resources.skulls.sprite.x + this.resources.skulls.sprite.width, this.resources.skulls.sprite.y + this.resources.skulls.sprite.height - 5 - this.resources.skulls.counter.height);
+	this.backgrounds.drawRoundedRect(this.resources.skulls.counter.x - 5, this.resources.skulls.counter.y - 2, this.resources.skulls.counter.width + 10, this.resources.skulls.counter.height + 4, 5);
+
+	this.resources.ribs.sprite = PIXI.Sprite.fromImage('textures/ribs.png');
+	this.resources.ribs.sprite.position = new PIXI.Point(0, 508);
+	this.resources.ribs.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.resources.ribs.counter.position = new PIXI.Point(this.resources.ribs.sprite.x + this.resources.ribs.sprite.width, this.resources.ribs.sprite.y + this.resources.ribs.sprite.height - 5 - this.resources.ribs.counter.height);
+	this.backgrounds.drawRoundedRect(this.resources.ribs.counter.x - 5, this.resources.ribs.counter.y - 2, this.resources.ribs.counter.width + 10, this.resources.ribs.counter.height + 4, 5);
+
+	this.resources.bones.sprite = PIXI.Sprite.fromImage('textures/bones.png');
+	this.resources.bones.sprite.position = new PIXI.Point(0, 544);
+	this.resources.bones.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.resources.bones.counter.position = new PIXI.Point(this.resources.bones.sprite.x + this.resources.bones.sprite.width, this.resources.bones.sprite.y + this.resources.bones.sprite.height - 5 - this.resources.bones.counter.height);
+	this.backgrounds.drawRoundedRect(this.resources.bones.counter.x - 5, this.resources.bones.counter.y - 2, this.resources.bones.counter.width + 10, this.resources.bones.counter.height + 4, 5);
+
 	this.container.addChild(this.buttons.fetcher.sprite);
 	this.container.addChild(this.buttons.cleaner.sprite);
 	this.container.addChild(this.buttons.healer.sprite);
@@ -78,14 +109,29 @@ GUI.prototype.Init = function () {
 	this.container.addChild(this.buttons.heart.sprite);
 	this.buttons.end.AddTo(this.container);
 
+	this.container.addChild(this.resources.pots.sprite);
+	this.container.addChild(this.resources.skulls.sprite);
+	this.container.addChild(this.resources.ribs.sprite);
+	this.container.addChild(this.resources.bones.sprite);
+
 	this.container.addChild(this.backgrounds);
 
 	this.container.addChild(this.buttons.fetcher.counter);
 	this.container.addChild(this.buttons.cleaner.counter);
 	this.container.addChild(this.buttons.healer.counter);
 
+	this.container.addChild(this.resources.pots.counter);
+	this.container.addChild(this.resources.skulls.counter);
+	this.container.addChild(this.resources.ribs.counter);
+	this.container.addChild(this.resources.bones.counter);
+
 	this.timer.counter = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
 	this.timer.counter.position = new PIXI.Point(1024, 16);
+
+	this.score.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 24, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.score.counter.position = new PIXI.Point((renderer.width - this.score.counter.width) / 2, 16);
+	this.score.multiplier = new PIXI.Text('', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.score.multiplier.position = new PIXI.Point((renderer.width - this.score.multiplier.width) / 2, 16 + this.score.counter.height + 8);
 
 	this.level.objectives.forEach(function (objective, index) {
 		this.objectives.push(new PIXI.Text('', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE}));
@@ -94,6 +140,8 @@ GUI.prototype.Init = function () {
 	}, this);
 
 	this.container.addChild(this.timer.counter);
+	this.container.addChild(this.score.counter);
+	this.container.addChild(this.score.multiplier);
 
 	this.level.on('update', this.Update, this);
 
@@ -104,6 +152,15 @@ GUI.prototype.Update = function () {
 	this.buttons.fetcher.counter.text = '' + this.level.workers.fetcher;
 	this.buttons.cleaner.counter.text = '' + this.level.workers.cleaner;
 	this.buttons.healer.counter.text = '' + this.level.workers.healer;
+
+	this.resources.pots.counter.text = '' + this.level.resources.pots;
+	this.resources.skulls.counter.text = '' + this.level.resources.skulls;
+	this.resources.ribs.counter.text = '' + this.level.resources.ribs;
+	this.resources.bones.counter.text = '' + this.level.resources.bones;
+
+	this.score.counter.text = '' + this.level.score;
+	this.score.counter.position = new PIXI.Point((renderer.width - this.score.counter.width) / 2, 16);
+	this.score.multiplier.text = this.level.multiplier > 1 ? 'x' + this.level.multiplier : '';
 
 	this.objectives.forEach(function (objective, index) {
 		var count = Math.max(0, this.level.objectives[index].limit - this.level.objectives[index].count);

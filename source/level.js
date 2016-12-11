@@ -30,13 +30,27 @@ function Level(number, player, renderer) {
 		monster : 0,
 		coin : 0,
 		heart : 0
-	}
+	};
+	this.resources = {
+		pots : 0,
+		skulls : 0,
+		ribs : 0,
+		bones : 0
+	};
 	this.objects = [];
 	this.room = [];
 
 	this.interface = {};
 	this.score = 0;
 	this.multiplier = 1;
+	this.values = {
+		score : {
+			base : 2500,
+			clean : 1500,
+			powerup : 500,
+			time : 75
+		}
+	}
 
 	this.objectives = [];
 	this.timer = 0;
@@ -100,6 +114,10 @@ Level.prototype.Init = function(level) {
 	this.stuff.monster += level.properties.monster;
 	this.stuff.coin += level.properties.coin;
 	this.stuff.heart += level.properties.heart;
+	this.resources.pots += level.properties.pots;
+	this.resources.skulls += level.properties.skulls;
+	this.resources.ribs += level.properties.ribs;
+	this.resources.bones += level.properties.bones;
 	for (var i = 1; i < 4; i += 1) {
 		if (level.properties['objective' + i]) {
 			this.objectives.push({
@@ -117,10 +135,10 @@ Level.prototype.Init = function(level) {
 		var y = Math.floor(index / this.width);
 
 		switch (tileid) {
-			case 'pot' :
-			case 'skull' :
-			case 'rib' :
-			case 'bone' :
+			case 'pots' :
+			case 'skulls' :
+			case 'ribs' :
+			case 'bones' :
 				this.AddObject(new Resource(x * level.tilewidth, y * level.tileheight, tileid, this));
 				break;
 			case 'blood' :
@@ -224,6 +242,8 @@ Level.prototype.CenterCamera = function (point) {
 };
 
 Level.prototype.EndLevel = function () {
+	this.ending = true;
+
 	if (this.CheckObjectives()) {
 		if (this.finallevel) {
 			this.EndGame();
@@ -236,10 +256,15 @@ Level.prototype.EndLevel = function () {
 };
 
 Level.prototype.Victory = function () {
-	// compute score
+	this.score += this.values.score.base * this.multiplier;
+	if (this.IsClean()) {
+		this.score += this.values.score.clean * this.multiplier;
+	}
+	this.score += Math.floor(this.values.score.time * this.timer) * this.multiplier;
 	this.DestroyRoom();
 	this.multiplier += 1;
 	this.player.Update(this);
+	this.update();
 	currentScene = new Level(this.number + 1, this.player, this.renderer);
 };
 
@@ -258,7 +283,7 @@ Level.prototype.DestroyRoom = function () {
 
 		switch (object.name) {
 			case 'pot':
-				this.room[index] = object.name;
+				this.room[index] = 'pots';
 				break;
 			case 'skeleton':
 				skeletonCount += 1;
@@ -269,7 +294,7 @@ Level.prototype.DestroyRoom = function () {
 				break;
 			case 'coin':
 			case 'heart':
-				// bonus score for powerups
+				this.score += this.values.score.powerup * this.multiplier;
 				break;
 			default:
 				console.log('Name unknown, can\'t destroy', object.name);
@@ -290,7 +315,7 @@ Level.prototype.DestroyRoom = function () {
 	}
 
 	for (var i = 0; i < skeletonCount; i += 1) {
-		var resources = ['skull', 'rib', 'rib', 'bone', 'bone', 'bone', 'bone', 'bone', 'bone', 'bone', 'bone'];
+		var resources = ['skulls', 'ribs', 'ribs', 'bones', 'bones', 'bones', 'bones'];
 		var index;
 
 		resources.forEach(function (resource) {
@@ -394,6 +419,36 @@ Level.prototype.GetObjects = function () {
 	return this.objects;
 };
 
+Level.prototype.AddResources = function (resource) {
+	if (this.resources[resource.name] === undefined) {
+		console.log('Resource', resource.name, 'is unknown');
+		return;
+	}
+
+	this.resources[resource.name] += resource.amount;
+
+	console.log(resource)
+	this.update();
+};
+
+Level.prototype.IsClean = function () {
+	return this.objects.some(function (object) {
+		switch (object.name) {
+			case 'pots' :
+			case 'skulls' :
+			case 'ribs' :
+			case 'bones' :
+			case 'blood' :
+			case 'mud' :
+				return true;
+			case 'monster' :
+				return object.state !== object.states.alive;
+			default :
+				return false;
+		}
+	}, this);
+};
+
 Level.prototype.Prepare = function (type, name) {
 	if (this.character) {
 		this.character.Hide();
@@ -491,14 +546,14 @@ Level.prototype.Move = function () {
 			this.element.Hide();
 		}
 	}
-}
+};
 
 Level.prototype.Keypress = function () {
 	if (keydown[keys.escape]) {
 		this.TogglePause();
 		keydown[keys.escape] = false;
 	}
-}
+};
 
 Level.prototype.UseWorker = function (element) {
 	if (this.character.CanAct(element)) {
@@ -522,6 +577,7 @@ Level.prototype.RemoveWorker = function (worker) {
 		this.workers.queue.splice(index, 1);
 	}
 
+	this.AddResources(worker.target);
 	this.workers[worker.type] += 1;
 
 	this.update();
@@ -533,21 +589,21 @@ Level.prototype.TogglePause = function () {
 	} else {
 		this.Pause();
 	}
-}
+};
 
 Level.prototype.Pause = function () {
 	this.paused = true;
-}
+};
 
 Level.prototype.Play = function () {
 	this.paused = false;
-}
+};
 
 Level.prototype.Tick = function(length) {
 	if (this.loaded) {
 		this.Keypress();
 		
-		if (!this.paused) {
+		if (!this.paused && !this.ending) {
 			this.objects.forEach(function (object) {
 				object.Tick(length);
 			}, this);
@@ -557,6 +613,7 @@ Level.prototype.Tick = function(length) {
 			this.timer -= length;
 
 			if (this.timer <= 0) {
+				this.timer = 0;
 				this.EndLevel();
 			}
 
