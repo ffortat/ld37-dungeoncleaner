@@ -1,7 +1,7 @@
 {
-	"default" : "broken",
+	"default" : "dead",
 	"animations" : {
-		"broken" : {
+		"dead" : {
 			"frames" : [
 				{"tile" : 0}
 			],
@@ -9,7 +9,7 @@
 			"loop" : true,
 			"loopto" : 0
 		},
-		"clearing" : {
+		"healing" : {
 			"frames" : [
 				{"tile" : 1}
 			],
@@ -17,7 +17,7 @@
 			"loop" : true,
 			"loopto" : 0
 		},
-		"cleared" : {
+		"healed" : {
 			"frames" : [
 				{"tile" : 2}
 			],
@@ -25,7 +25,7 @@
 			"loop" : true,
 			"loopto" : 0
 		},
-		"fixed" : {
+		"alive" : {
 			"frames" : [
 				{"tile" : 3}
 			],
@@ -36,7 +36,7 @@
 	},
 	"tilesets" : [
 		{
-			"file" : "pot.png",
+			"file" : "skeleton.png",
 			"tilewidth" : 64,
 			"tileheight" : 64,
 			"imagewidth" : 256,

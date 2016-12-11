@@ -12,7 +12,7 @@ function Preloader(renderer) {
 	this.assets = [
 		['ground_terrain', 'ground_terrain.png'],
 		['sea', 'sea.png'],
-		['bonus', 'bonus.png'],
+		['coin', 'coin.png'],
 		['cleaner', 'cleaner.png'],
 		['healer', 'healer.png'],
 		['item', 'item.png'],

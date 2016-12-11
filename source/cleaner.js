@@ -3,6 +3,7 @@ function Cleaner(x, y, level) {
 
 	this.level = level;
 	this.target = null;
+	this.type = 'cleaner';
 
 	load.json('animations/cleaner.json', this.Init, this);
 }
@@ -33,5 +34,5 @@ Cleaner.prototype.Act = function (target) {
 
 Cleaner.prototype.Leave = function () {
 	this.Hide();
-	level.RemoveObject(this);
+	this.level.RemoveWorker(this);
 }

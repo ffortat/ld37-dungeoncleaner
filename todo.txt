@@ -1,13 +1,13 @@
 X - add fetcher
 X - update cleaner
-	- add worker quantities
-	- monster placement
-	- item placement
+X - add worker quantities
+X - monster placement
+X - item placement
 	- Handle Levels
 	- add timer (top right)
 	- add objectives (top left)
 	- add win/lose conditions
-
+1 AM
 	- inventory (persistent)
 	- reinforcement packs (start of level)
 
@@ -16,6 +16,7 @@ X - update cleaner
 	- add bonuses (clean level, time left, powerups)
 
 	- level design (tutorial)
+	- text display (narative)
 
 	- interface
 	- add minigame for skeletons

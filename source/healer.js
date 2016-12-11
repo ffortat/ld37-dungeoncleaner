@@ -3,6 +3,7 @@ function Healer(x, y, level) {
 
 	this.level = level;
 	this.target = null;
+	this.type = 'healer';
 
 	load.json('animations/healer.json', this.Init, this);
 }
@@ -33,6 +34,6 @@ Healer.prototype.Act = function (target) {
 
 Healer.prototype.Leave = function () {
 	this.Hide();
-	level.RemoveObject(this);
+	this.level.RemoveWorker(this);
 }
 

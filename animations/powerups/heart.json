@@ -13,7 +13,7 @@
 	},
 	"tilesets" : [
 		{
-			"file" : "bonus.png",
+			"file" : "heart.png",
 			"tilewidth" : 64,
 			"tileheight" : 64,
 			"imagewidth" : 128,

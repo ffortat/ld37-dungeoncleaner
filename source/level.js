@@ -2,12 +2,7 @@ function Level(name, renderer) {
 	var self = this;
 
 	this.json = {};
-	this.window = {
-		x : 0,
-		y : 0,
-		w : 1280,
-		h : 720
-	};
+	this.window = new PIXI.Rectangle(0, 0, renderer.width, renderer.height);
 	this.grid = new PIXI.Rectangle(0, 0, 1, 1);
 
 	this.music = new Audio();
@@ -15,40 +10,31 @@ function Level(name, renderer) {
 	this.tilesets = [];
 	this.layers = [];
 	this.terrain = [];
-	this.colliders = {
-		top : [],
-		left : [],
-		bottom : [],
-		right : []
-	};
 	this.width = 0;
 	this.height = 0;
-	this.tile = {
-		width : 0,
-		height : 0
-	};
-	this.margin = {
-		x : 128,
-		y : 100
-	}
+	this.tile = new PIXI.Rectangle(0, 0, 1, 1);
+	this.margin = new PIXI.Point(128, 96);
 
-	this.origin = {x:0,y:0};
+	this.origin = new PIXI.Point(0, 0);
+	
 	this.character = null;
 	this.element = null;
+	this.workers = {
+		fetcher : 2,
+		cleaner : 1,
+		healer : 0,
+		queue : []
+	};
+	this.objects = [];
+
 	this.interface = {};
 	this.end = -1;
 
-	this.riddles = 0;
-	this.locations = [];
-	this.objects = [];
-	for (var tag in Tags) {
-		this.objects[Tags[tag]] = [];
-	}
 
 	this.loaded = false;
 	this.listeners = {
 		ready : [],
-		kill : [],
+		update : [],
 		loose : [],
 		win : []
 	};
@@ -166,14 +152,9 @@ Level.prototype.Init = function(level) {
 		}
 	}, this);
 
-	this.colliders.top.push(new PIXI.Rectangle(-this.tile.width, this.map.height, this.map.width + this.tile.width * 2, this.tile.height));
-	this.colliders.left.push(new PIXI.Rectangle(this.map.width, 0, this.tile.width, this.map.height));
-	this.colliders.right.push(new PIXI.Rectangle(-this.tile.width, 0, this.tile.width, this.map.height));
-	this.colliders.bottom.push(new PIXI.Rectangle(-this.tile.width, -this.tile.height, this.map.width + this.tile.width * 2, this.tile.height));
-
 	this.loaded = true;
 	this.listeners.ready.forEach(function (listener) {
-		listener();
+		listener.func.call(listener.object);
 	});
 	while (this.next.ready.length > 0) {
 		(this.next.ready.shift())();
@@ -217,13 +198,35 @@ Level.prototype.Init = function(level) {
 	// });
 	// this.submarine.Lock();
 	this.CenterCamera();
+	this.update();
 };
 
-Level.prototype.on = function(event, callback) {
-	if (this.listeners[event]) {
-		this.listeners[event].push(callback);
+Level.prototype.on = function (eventType, callback, self) {
+	if (this.listeners[eventType]) {
+		this.listeners[eventType].push({func : callback, object : self});
+	} else {
+		console.log('Eventype:', eventType, 'not recognized');
 	}
-};
+}
+
+Level.prototype.off = function(eventType, callback) {
+	var indexes = [];
+
+	if (!this.listeners[eventType]) {
+		console.log('Eventype:', eventType, 'not recognized');
+		return;
+	}
+
+	this.listeners[eventType].forEach(function (listener, index) {
+		if (listener.func === callback) {
+			indexes.unshift(index);
+		}
+	}, this);
+
+	indexes.forEach(function (index) {
+		this.listeners[eventType].splice(index, 1);
+	}, this);
+}
 
 Level.prototype.ready = function(callback) {
 	if (!this.loaded) {
@@ -233,15 +236,21 @@ Level.prototype.ready = function(callback) {
 	}
 };
 
+Level.prototype.update = function () {
+	this.listeners.update.forEach(function (listener) {
+		listener.func.call(listener.object);
+	});
+}
+
 Level.prototype.loose = function() {
 	this.listeners.loose.forEach(function (listener) {
-		listener();
+		listener.func.call(listener.object);
 	});
 };
 
 Level.prototype.win = function() {
 	this.listeners.win.forEach(function (listener) {
-		listener();
+		listener.func.call(listener.object);
 	});
 };
 
@@ -346,17 +355,23 @@ Level.prototype.Prepare = function (type, name) {
 	}
 
 	switch (type) {
+		case 'fetcher':
+			if (this.workers.fetcher) {
+				this.character = new Fetcher(-1 * this.tile.width, 0, this);
+				this.character.Hide();
+			}
+			break;
 		case 'cleaner':
-			this.character = new Cleaner(-1 * this.tile.width, 0, this);
-			this.character.Hide();
+			if (this.workers.cleaner) {
+				this.character = new Cleaner(-1 * this.tile.width, 0, this);
+				this.character.Hide();
+			}
 			break;
 		case 'healer':
-			this.character = new Healer(-1 * this.tile.width, 0, this);
-			this.character.Hide();
-			break;
-		case 'fetcher':
-			this.character = new Fetcher(-1 * this.tile.width, 0, this);
-			this.character.Hide();
+			if (this.workers.healer) {
+				this.character = new Healer(-1 * this.tile.width, 0, this);
+				this.character.Hide();
+			}
 			break;
 		case 'item':
 			this.element = new Item(-1 * this.tile.width, 0, name, this);
@@ -381,13 +396,7 @@ Level.prototype.Use = function () {
 		if (this.character.isDisplayed) {
 			this.objects.some(function (element) {
 				if (element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y)) {
-					if (this.character.CanAct(element)) {
-						this.AddObject(this.character);
-						this.character.Act(element);
-
-						this.character = null;
-						return true;
-					}
+					return this.UseWorker(element);
 				}
 			}, this);
 		}
@@ -395,10 +404,7 @@ Level.prototype.Use = function () {
 
 	if (this.element) {
 		if (this.element.isDisplayed) {
-			if (!this.objects.some(function (element) { 
-				console.log(element.GetRectangle(), mouse.x - this.grid.x, mouse.y - this.grid.y);
-				return element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y); 
-			}, this)) {
+			if (!this.objects.some(function (element) { return element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y); }, this)) {
 				this.AddObject(this.element);
 				this.element = null;
 			} else {
@@ -406,6 +412,33 @@ Level.prototype.Use = function () {
 			}
 		}
 	}
+}
+
+Level.prototype.UseWorker = function (element) {
+	if (this.character.CanAct(element)) {
+		this.workers.queue.push(this.character);
+		this.workers[this.character.type] -= 1;
+		this.character.Act(element);
+		this.character = null;
+
+		this.update();
+
+		return true;
+	}
+
+	return false;
+}
+
+Level.prototype.RemoveWorker = function (worker) {
+	var index = this.workers.queue.indexOf(worker);
+
+	if (index !== -1) {
+		this.workers.queue.splice(index, 1);
+	}
+
+	this.workers[worker.type] += 1;
+
+	this.update();
 }
 
 Level.prototype.GetColliders = function (whitelist) {

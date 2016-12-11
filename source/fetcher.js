@@ -3,6 +3,7 @@ function Fetcher(x, y, level) {
 
 	this.level = level;
 	this.target = null;
+	this.type = 'fetcher';
 
 	load.json('animations/fetcher.json', this.Init, this);
 }
@@ -43,5 +44,5 @@ Fetcher.prototype.Place = function (target) {
 
 Fetcher.prototype.Leave = function () {
 	this.Hide();
-	level.RemoveObject(this);
+	this.level.RemoveWorker(this);
 }

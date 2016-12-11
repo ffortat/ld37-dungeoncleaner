@@ -1,13 +1,14 @@
 function GUI(level) {
 	this.level = level;
 	this.container = new PIXI.Container();
+	this.backgrounds = new PIXI.Graphics();
 
 	this.isDisplayed = false;
 
 	this.buttons = {
+		fetcher : {},
 		cleaner : {},
 		healer : {},
-		crate : {},
 		pot : {},
 		skeleton : {},
 		monster : {},
@@ -19,17 +20,28 @@ function GUI(level) {
 }
 
 GUI.prototype.Init = function () {
-	this.buttons.crate.sprite = PIXI.Sprite.fromImage('textures/crate.png');
-	this.buttons.crate.sprite.position = new PIXI.Point(0, 52);
-	this.buttons.crate.collider = new PIXI.Rectangle(this.buttons.crate.sprite.x, this.buttons.crate.sprite.y, this.buttons.crate.sprite.width, this.buttons.crate.sprite.height);
+	this.backgrounds.beginFill(0xCC3333, 1)
+
+	this.buttons.fetcher.sprite = PIXI.Sprite.fromImage('textures/crate.png');
+	this.buttons.fetcher.sprite.position = new PIXI.Point(0, 52);
+	this.buttons.fetcher.collider = new PIXI.Rectangle(this.buttons.fetcher.sprite.x, this.buttons.fetcher.sprite.y, this.buttons.fetcher.sprite.width, this.buttons.fetcher.sprite.height);
+	this.buttons.fetcher.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.buttons.fetcher.counter.position = new PIXI.Point(this.buttons.fetcher.sprite.x + this.buttons.fetcher.sprite.width - 5 - this.buttons.fetcher.counter.width, this.buttons.fetcher.sprite.y + this.buttons.fetcher.sprite.height - 5 - this.buttons.fetcher.counter.height);
+	this.backgrounds.drawRoundedRect(this.buttons.fetcher.counter.x - 5, this.buttons.fetcher.counter.y - 2, this.buttons.fetcher.counter.width + 10, this.buttons.fetcher.counter.height + 4, 5);
 	
 	this.buttons.cleaner.sprite = PIXI.Sprite.fromImage('textures/broomstick.png');
 	this.buttons.cleaner.sprite.position = new PIXI.Point(0, 180);
 	this.buttons.cleaner.collider = new PIXI.Rectangle(this.buttons.cleaner.sprite.x, this.buttons.cleaner.sprite.y, this.buttons.cleaner.sprite.width, this.buttons.cleaner.sprite.height);
+	this.buttons.cleaner.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.buttons.cleaner.counter.position = new PIXI.Point(this.buttons.cleaner.sprite.x + this.buttons.cleaner.sprite.width - 5 - this.buttons.cleaner.counter.width, this.buttons.cleaner.sprite.y + this.buttons.cleaner.sprite.height - 5 - this.buttons.cleaner.counter.height);
+	this.backgrounds.drawRoundedRect(this.buttons.cleaner.counter.x - 5, this.buttons.cleaner.counter.y - 2, this.buttons.cleaner.counter.width + 10, this.buttons.cleaner.counter.height + 4, 5);
 	
 	this.buttons.healer.sprite = PIXI.Sprite.fromImage('textures/redcross.png');
 	this.buttons.healer.sprite.position = new PIXI.Point(0, 308);
 	this.buttons.healer.collider = new PIXI.Rectangle(this.buttons.healer.sprite.x, this.buttons.healer.sprite.y, this.buttons.healer.sprite.width, this.buttons.healer.sprite.height);
+	this.buttons.healer.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.buttons.healer.counter.position = new PIXI.Point(this.buttons.healer.sprite.x + this.buttons.healer.sprite.width - 5 - this.buttons.healer.counter.width, this.buttons.healer.sprite.y + this.buttons.healer.sprite.height - 5 - this.buttons.healer.counter.height);
+	this.backgrounds.drawRoundedRect(this.buttons.healer.counter.x - 5, this.buttons.healer.counter.y - 2, this.buttons.healer.counter.width + 10, this.buttons.healer.counter.height + 4, 5);
 
 	this.buttons.pot.sprite = PIXI.Sprite.fromImage('textures/poticon.png');
 	this.buttons.pot.sprite.position = new PIXI.Point(renderer.width - this.buttons.pot.sprite.width, 52);
@@ -51,20 +63,34 @@ GUI.prototype.Init = function () {
 	this.buttons.heart.sprite.position = new PIXI.Point(renderer.width - this.buttons.heart.sprite.width, 564);
 	this.buttons.heart.collider = new PIXI.Rectangle(this.buttons.heart.sprite.x, this.buttons.heart.sprite.y, this.buttons.heart.sprite.width, this.buttons.heart.sprite.height);
 
+	this.container.addChild(this.buttons.fetcher.sprite);
 	this.container.addChild(this.buttons.cleaner.sprite);
 	this.container.addChild(this.buttons.healer.sprite);
-	this.container.addChild(this.buttons.crate.sprite);
 	this.container.addChild(this.buttons.pot.sprite);
 	this.container.addChild(this.buttons.skeleton.sprite);
 	this.container.addChild(this.buttons.monster.sprite);
 	this.container.addChild(this.buttons.coin.sprite);
 	this.container.addChild(this.buttons.heart.sprite);
 
+	this.container.addChild(this.backgrounds);
+
+	this.container.addChild(this.buttons.fetcher.counter);
+	this.container.addChild(this.buttons.cleaner.counter);
+	this.container.addChild(this.buttons.healer.counter);
+
+	this.level.on('update', this.Update, this);
+
 	this.Display();
 }
 
+GUI.prototype.Update = function () {
+	this.buttons.fetcher.counter.text = '' + this.level.workers.fetcher;
+	this.buttons.cleaner.counter.text = '' + this.level.workers.cleaner;
+	this.buttons.healer.counter.text = '' + this.level.workers.healer;
+}
+
 GUI.prototype.Click = function () {
-	if (this.buttons.crate.collider.contains(mouse.x, mouse.y)) {
+	if (this.buttons.fetcher.collider.contains(mouse.x, mouse.y)) {
 		this.level.Prepare('fetcher');
 	}
 	
@@ -118,4 +144,5 @@ GUI.prototype.Display = function () {
 }
 
 GUI.prototype.Tick = function (length) {
+
 }
