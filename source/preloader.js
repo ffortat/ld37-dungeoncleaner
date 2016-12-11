@@ -18,9 +18,14 @@ function Preloader(renderer) {
 		['item', 'item.png'],
 		['mess', 'mess.png'],
 		['monster', 'monster.png'],
-		['plusicon', 'plusicon.png'],
+		['coinicon', 'coinicon.png'],
+		['hearticon', 'hearticon.png'],
+		['monstericon', 'monstericon.png'],
+		['skeletonicon', 'skeletonicon.png'],
+		['poticon', 'poticon.png'],
 		['broomstick', 'broomstick.png'],
 		['redcross', 'redcross.png'],
+		['crate', 'crate.png'],
 		['background', 'background.jpg']
 	];
 

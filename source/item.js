@@ -52,7 +52,7 @@ Item.prototype.Break = function () {
 	return true;
 }
 
-Item.prototype.Clean = function () {
+Item.prototype.Fetch = function () {
 	if (this.state !== this.states.broken) {
 		console.log('Item is already in state', this.state);
 		return false;

@@ -1,5 +1,5 @@
-	- add fetcher
-	- update cleaner
+X - add fetcher
+X - update cleaner
 	- add worker quantities
 	- monster placement
 	- item placement

@@ -354,6 +354,10 @@ Level.prototype.Prepare = function (type, name) {
 			this.character = new Healer(-1 * this.tile.width, 0, this);
 			this.character.Hide();
 			break;
+		case 'fetcher':
+			this.character = new Fetcher(-1 * this.tile.width, 0, this);
+			this.character.Hide();
+			break;
 		case 'item':
 			this.element = new Item(-1 * this.tile.width, 0, name, this);
 			this.element.Hide();
