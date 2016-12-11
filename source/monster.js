@@ -9,7 +9,7 @@ function Monster(x, y, name, level) {
 		alive : 'alive'
 	}
 
-	this.state = this.states.dead;
+	this.state = this.states.alive;
 	this.name = name;
 	this.level = level;
 

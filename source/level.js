@@ -1,5 +1,8 @@
-function Level(name, renderer) {
+function Level(number, player, renderer) {
 	var self = this;
+
+	this.player = player;
+	this.number = number;
 
 	this.json = {};
 	this.window = new PIXI.Rectangle(0, 0, renderer.width, renderer.height);
@@ -21,17 +24,31 @@ function Level(name, renderer) {
 		healer : 0,
 		queue : []
 	};
+	this.stuff = {
+		pot : 0,
+		skeleton : 0,
+		monster : 0,
+		coin : 0,
+		heart : 0
+	}
 	this.objects = [];
+	this.room = [];
 
 	this.interface = {};
-	this.end = -1;
+	this.score = 0;
+	this.multiplier = 1;
 
+	this.objectives = [];
+	this.timer = 0;
+	this.end = -1;
+	this.finallevel = false;
 
 	this.loaded = false;
+	this.paused = false;
 	this.listeners = {
 		ready : [],
 		update : [],
-		loose : [],
+		lose : [],
 		win : []
 	};
 	this.next = {
@@ -57,8 +74,8 @@ function Level(name, renderer) {
 	this.gui.width = this.renderer.width;
 	this.gui.height = this.renderer.height;
 
-	load.json('levels/' + name + '.json', function (data) {self.Init(data);});
-}
+	load.json('levels/level' + number + '.json', function (data) {self.Init(data);});
+};
 
 Level.prototype.Init = function(level) {
 	var self = this;
@@ -74,13 +91,49 @@ Level.prototype.Init = function(level) {
 	var background = PIXI.Sprite.fromImage('textures/background.jpg');
 	this.map.addChild(background);
 
-	this.loaded = true;
-	this.listeners.ready.forEach(function (listener) {
-		listener.func.call(listener.object);
-	});
-	while (this.next.ready.length > 0) {
-		(this.next.ready.shift())();
+	this.player.Setup(this);
+	this.workers.fetcher += level.properties.fetcher;
+	this.workers.cleaner += level.properties.cleaner;
+	this.workers.healer += level.properties.healer;
+	this.stuff.pot += level.properties.pot;
+	this.stuff.skeleton += level.properties.skeleton;
+	this.stuff.monster += level.properties.monster;
+	this.stuff.coin += level.properties.coin;
+	this.stuff.heart += level.properties.heart;
+	for (var i = 1; i < 4; i += 1) {
+		if (level.properties['objective' + i]) {
+			this.objectives.push({
+				type : level.properties['objective' + i],
+				limit : level.properties['objective' + i + '_quantity'],
+				count : 0
+			});
+		}
 	}
+	this.timer = level.properties.timer;
+	this.finallevel = level.properties.finallevel;
+
+	this.room.forEach(function (tileid, index) {
+		var x = index % this.width;
+		var y = Math.floor(index / this.width);
+
+		switch (tileid) {
+			case 'pot' :
+			case 'skull' :
+			case 'rib' :
+			case 'bone' :
+				this.AddObject(new Resource(x * level.tilewidth, y * level.tileheight, tileid, this));
+				break;
+			case 'blood' :
+			case 'mud' :
+				this.AddObject(new Mess(x * level.tilewidth, y * level.tileheight, tileid, this));
+				break;
+			case 'monster' :
+				var monster = new Monster(x * level.tilewidth, y * level.tileheight, tileid, this);
+				monster.Kill();
+				this.AddObject(monster);
+				break;
+		}
+	}, this);
 
 	this.grid.width = this.width * this.tile.width;
 	this.grid.height = this.height * this.tile.height;
@@ -92,34 +145,22 @@ Level.prototype.Init = function(level) {
 	this.game.addChild(this.dynamic);
 	this.container.addChild(this.game);
 	this.container.addChild(this.gui);
-	
 	this.dynamic.position = this.margin;
+	this.CenterCamera();
 
 	this.interface = new GUI(this);
-
 	mouse.on('click', this.Use, this);
+	mouse.on('mousemove', this.Move, this);
 
-	// this.victorySpeech = new Dialog(this, 'victory');
-	// this.victorySpeech.on('end', function () {
-	// 	currentScene = menu;
-	// 	menu.SwitchTo('credits');
-	// });
-	// this.defeatDialog = new Dialog(this, 'defeat');
-	// this.defeatDialog.on('end', function (retry) {
-	// 	if (retry) {
-	// 		setTimeout(function () { menu.Play(); }, 200);
-	// 	} else {
-	// 		currentScene = menu;
-	// 		menu.SwitchTo('credits');
-	// 	}
-	// });
-	// var intro = new Dialog(this, 'introduction');
-	// intro.on('end', function () {
-	// 	self.submarine.Unlock();
-	// });
-	// this.submarine.Lock();
-	this.CenterCamera();
 	this.update();
+
+	this.loaded = true;
+	this.listeners.ready.forEach(function (listener) {
+		listener.func.call(listener.object);
+	});
+	while (this.next.ready.length > 0) {
+		(this.next.ready.shift())();
+	}
 };
 
 Level.prototype.on = function (eventType, callback, self) {
@@ -128,7 +169,7 @@ Level.prototype.on = function (eventType, callback, self) {
 	} else {
 		console.log('Eventype:', eventType, 'not recognized');
 	}
-}
+};
 
 Level.prototype.off = function(eventType, callback) {
 	var indexes = [];
@@ -147,7 +188,7 @@ Level.prototype.off = function(eventType, callback) {
 	indexes.forEach(function (index) {
 		this.listeners[eventType].splice(index, 1);
 	}, this);
-}
+};
 
 Level.prototype.ready = function(callback) {
 	if (!this.loaded) {
@@ -163,8 +204,8 @@ Level.prototype.update = function () {
 	});
 }
 
-Level.prototype.loose = function() {
-	this.listeners.loose.forEach(function (listener) {
+Level.prototype.lose = function() {
+	this.listeners.lose.forEach(function (listener) {
 		listener.func.call(listener.object);
 	});
 };
@@ -180,16 +221,109 @@ Level.prototype.CenterCamera = function (point) {
 	this.game.y = (renderer.height - this.game.height) / 2;
 	this.grid.x = this.game.x + this.margin.x;
 	this.grid.y = this.game.y + this.margin.y;
-}
+};
+
+Level.prototype.EndLevel = function () {
+	if (this.CheckObjectives()) {
+		if (this.finallevel) {
+			this.EndGame();
+		} else {
+			this.Victory();
+		}
+	} else {
+		this.Defeat();
+	}
+};
 
 Level.prototype.Victory = function () {
-	var self = this;
-	this.submarine.Lock();
-	setTimeout(function () {self.victorySpeech.Display();}, 1000);
-}
+	// compute score
+	this.DestroyRoom();
+	this.multiplier += 1;
+	this.player.Update(this);
+	currentScene = new Level(this.number + 1, this.player, this.renderer);
+};
 
 Level.prototype.Defeat = function () {
-	this.defeatDialog.Display();
+	this.player.multiplier = 1;
+	currentScene = new Level(this.number, this.player, this.renderer);
+};
+
+Level.prototype.DestroyRoom = function () {
+	var length = this.width * this.height;
+	var skeletonCount = 0;
+	var monsterCount = 0;
+
+	this.objects.forEach(function (object) {
+		var index = Math.floor(object.y / 64) * this.width + Math.floor(object.x / 64);
+
+		switch (object.name) {
+			case 'pot':
+				this.room[index] = object.name;
+				break;
+			case 'skeleton':
+				skeletonCount += 1;
+				break;
+			case 'monster':
+				this.room[index] = object.name;
+				monsterCount += 1;
+				break;
+			case 'coin':
+			case 'heart':
+				// bonus score for powerups
+				break;
+			default:
+				console.log('Name unknown, can\'t destroy', object.name);
+				break;
+		}
+	}, this);
+
+	for (var i = 0; i < monsterCount; i += 1) {
+		var index;
+		var tries = 0;
+
+		do {
+			index = Math.floor(Math.random() * length);
+			tries += 1;
+		} while (this.room[index] && tries < length);
+
+		this.room[index] = 'blood';
+	}
+
+	for (var i = 0; i < skeletonCount; i += 1) {
+		var resources = ['skull', 'rib', 'rib', 'bone', 'bone', 'bone', 'bone', 'bone', 'bone', 'bone', 'bone'];
+		var index;
+
+		resources.forEach(function (resource) {
+			var tries = 0;
+			do {
+				index = Math.floor(Math.random() * length);
+				tries += 1;
+			} while (this.room[index] && tries < length);
+
+			this.room[index] = resource;
+		}, this);
+	}
+};
+
+Level.prototype.EndGame = function () {
+	this.player.Reset();
+	currentScene = new Level(0, this.player, this.renderer);
+};
+
+Level.prototype.UpdateObjectives = function (object) {
+	this.objectives.forEach(function (objective) {
+		if (objective.type === object.name) {
+			objective.count += 1;
+		}
+	}, this);
+
+	this.update();
+}
+
+Level.prototype.CheckObjectives = function () {
+	return this.objectives.every(function (objective) {
+		return objective.count >= objective.limit;
+	}, this);
 }
 
 Level.prototype.Collides = function(shape1, shape2) {
@@ -245,7 +379,7 @@ Level.prototype.Collides = function(shape1, shape2) {
 
 Level.prototype.AddObject = function (object) {
 	this.objects.push(object);
-}
+};
 
 Level.prototype.RemoveObject = function (object) {
 	for (var i = 0; i < this.objects.length; i += 1) {
@@ -254,15 +388,11 @@ Level.prototype.RemoveObject = function (object) {
 			break;
 		}
 	}
-}
+};
 
-Level.prototype.GetObjects = function (tag) {
-	if (!this.objects[tag]) {
-		return [];
-	}
-
-	return this.objects[tag];
-}
+Level.prototype.GetObjects = function () {
+	return this.objects;
+};
 
 Level.prototype.Prepare = function (type, name) {
 	if (this.character) {
@@ -310,28 +440,63 @@ Level.prototype.Prepare = function (type, name) {
 			console.log('Type unknown to prepare');
 			break;
 	}
-}
+};
 
 Level.prototype.Use = function () {
-	if (this.character) {
-		if (this.character.isDisplayed) {
-			this.objects.some(function (element) {
-				if (element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y)) {
-					return this.UseWorker(element);
-				}
-			}, this);
-		}
-	}
-
-	if (this.element) {
-		if (this.element.isDisplayed) {
-			if (!this.objects.some(function (element) { return element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y); }, this)) {
-				this.AddObject(this.element);
-				this.element = null;
-			} else {
-				console.log('collide!')
+	if (! this.paused) {
+		if (this.character) {
+			if (this.character.isDisplayed) {
+				this.objects.some(function (element) {
+					if (element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y)) {
+						return this.UseWorker(element);
+					}
+				}, this);
 			}
 		}
+
+		if (this.element) {
+			if (this.element.isDisplayed) {
+				if (!this.objects.some(function (element) { return element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y); }, this)) {
+					this.AddObject(this.element);
+					this.UpdateObjectives(this.element);
+					this.element = null;
+				} else {
+					console.log('collide!')
+				}
+			}
+		}
+	}
+};
+
+Level.prototype.Move = function () {
+	if (this.grid.contains(mouse.x, mouse.y)) {
+		var x = mouse.x - this.grid.x;
+		var y = mouse.y - this.grid.y;
+
+		if (this.character) {
+			this.character.Display();
+			this.character.MoveTo(Math.floor(x / this.tile.width) * this.tile.width, Math.floor(y / this.tile.height) * this.tile.height);
+		}
+
+		if (this.element) {
+			this.element.Display();
+			this.element.MoveTo(Math.floor(x / this.tile.width) * this.tile.width, Math.floor(y / this.tile.height) * this.tile.height);
+		}
+	} else {
+		if (this.character) {
+			this.character.Hide();
+		}
+
+		if (this.element) {
+			this.element.Hide();
+		}
+	}
+}
+
+Level.prototype.Keypress = function () {
+	if (keydown[keys.escape]) {
+		this.TogglePause();
+		keydown[keys.escape] = false;
 	}
 }
 
@@ -348,7 +513,7 @@ Level.prototype.UseWorker = function (element) {
 	}
 
 	return false;
-}
+};
 
 Level.prototype.RemoveWorker = function (worker) {
 	var index = this.workers.queue.indexOf(worker);
@@ -360,52 +525,44 @@ Level.prototype.RemoveWorker = function (worker) {
 	this.workers[worker.type] += 1;
 
 	this.update();
+};
+
+Level.prototype.TogglePause = function () {
+	if (this.paused) {
+		this.Play();
+	} else {
+		this.Pause();
+	}
 }
 
-Level.prototype.GetColliders = function (whitelist) {
-	var colliders = [];
+Level.prototype.Pause = function () {
+	this.paused = true;
+}
 
-	whitelist.forEach(function (tag) {
-		colliders = colliders.concat(this.objects[tag]);
-	}, this);
-
-	return colliders;
+Level.prototype.Play = function () {
+	this.paused = false;
 }
 
 Level.prototype.Tick = function(length) {
 	if (this.loaded) {
-		var deltaTime = PIXI.ticker.shared.elapsedMS / 1000;
+		this.Keypress();
+		
+		if (!this.paused) {
+			this.objects.forEach(function (object) {
+				object.Tick(length);
+			}, this);
 
-		this.objects.forEach(function (object) {
-			object.Tick(deltaTime);
-		}, this);
+			this.interface.Tick(length);
+			
+			this.timer -= length;
 
-		this.interface.Tick(deltaTime);
-
-		if (this.grid.contains(mouse.x, mouse.y)) {
-			var x = mouse.x - this.grid.x;
-			var y = mouse.y - this.grid.y;
-
-			if (this.character) {
-				this.character.Display();
-				this.character.MoveTo(Math.floor(x / this.tile.width) * this.tile.width, Math.floor(y / this.tile.height) * this.tile.height);
+			if (this.timer <= 0) {
+				this.EndLevel();
 			}
 
-			if (this.element) {
-				this.element.Display();
-				this.element.MoveTo(Math.floor(x / this.tile.width) * this.tile.width, Math.floor(y / this.tile.height) * this.tile.height);
-			}
-		} else {
-			if (this.character) {
-				this.character.Hide();
-			}
 
-			if (this.element) {
-				this.element.Hide();
-			}
+			this.Draw();
 		}
-
-		this.Draw();
 	}
 };
 

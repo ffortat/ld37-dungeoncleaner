@@ -1,5 +1,5 @@
 {
-	"default" : "dead",
+	"default" : "alive",
 	"animations" : {
 		"dead" : {
 			"frames" : [

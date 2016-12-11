@@ -15,15 +15,10 @@ function Mess(x, y, name, level) {
 	this.timer = 0;
 
 	load.json('animations/messes/' + name + '.json', this.Init, this);
-	// load.json('mess/' + name + '.json', this.InitItem, this);
 }
 
 Mess.prototype = Object.create(Animator.prototype);
 Mess.prototype.constructor = Mess;
-
-// Mess.prototype.InitMess = function (data) {
-
-// }
 
 Mess.prototype.cleared = function () {
 	this.state = this.states.cleared;
@@ -37,6 +32,9 @@ Mess.prototype.cleared = function () {
 	this.listeners['cleared'] = [];
 
 	this.SwitchToAnim(this.state);
+
+	this.Hide();
+	this.level.RemoveObject(this);
 }
 
 Mess.prototype.Clean = function () {

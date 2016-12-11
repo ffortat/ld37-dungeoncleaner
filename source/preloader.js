@@ -15,7 +15,7 @@ function Preloader(renderer) {
 		['coin', 'coin.png'],
 		['cleaner', 'cleaner.png'],
 		['healer', 'healer.png'],
-		['item', 'item.png'],
+		['pot', 'pot.png'],
 		['mess', 'mess.png'],
 		['monster', 'monster.png'],
 		['coinicon', 'coinicon.png'],

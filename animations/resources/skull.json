@@ -1,7 +1,7 @@
 {
-	"default" : "alive",
+	"default" : "broken",
 	"animations" : {
-		"dead" : {
+		"broken" : {
 			"frames" : [
 				{"tile" : 0}
 			],
@@ -9,7 +9,7 @@
 			"loop" : true,
 			"loopto" : 0
 		},
-		"healing" : {
+		"clearing" : {
 			"frames" : [
 				{"tile" : 1}
 			],
@@ -17,7 +17,7 @@
 			"loop" : true,
 			"loopto" : 0
 		},
-		"healed" : {
+		"cleared" : {
 			"frames" : [
 				{"tile" : 2}
 			],
@@ -25,7 +25,7 @@
 			"loop" : true,
 			"loopto" : 0
 		},
-		"alive" : {
+		"fixed" : {
 			"frames" : [
 				{"tile" : 3}
 			],

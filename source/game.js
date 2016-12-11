@@ -8,20 +8,20 @@ renderer.roundPixels = true;
 document.body.appendChild(renderer.view);
 
 var preloader = new Preloader(renderer);
-var level = null;//new Level('level0', renderer);
+var player = new Player();
 var menu = null;//new Menu(renderer);
 var currentScene = preloader;
 
 function tick(length) {
-    currentScene.Tick(length);
+	var deltaTime = PIXI.ticker.shared.elapsedMS / 1000;
+    currentScene.Tick(deltaTime);
 }
 
 ticker.add(tick)
 ticker.start();
 
 preloader.on('ready', function () {
-	level = new Level('level0', renderer);
-	currentScene = level;
+	currentScene = new Level(0, player, renderer);
 });
 
 mouse.attachTo(renderer.view);

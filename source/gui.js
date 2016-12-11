@@ -5,6 +5,7 @@ function GUI(level) {
 
 	this.isDisplayed = false;
 
+	this.timer = {};
 	this.buttons = {
 		fetcher : {},
 		cleaner : {},
@@ -13,8 +14,10 @@ function GUI(level) {
 		skeleton : {},
 		monster : {},
 		coin : {},
-		heart : {}
+		heart : {},
+		end : {}
 	}
+	this.objectives = [];
 
 	this.Init();
 }
@@ -62,6 +65,8 @@ GUI.prototype.Init = function () {
 	this.buttons.heart.sprite = PIXI.Sprite.fromImage('textures/hearticon.png');
 	this.buttons.heart.sprite.position = new PIXI.Point(renderer.width - this.buttons.heart.sprite.width, 564);
 	this.buttons.heart.collider = new PIXI.Rectangle(this.buttons.heart.sprite.x, this.buttons.heart.sprite.y, this.buttons.heart.sprite.width, this.buttons.heart.sprite.height);
+	
+	this.buttons.end = new Button('End', 5, renderer.height - 64 - 5, 128, 64);
 
 	this.container.addChild(this.buttons.fetcher.sprite);
 	this.container.addChild(this.buttons.cleaner.sprite);
@@ -71,12 +76,24 @@ GUI.prototype.Init = function () {
 	this.container.addChild(this.buttons.monster.sprite);
 	this.container.addChild(this.buttons.coin.sprite);
 	this.container.addChild(this.buttons.heart.sprite);
+	this.buttons.end.AddTo(this.container);
 
 	this.container.addChild(this.backgrounds);
 
 	this.container.addChild(this.buttons.fetcher.counter);
 	this.container.addChild(this.buttons.cleaner.counter);
 	this.container.addChild(this.buttons.healer.counter);
+
+	this.timer.counter = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.timer.counter.position = new PIXI.Point(1024, 16);
+
+	this.level.objectives.forEach(function (objective, index) {
+		this.objectives.push(new PIXI.Text('', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE}));
+		this.objectives[index].position = new PIXI.Point(192, 8 + 20 * index);
+		this.container.addChild(this.objectives[index]);
+	}, this);
+
+	this.container.addChild(this.timer.counter);
 
 	this.level.on('update', this.Update, this);
 
@@ -87,39 +104,50 @@ GUI.prototype.Update = function () {
 	this.buttons.fetcher.counter.text = '' + this.level.workers.fetcher;
 	this.buttons.cleaner.counter.text = '' + this.level.workers.cleaner;
 	this.buttons.healer.counter.text = '' + this.level.workers.healer;
+
+	this.objectives.forEach(function (objective, index) {
+		var count = Math.max(0, this.level.objectives[index].limit - this.level.objectives[index].count);
+		objective.text = 'Place ' + count + ' ' + this.level.objectives[index].type + ' in the room.';
+	}, this);
 }
 
 GUI.prototype.Click = function () {
-	if (this.buttons.fetcher.collider.contains(mouse.x, mouse.y)) {
-		this.level.Prepare('fetcher');
-	}
-	
-	if (this.buttons.cleaner.collider.contains(mouse.x, mouse.y)) {
-		this.level.Prepare('cleaner');
-	}
+	if (!this.level.paused) {
+		if (this.buttons.fetcher.collider.contains(mouse.x, mouse.y)) {
+			this.level.Prepare('fetcher');
+		}
+		
+		if (this.buttons.cleaner.collider.contains(mouse.x, mouse.y)) {
+			this.level.Prepare('cleaner');
+		}
 
-	if (this.buttons.healer.collider.contains(mouse.x, mouse.y)) {
-		this.level.Prepare('healer');
-	}
+		if (this.buttons.healer.collider.contains(mouse.x, mouse.y)) {
+			this.level.Prepare('healer');
+		}
 
-	if (this.buttons.pot.collider.contains(mouse.x, mouse.y)) {
-		this.level.Prepare('item', 'pot');
-	}
+		if (this.buttons.pot.collider.contains(mouse.x, mouse.y)) {
+			this.level.Prepare('item', 'pot');
+		}
 
-	if (this.buttons.skeleton.collider.contains(mouse.x, mouse.y)) {
-		this.level.Prepare('monster', 'skeleton');
-	}
+		if (this.buttons.skeleton.collider.contains(mouse.x, mouse.y)) {
+			this.level.Prepare('monster', 'skeleton');
+		}
 
-	if (this.buttons.monster.collider.contains(mouse.x, mouse.y)) {
-		this.level.Prepare('monster', 'monster');
-	}
+		if (this.buttons.monster.collider.contains(mouse.x, mouse.y)) {
+			this.level.Prepare('monster', 'monster');
+		}
 
-	if (this.buttons.coin.collider.contains(mouse.x, mouse.y)) {
-		this.level.Prepare('powerup', 'coin');
-	}
+		if (this.buttons.coin.collider.contains(mouse.x, mouse.y)) {
+			this.level.Prepare('powerup', 'coin');
+		}
 
-	if (this.buttons.heart.collider.contains(mouse.x, mouse.y)) {
-		this.level.Prepare('powerup', 'heart');
+		if (this.buttons.heart.collider.contains(mouse.x, mouse.y)) {
+			this.level.Prepare('powerup', 'heart');
+		}
+
+		if (this.buttons.end.collider.contains(mouse.x, mouse.y)) {
+			this.level.EndLevel();
+		}
 	}
 }
 
@@ -143,6 +171,13 @@ GUI.prototype.Display = function () {
 	this.isDisplayed = true;
 }
 
-GUI.prototype.Tick = function (length) {
+GUI.prototype.SecondsToDisplay = function (seconds) {
+	var minutes = Math.floor(seconds / 60);
+	seconds = Math.floor(seconds % 60);
 
+	return (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+}
+
+GUI.prototype.Tick = function (length) {
+	this.timer.counter.text = this.SecondsToDisplay(this.level.timer);
 }
