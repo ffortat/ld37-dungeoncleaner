@@ -188,7 +188,7 @@ Animator.prototype.GetCenter = function () {
 
 Animator.prototype.GetRectangle = function () {
 	if (this.currentAnimation) {
-		return new PIXI.Rectangle(this.x - this.currentAnimation.pivot.x, this.y - this.currentAnimation.pivot.y, this.currentAnimation.width, this.currentAnimation.height);
+		return new PIXI.Rectangle(this.x, this.y, this.currentAnimation.width, this.currentAnimation.height);
 	} else {
 		return new PIXI.Rectangle(this.x, this.y, 0, 0);
 	}

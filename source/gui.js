@@ -6,7 +6,8 @@ function GUI(level) {
 
 	this.buttons = {
 		cleaner : {},
-		healer : {}
+		healer : {},
+		plus : {}
 	}
 
 	this.Init();
@@ -21,8 +22,13 @@ GUI.prototype.Init = function () {
 	this.buttons.healer.sprite.position = new PIXI.Point(20, 120);
 	this.buttons.healer.collider = new PIXI.Rectangle(this.buttons.healer.sprite.x, this.buttons.healer.sprite.y, this.buttons.healer.sprite.width, this.buttons.healer.sprite.height);
 
+	this.buttons.plus.sprite = PIXI.Sprite.fromImage('textures/plusicon.png');
+	this.buttons.plus.sprite.position = new PIXI.Point(20, 220);
+	this.buttons.plus.collider = new PIXI.Rectangle(this.buttons.plus.sprite.x, this.buttons.plus.sprite.y, this.buttons.plus.sprite.width, this.buttons.plus.sprite.height);
+
 	this.container.addChild(this.buttons.cleaner.sprite);
 	this.container.addChild(this.buttons.healer.sprite);
+	this.container.addChild(this.buttons.plus.sprite);
 
 	this.Display();
 }
@@ -34,6 +40,10 @@ GUI.prototype.Click = function () {
 
 	if (this.buttons.healer.collider.contains(mouse.x, mouse.y)) {
 		this.level.Prepare('healer');
+	}
+
+	if (this.buttons.plus.collider.contains(mouse.x, mouse.y)) {
+		this.level.Prepare('powerup', 'plus');
 	}
 }
 

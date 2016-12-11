@@ -1,15 +1,24 @@
-X - items
-	X - state
-	X - cleaners
-		- minigame
-X - mess
-	X -state
-X - monsters
-	X - state
-	X - healers
-		- (minigame)
-	- powerups
+	- add fetcher
+	- update cleaner
+	- add worker quantities
+	- monster placement
+	- item placement
+	- Handle Levels
+	- add timer (top right)
+	- add objectives (top left)
+	- add win/lose conditions
+
+	- inventory (persistent)
+	- reinforcement packs (start of level)
+
+	- add score
+	- add multipliers
+	- add bonuses (clean level, time left, powerups)
+
+	- level design (tutorial)
+
 	- interface
-		- buttons
-	- actions (linked to buttons)
-	- timer, level duration, rounds
+	- add minigame for skeletons
+	- add hoven for pots
+
+	- clean/fetch order impact

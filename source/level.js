@@ -28,8 +28,8 @@ function Level(name, renderer) {
 		height : 0
 	};
 	this.margin = {
-		x : 40,
-		y : 40
+		x : 128,
+		y : 100
 	}
 
 	this.origin = {x:0,y:0};
@@ -123,7 +123,7 @@ Level.prototype.Init = function(level) {
 	this.tile.width = level.tilewidth;
 	this.tile.height = level.tileheight;
 
-	var background = PIXI.Sprite.fromImage('textures/background.png');
+	var background = PIXI.Sprite.fromImage('textures/background.jpg');
 	this.map.addChild(background);
 
 	this.layers.forEach(function (layer) {
@@ -181,7 +181,7 @@ Level.prototype.Init = function(level) {
 
 	this.grid.width = this.width * this.tile.width;
 	this.grid.height = this.height * this.tile.height;
-	var mapRenderTexture = PIXI.RenderTexture.create(this.grid.width + this.margin.x * 2, this.grid.height + this.margin.y * 2);
+	var mapRenderTexture = PIXI.RenderTexture.create(background.width, background.height);
 	this.renderer.render(this.map, mapRenderTexture);
 	this.mapSprite = new PIXI.Sprite(mapRenderTexture);
 
@@ -195,7 +195,7 @@ Level.prototype.Init = function(level) {
 
 	this.interface = new GUI(this);
 
-	mouse.on('click', this.UseCharacter, this);
+	mouse.on('click', this.Use, this);
 
 	// this.victorySpeech = new Dialog(this, 'victory');
 	// this.victorySpeech.on('end', function () {
@@ -246,8 +246,8 @@ Level.prototype.win = function() {
 };
 
 Level.prototype.CenterCamera = function (point) {
-	this.game.x = (renderer.width - (this.grid.width + this.margin.x * 2)) / 2;
-	this.game.y = (renderer.height - (this.grid.height + this.margin.y * 2)) / 2;
+	this.game.x = (renderer.width - this.game.width) / 2;
+	this.game.y = (renderer.height - this.game.height) / 2;
 	this.grid.x = this.game.x + this.margin.x;
 	this.grid.y = this.game.y + this.margin.y;
 }
@@ -340,18 +340,31 @@ Level.prototype.Prepare = function (type, name) {
 		this.character = null;
 	}
 
+	if (this.element) {
+		this.element.Hide();
+		this.element = null;
+	}
+
 	switch (type) {
 		case 'cleaner':
 			this.character = new Cleaner(-1 * this.tile.width, 0, this);
+			this.character.Hide();
 			break;
 		case 'healer':
 			this.character = new Healer(-1 * this.tile.width, 0, this);
+			this.character.Hide();
 			break;
 		case 'item':
 			this.element = new Item(-1 * this.tile.width, 0, name, this);
+			this.element.Hide();
 			break;
 		case 'monster':
 			this.element = new Monster(-1 * this.tile.width, 0, name, this);
+			this.element.Hide();
+			break;
+		case 'powerup':
+			this.element = new Powerup(-1 * this.tile.width, 0, name, this);
+			this.element.Hide();
 			break;
 		default:
 			console.log('Type unknown to prepare');
@@ -359,11 +372,11 @@ Level.prototype.Prepare = function (type, name) {
 	}
 }
 
-Level.prototype.UseCharacter = function () {
+Level.prototype.Use = function () {
 	if (this.character) {
 		if (this.character.isDisplayed) {
 			this.objects.some(function (element) {
-				if (this.Collides(this.character.GetRectangle(), element.GetRectangle())) {
+				if (element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y)) {
 					if (this.character.CanAct(element)) {
 						this.AddObject(this.character);
 						this.character.Act(element);
@@ -373,6 +386,20 @@ Level.prototype.UseCharacter = function () {
 					}
 				}
 			}, this);
+		}
+	}
+
+	if (this.element) {
+		if (this.element.isDisplayed) {
+			if (!this.objects.some(function (element) { 
+				console.log(element.GetRectangle(), mouse.x - this.grid.x, mouse.y - this.grid.y);
+				return element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y); 
+			}, this)) {
+				this.AddObject(this.element);
+				this.element = null;
+			} else {
+				console.log('collide!')
+			}
 		}
 	}
 }
@@ -405,9 +432,18 @@ Level.prototype.Tick = function(length) {
 				this.character.Display();
 				this.character.MoveTo(Math.floor(x / this.tile.width) * this.tile.width, Math.floor(y / this.tile.height) * this.tile.height);
 			}
+
+			if (this.element) {
+				this.element.Display();
+				this.element.MoveTo(Math.floor(x / this.tile.width) * this.tile.width, Math.floor(y / this.tile.height) * this.tile.height);
+			}
 		} else {
 			if (this.character) {
 				this.character.Hide();
+			}
+
+			if (this.element) {
+				this.element.Hide();
 			}
 		}
 
