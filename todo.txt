@@ -1,10 +1,22 @@
-X - interface
-X - add hoven for pots
-X - add skeletons builder
-	- reinforcement packs (start of level)
-3am
-	- level design (tutorial)
+	- assets integration (continuous)
+
+X - key bindings
+	- handle multisquares sprites
 	- text display (narative)
+	- write basic texts
+
+	- interface fixes
+	- polish interface controls
+
+	- level design (tutorial)
+
+	- menus
+		- main
+		- credits
+		- (options ?)
+	- sounds / music
 
 	- clean/fetch order impact
+	- reinforcement packs (start of level)
 	- leaderboard
+	- fullscreen

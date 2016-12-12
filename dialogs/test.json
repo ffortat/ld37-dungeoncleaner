@@ -1,0 +1,71 @@
+{
+	"entrypoint" : "dialog1",
+	"dialog1" : {
+		"dialog" : {
+			"text" : [
+				["CA", "Well, I’ve never been the best at riddles, but here we go..."],
+				["", "Even though it has sails, it does not move from its hill.\nEven though it has blades, it is useless to go tilting at it.\nEven though it grinds, it has no teeth to eat."]
+			],
+			"characters" : [
+				{
+					"id" : "CA",
+					"name" : "Captain Tanyo",
+					"image" : "captain.png",
+					"side" : "left"
+				}
+			]
+		},
+		"choices" : [
+			{"label" : "The Lighthouse", "dialog" : "answer2", "file" : "test2", "result" : false },
+			{"label" : "The Windmill", "dialog" : "answer1", "file" : "test2", "result" : true },
+			{"label" : "The Kite", "dialog" : "answer2", "file" : "test2", "result" : false },
+		],
+		"followup" : { "file" : "test3" }
+	},
+	"answer1" : {
+		"dialog" : {
+			"text" : [
+				["CA", "The Beacon is opening. Quick, send someone to retrieve its content!"]
+			],
+			"characters" : [
+				{
+					"id" : "CA",
+					"name" : "Captain Tanyo",
+					"image" : "captain.png",
+					"side" : "left"
+				}
+			]
+		}
+	},
+	"answer2" : {
+		"dialog" : {
+			"text" : [
+				["CA", "What… Argh, the Beacon teleported! No matter, we’ll look for it and get it right next time. Commander, punch it!"]
+			],
+			"characters" : [
+				{
+					"id" : "CA",
+					"name" : "Captain Tanyo",
+					"image" : "captain.png",
+					"side" : "left"
+				}
+			]
+		}
+	},
+	"timeout" : {
+		"dialog" : {
+			"text" : [
+				["CA", "Urgh, we got no more air. Lets surface!"],
+				["CA", "What… Argh, the Beacon teleported! No matter, we’ll look for it and get it right next time. Commander, punch it!"]
+			],
+			"characters" : [
+				{
+					"id" : "CA",
+					"name" : "Captain Tanyo",
+					"image" : "captain.png",
+					"side" : "left"
+				}
+			]
+		}
+	}
+}

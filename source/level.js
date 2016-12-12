@@ -564,14 +564,14 @@ Level.prototype.Move = function () {
 };
 
 Level.prototype.Keypress = function () {
-	if (keydown[keys.escape]) {
+	if (key.down[keys.escape]) {
 		if (this.interface.altButtons) {
 			this.interface.CloseBlueprint();
 		} else {
 			this.TogglePause();
 		}
 		
-		keydown[keys.escape] = false;
+		key.down[keys.escape] = false;
 	}
 };
 
@@ -612,9 +612,9 @@ Level.prototype.RemoveWorker = function (worker) {
 	this.update();
 };
 
-Level.prototype.BuildSkeleton = function (resource) {
-	if (this.resources[resource]) {
-		this.resources[resource] -= 1
+Level.prototype.BuildSkeleton = function (resource, amount) {
+	if (this.resources[resource] >= amount) {
+		this.resources[resource] -= amount;
 		this.update();
 		return true;
 	}

@@ -75,70 +75,122 @@ var keys = {
 	numenter : 'NumpadEnter'
 }
 
-var keydown = {};
-var diagValue = Math.sqrt(2) / 2;
+var key = (function () {
+	var keydown = {};
+	var diagValue = Math.sqrt(2) / 2;
 
-function preventDefault(event) {
-	switch (event.code) {
-		case keys.space :
-		case keys.up :
-		case keys.left :
-		case keys.down :
-		case keys.right :
-			event.preventDefault();
-	}
-}
-
-function onkeydown(event) {
-	preventDefault(event);
-	if (keydown[event.code] === undefined) {
-		keydown[event.code] = true;
-	}
-	if (keydown[keys.any] === undefined) {
-		keydown[keys.any] = true;
-	}
-}
-
-function onkeyup (event) {
-	preventDefault(event);
-	delete keydown[event.code];
-	delete keydown[keys.any];
-}
-
-document.addEventListener('keydown', onkeydown);
-document.addEventListener('keyup', onkeyup);
-
-function IsMoving() {
-	return (keydown[keys.left] || keydown[keys.right] || keydown[keys.up] || keydown[keys.down] ||
-			keydown[keys.w] || keydown[keys.a] || keydown[keys.s] || keydown[keys.d]);
-}
-
-function GetDirection() {
-	var direction = {x : 0, y : 0};
-
-	if (keydown[keys.left] || keydown[keys.a]) {
-		direction.x -= 1;
+	var listeners = {
+		press : [],
+		up : [],
+		down : []
 	}
 
-	if (keydown[keys.right] || keydown[keys.d]) {
-		direction.x += 1;
+	var data = {
+		down : keydown,
+		on : on,
+		off : off,
+		move : IsMoving,
+		direction : GetDirection
 	}
 
-	if (keydown[keys.up] || keydown[keys.w]) {
-		direction.y -= 1;
+	function on(eventType, callback, self) {
+		if (listeners[eventType]) {
+			listeners[eventType].push({func : callback, object : self});
+		}
 	}
 
-	if (keydown[keys.down] || keydown[keys.s]) {
-		direction.y += 1;
+	function off(eventType, callback) {
+		if (listeners[eventType]) {
+			var indexes = [];
+		
+			listeners[eventType].forEach(function (listener, index) {
+				if (listener.func === callback) {
+					indexes.unshift(index);
+				}
+			}, this);
+
+			indexes.forEach(function (index) {
+				listeners[eventType].splice(index, 1);
+			}, this);
+		}
 	}
 
-	if (direction.x && direction.y) {
-		direction.x *= diagValue;
-		direction.y *= diagValue;
+	function preventDefault(event) {
+		switch (event.code) {
+			case keys.space :
+			case keys.up :
+			case keys.left :
+			case keys.down :
+			case keys.right :
+				event.preventDefault();
+		}
 	}
 
-	return direction;
-}
+	function onkeydown(event) {
+		preventDefault(event);
+		if (keydown[event.code] === undefined) {
+			keydown[event.code] = true;
+		}
+		if (keydown[keys.any] === undefined) {
+			keydown[keys.any] = true;
+		}
+
+		listeners.down.forEach(function (listener) {
+			listener.func.call(listener.object, event.code);
+		});
+	}
+
+	function onkeyup (event) {
+		preventDefault(event);
+		delete keydown[event.code];
+		delete keydown[keys.any];
+
+		listeners.up.forEach(function (listener) {
+			listener.func.call(listener.object, event.code);
+		});
+
+		listeners.press.forEach(function (listener) {
+			listener.func.call(listener.object, event.code);
+		});
+	}
+
+	document.addEventListener('keydown', onkeydown);
+	document.addEventListener('keyup', onkeyup);
+
+	function IsMoving() {
+		return (keydown[keys.left] || keydown[keys.right] || keydown[keys.up] || keydown[keys.down] ||
+				keydown[keys.w] || keydown[keys.a] || keydown[keys.s] || keydown[keys.d]);
+	}
+
+	function GetDirection() {
+		var direction = {x : 0, y : 0};
+
+		if (keydown[keys.left] || keydown[keys.a]) {
+			direction.x -= 1;
+		}
+
+		if (keydown[keys.right] || keydown[keys.d]) {
+			direction.x += 1;
+		}
+
+		if (keydown[keys.up] || keydown[keys.w]) {
+			direction.y -= 1;
+		}
+
+		if (keydown[keys.down] || keydown[keys.s]) {
+			direction.y += 1;
+		}
+
+		if (direction.x && direction.y) {
+			direction.x *= diagValue;
+			direction.y *= diagValue;
+		}
+
+		return direction;
+	}
+
+	return data;
+})();
 
 var mouse = (function () {
 	var listeners = {

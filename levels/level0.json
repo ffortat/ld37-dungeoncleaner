@@ -16,7 +16,7 @@
  "properties":
     {
      "bones":16,
-     "cleaner":0,
+     "cleaner":1,
      "coin":0,
      "fetcher":2,
      "finallevel":false,

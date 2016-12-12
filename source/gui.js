@@ -33,19 +33,14 @@ function GUI(level) {
 	this.score = {};
 
 	this.blueprint = {
-		background : PIXI.Sprite.fromImage('textures/blueprint.png'),
+		background : PIXI.Sprite.fromImage('textures/blueprint/background.png'),
 		coords : {
-			skull : {x : 196, y : 10, scale : 1},
-			ribl : {x : 173, y : 141, scale : 1},
-			ribr : {x : 342, y : 141, scale : -1},
-			legul : {x : 156, y : 257, scale : 1},
-			legdl : {x : 118, y : 367, scale : 1},
-			legur : {x : 357, y : 255, scale : -1},
-			legdr : {x : 398, y : 364, scale : -1},
-			armul : {x : 233, y : 73, scale : -1},
-			armdl : {x : 128, y : 42, scale : -1},
-			armur : {x : 278, y : 75, scale : 1},
-			armdr : {x : 386, y : 43, scale : 1}
+			skull : {x : 204, y : 32, scale : 1},
+			rib : {x : 214, y : 239, scale : 1},
+			arml : {x : 53, y : 114, scale : 1},
+			armr : {x : 569, y : 114, scale : -1},
+			legl : {x : 102, y : 399, scale : 1},
+			legr : {x : 520, y : 399, scale : -1}
 		},
 		todo : {
 			skull : [],
@@ -58,7 +53,7 @@ function GUI(level) {
 			ribs : 0,
 			bones : 0
 		},
-		count : 11
+		count : 6
 	}
 
 	this.altButtons = false;
@@ -67,42 +62,59 @@ function GUI(level) {
 }
 
 GUI.prototype.Init = function () {
+	this.buttons.fetcher.container = new PIXI.Container();
+	this.buttons.fetcher.container.position = new PIXI.Point(-38, 0);
+	this.buttons.fetcher.background = PIXI.Sprite.fromImage('textures/gui/background.png');
+	this.buttons.fetcher.background.position = new PIXI.Point(11, 32);
+	this.buttons.fetcher.container.addChild(this.buttons.fetcher.background);
+	this.buttons.fetcher.sprite = PIXI.Sprite.fromImage('textures/gui/fetcher.png');
+	this.buttons.fetcher.container.addChild(this.buttons.fetcher.sprite);
+	this.buttons.fetcher.collider = new PIXI.Rectangle(this.buttons.fetcher.container.x, this.buttons.fetcher.container.y, this.buttons.fetcher.container.width, this.buttons.fetcher.container.height);
+	this.buttons.fetcher.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0x333333});
+	this.buttons.fetcher.counter.position = new PIXI.Point(113 + (20 - this.buttons.fetcher.counter.width) / 2, 59 + (16 - this.buttons.fetcher.counter.height) / 2);
+	this.buttons.fetcher.container.addChild(this.buttons.fetcher.counter);
+	this.buttons.fetcher.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
+	this.buttons.fetcher.shortcut.position = new PIXI.Point(80, 96);
+	this.buttons.fetcher.container.addChild(this.buttons.fetcher.shortcut);
+	this.buttons.fetcher.keybind = new PIXI.Text('Q', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
+	this.buttons.fetcher.keybind.position = new PIXI.Point((this.buttons.fetcher.shortcut.width - this.buttons.fetcher.keybind.width) / 2, (this.buttons.fetcher.shortcut.height - this.buttons.fetcher.keybind.height) / 2);
+	this.buttons.fetcher.shortcut.addChild(this.buttons.fetcher.keybind);
 
-	this.buttons.fetcher.sprite = PIXI.Sprite.fromImage('textures/crate.png');
-	this.buttons.fetcher.sprite.position = new PIXI.Point(0, 52);
-	this.buttons.fetcher.collider = new PIXI.Rectangle(this.buttons.fetcher.sprite.x, this.buttons.fetcher.sprite.y, this.buttons.fetcher.sprite.width, this.buttons.fetcher.sprite.height);
-	this.buttons.fetcher.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
-	this.buttons.fetcher.counter.position = new PIXI.Point(this.buttons.fetcher.sprite.width - 5 - this.buttons.fetcher.counter.width, this.buttons.fetcher.sprite.height - 5 - this.buttons.fetcher.counter.height);
-	this.buttons.fetcher.background = new PIXI.Graphics();
-	this.buttons.fetcher.background.position = new PIXI.Point(this.buttons.fetcher.counter.x - 5, this.buttons.fetcher.counter.y - 2);
-	this.buttons.fetcher.background.beginFill(0xCC3333, 1)
-	this.buttons.fetcher.background.drawRoundedRect(0, 0, this.buttons.fetcher.counter.width + 10, this.buttons.fetcher.counter.height + 4, 5);
-	this.buttons.fetcher.sprite.addChild(this.buttons.fetcher.background);
-	this.buttons.fetcher.sprite.addChild(this.buttons.fetcher.counter);
+	this.buttons.cleaner.container = new PIXI.Container();
+	this.buttons.cleaner.container.position = new PIXI.Point(-38, 128);
+	this.buttons.cleaner.background = PIXI.Sprite.fromImage('textures/gui/background.png');
+	this.buttons.cleaner.background.position = new PIXI.Point(11, 32);
+	this.buttons.cleaner.container.addChild(this.buttons.cleaner.background);
+	this.buttons.cleaner.sprite = PIXI.Sprite.fromImage('textures/gui/cleaner.png');
+	this.buttons.cleaner.container.addChild(this.buttons.cleaner.sprite);
+	this.buttons.cleaner.collider = new PIXI.Rectangle(this.buttons.cleaner.container.x, this.buttons.cleaner.container.y, this.buttons.cleaner.container.width, this.buttons.cleaner.container.height);
+	this.buttons.cleaner.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0x333333});
+	this.buttons.cleaner.counter.position = new PIXI.Point(113 + (20 - this.buttons.cleaner.counter.width) / 2, 59 + (16 - this.buttons.cleaner.counter.height) / 2);
+	this.buttons.cleaner.container.addChild(this.buttons.cleaner.counter);
+	this.buttons.cleaner.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
+	this.buttons.cleaner.shortcut.position = new PIXI.Point(80, 96);
+	this.buttons.cleaner.container.addChild(this.buttons.cleaner.shortcut);
+	this.buttons.cleaner.keybind = new PIXI.Text('W', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
+	this.buttons.cleaner.keybind.position = new PIXI.Point((this.buttons.cleaner.shortcut.width - this.buttons.cleaner.keybind.width) / 2, (this.buttons.cleaner.shortcut.height - this.buttons.cleaner.keybind.height) / 2);
+	this.buttons.cleaner.shortcut.addChild(this.buttons.cleaner.keybind);
 	
-	this.buttons.cleaner.sprite = PIXI.Sprite.fromImage('textures/broomstick.png');
-	this.buttons.cleaner.sprite.position = new PIXI.Point(0, 180);
-	this.buttons.cleaner.collider = new PIXI.Rectangle(this.buttons.cleaner.sprite.x, this.buttons.cleaner.sprite.y, this.buttons.cleaner.sprite.width, this.buttons.cleaner.sprite.height);
-	this.buttons.cleaner.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
-	this.buttons.cleaner.counter.position = new PIXI.Point(this.buttons.cleaner.sprite.width - 5 - this.buttons.cleaner.counter.width, this.buttons.cleaner.sprite.height - 5 - this.buttons.cleaner.counter.height);
-	this.buttons.cleaner.background = new PIXI.Graphics();
-	this.buttons.cleaner.background.position = new PIXI.Point(this.buttons.cleaner.counter.x - 5, this.buttons.cleaner.counter.y - 2);
-	this.buttons.cleaner.background.beginFill(0xCC3333, 1)
-	this.buttons.cleaner.background.drawRoundedRect(0, 0, this.buttons.cleaner.counter.width + 10, this.buttons.cleaner.counter.height + 4, 5);
-	this.buttons.cleaner.sprite.addChild(this.buttons.cleaner.background);
-	this.buttons.cleaner.sprite.addChild(this.buttons.cleaner.counter);
-	
-	this.buttons.healer.sprite = PIXI.Sprite.fromImage('textures/redcross.png');
-	this.buttons.healer.sprite.position = new PIXI.Point(0, 308);
-	this.buttons.healer.collider = new PIXI.Rectangle(this.buttons.healer.sprite.x, this.buttons.healer.sprite.y, this.buttons.healer.sprite.width, this.buttons.healer.sprite.height);
-	this.buttons.healer.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
-	this.buttons.healer.counter.position = new PIXI.Point(this.buttons.healer.sprite.width - 5 - this.buttons.healer.counter.width, this.buttons.healer.sprite.height - 5 - this.buttons.healer.counter.height);
-	this.buttons.healer.background = new PIXI.Graphics();
-	this.buttons.healer.background.position = new PIXI.Point(this.buttons.healer.counter.x - 5, this.buttons.healer.counter.y - 2);
-	this.buttons.healer.background.beginFill(0xCC3333, 1)
-	this.buttons.healer.background.drawRoundedRect(0, 0, this.buttons.healer.counter.width + 10, this.buttons.healer.counter.height + 4, 5);
-	this.buttons.healer.sprite.addChild(this.buttons.healer.background);
-	this.buttons.healer.sprite.addChild(this.buttons.healer.counter);
+	this.buttons.healer.container = new PIXI.Container();
+	this.buttons.healer.container.position = new PIXI.Point(-38, 256);
+	this.buttons.healer.background = PIXI.Sprite.fromImage('textures/gui/background.png');
+	this.buttons.healer.background.position = new PIXI.Point(11, 32);
+	this.buttons.healer.container.addChild(this.buttons.healer.background);
+	this.buttons.healer.sprite = PIXI.Sprite.fromImage('textures/gui/healer.png');
+	this.buttons.healer.container.addChild(this.buttons.healer.sprite);
+	this.buttons.healer.collider = new PIXI.Rectangle(this.buttons.healer.container.x, this.buttons.healer.container.y, this.buttons.healer.container.width, this.buttons.healer.container.height);
+	this.buttons.healer.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0x333333});
+	this.buttons.healer.counter.position = new PIXI.Point(113 + (20 - this.buttons.healer.counter.width) / 2, 59 + (16 - this.buttons.healer.counter.height) / 2);
+	this.buttons.healer.container.addChild(this.buttons.healer.counter);
+	this.buttons.healer.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
+	this.buttons.healer.shortcut.position = new PIXI.Point(80, 96);
+	this.buttons.healer.container.addChild(this.buttons.healer.shortcut);
+	this.buttons.healer.keybind = new PIXI.Text('E', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
+	this.buttons.healer.keybind.position = new PIXI.Point((this.buttons.healer.shortcut.width - this.buttons.healer.keybind.width) / 2, (this.buttons.healer.shortcut.height - this.buttons.healer.keybind.height) / 2);
+	this.buttons.healer.shortcut.addChild(this.buttons.healer.keybind);
 
 	this.buttons.pot.sprite = PIXI.Sprite.fromImage('textures/poticon.png');
 	this.buttons.pot.sprite.position = new PIXI.Point(renderer.width - this.buttons.pot.sprite.width, 52);
@@ -270,12 +282,12 @@ GUI.prototype.Init = function () {
 		this.tools.hoven.sprite.removeChild(this.tools.hoven.timer);
 	}, this);
 
-	this.blueprint.background.position = new PIXI.Point((renderer.width - this.blueprint.background.width) / 2, 96);
+	this.blueprint.background.position = new PIXI.Point((renderer.width - this.blueprint.background.width) / 2, 58);
 	this.blueprint.build = new Button('Build', this.blueprint.background.width - 128 - 10, this.blueprint.background.height - 64 - 10, 128, 64)
 
-	this.container.addChild(this.buttons.fetcher.sprite);
-	this.container.addChild(this.buttons.cleaner.sprite);
-	this.container.addChild(this.buttons.healer.sprite);
+	this.container.addChild(this.buttons.fetcher.container);
+	this.container.addChild(this.buttons.cleaner.container);
+	this.container.addChild(this.buttons.healer.container);
 	this.container.addChild(this.buttons.pot.sprite);
 	this.container.addChild(this.buttons.skeleton.sprite);
 	this.container.addChild(this.buttons.monster.sprite);
@@ -360,7 +372,7 @@ GUI.prototype.Click = function () {
 		if (this.altButtons) {
 			if (this.buttons.skull.collider.contains(mouse.x, mouse.y)) {
 				if (this.blueprint.todo.skull.length) {
-					if (this.level.BuildSkeleton('skulls')) {
+					if (this.level.BuildSkeleton('skulls', 1)) {
 						var coords = this.blueprint.todo.skull.shift();
 						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skull.png');
 						sprite.scale.x = coords.scale;
@@ -374,37 +386,38 @@ GUI.prototype.Click = function () {
 
 			if (this.buttons.rib.collider.contains(mouse.x, mouse.y)) {
 				if (this.blueprint.todo.ribs.length) {
-					if (this.level.BuildSkeleton('ribs')) {
+					if (this.level.BuildSkeleton('ribs', 2)) {
 						var coords = this.blueprint.todo.ribs.shift();
 						var sprite = PIXI.Sprite.fromImage('textures/blueprint/ribs.png');
 						sprite.scale.x = coords.scale;
 						sprite.position = coords;
 						this.blueprint.background.addChild(sprite);
-						this.blueprint.used.ribs += 1;
+						this.blueprint.background.setChildIndex(sprite, 0);
+						this.blueprint.used.ribs += 2;
 						this.blueprint.count -= 1;
 					}
 				}
 			}
 
 			if (this.buttons.bone.collider.contains(mouse.x, mouse.y)) {
-				if (this.blueprint.todo.legs.length) {
-					if (this.level.BuildSkeleton('bones')) {
-						var coords = this.blueprint.todo.legs.shift();
-						var sprite = PIXI.Sprite.fromImage('textures/blueprint/leg.png');
-						sprite.scale.x = coords.scale;
-						sprite.position = coords;
-						this.blueprint.background.addChild(sprite);
-						this.blueprint.used.bones += 1;
-						this.blueprint.count -= 1;
-					}
-				} else if (this.blueprint.todo.arms.length) {
-					if (this.level.BuildSkeleton('bones')) {
+				if (this.blueprint.todo.arms.length) {
+					if (this.level.BuildSkeleton('bones', 2)) {
 						var coords = this.blueprint.todo.arms.shift();
 						var sprite = PIXI.Sprite.fromImage('textures/blueprint/arm.png');
 						sprite.scale.x = coords.scale;
 						sprite.position = coords;
 						this.blueprint.background.addChild(sprite);
-						this.blueprint.used.bones += 1;
+						this.blueprint.used.bones += 2;
+						this.blueprint.count -= 1;
+					}
+				} else if (this.blueprint.todo.legs.length) {
+					if (this.level.BuildSkeleton('bones', 2)) {
+						var coords = this.blueprint.todo.legs.shift();
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/leg.png');
+						sprite.scale.x = coords.scale;
+						sprite.position = coords;
+						this.blueprint.background.addChild(sprite);
+						this.blueprint.used.bones += 2;
 						this.blueprint.count -= 1;
 					}
 				}
@@ -457,18 +470,117 @@ GUI.prototype.Click = function () {
 	}
 }
 
+GUI.prototype.KeyPress = function (code) {
+	if (!this.level.paused) {
+		if (code === keys.q) {
+			this.level.Prepare('fetcher');
+		}
+		
+		if (code === keys.w) {
+			this.level.Prepare('cleaner');
+		}
+
+		if (code === keys.e) {
+			this.level.Prepare('healer');
+		}
+
+		if (this.altButtons) {
+			if (code === keys[1]) {
+				if (this.blueprint.todo.skull.length) {
+					if (this.level.BuildSkeleton('skulls', 1)) {
+						var coords = this.blueprint.todo.skull.shift();
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skull.png');
+						sprite.scale.x = coords.scale;
+						sprite.position = coords;
+						this.blueprint.background.addChild(sprite);
+						this.blueprint.used.skulls += 1;
+						this.blueprint.count -= 1;
+					}
+				}
+			}
+
+			if (code === keys[2]) {
+				if (this.blueprint.todo.ribs.length) {
+					if (this.level.BuildSkeleton('ribs', 2)) {
+						var coords = this.blueprint.todo.ribs.shift();
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/ribs.png');
+						sprite.scale.x = coords.scale;
+						sprite.position = coords;
+						this.blueprint.background.addChild(sprite);
+						this.blueprint.background.setChildIndex(sprite, 0);
+						this.blueprint.used.ribs += 2;
+						this.blueprint.count -= 1;
+					}
+				}
+			}
+
+			if (code === keys[3]) {
+				if (this.blueprint.todo.arms.length) {
+					if (this.level.BuildSkeleton('bones', 2)) {
+						var coords = this.blueprint.todo.arms.shift();
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/arm.png');
+						sprite.scale.x = coords.scale;
+						sprite.position = coords;
+						this.blueprint.background.addChild(sprite);
+						this.blueprint.used.bones += 2;
+						this.blueprint.count -= 1;
+					}
+				} else if (this.blueprint.todo.legs.length) {
+					if (this.level.BuildSkeleton('bones', 2)) {
+						var coords = this.blueprint.todo.legs.shift();
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/leg.png');
+						sprite.scale.x = coords.scale;
+						sprite.position = coords;
+						this.blueprint.background.addChild(sprite);
+						this.blueprint.used.bones += 2;
+						this.blueprint.count -= 1;
+					}
+				}
+			}
+		} else {
+			if (code === keys[1]) {
+				this.level.Prepare('item', 'pot');
+			}
+
+			if (code === keys[2]) {
+				this.level.Prepare('monster', 'skeleton');
+			}
+
+			if (code === keys[3]) {
+				this.level.Prepare('monster', 'monster');
+			}
+
+			if (code === keys[4]) {
+				this.level.Prepare('powerup', 'coin');
+			}
+
+			if (code === keys[5]) {
+				this.level.Prepare('powerup', 'heart');
+			}
+
+			if (code === keys.space) {
+				this.level.EndLevel();
+			}
+		}
+
+
+		if (code === keys.r) {
+			this.OpenBlueprint();
+		}
+
+		if (code === keys.t) {
+			this.level.CookPot();
+		}
+	}
+}
+
 GUI.prototype.OpenBlueprint = function () {
 	this.blueprint.todo.skull.push(this.blueprint.coords.skull);
-	this.blueprint.todo.ribs.push(this.blueprint.coords.ribl);
-	this.blueprint.todo.ribs.push(this.blueprint.coords.ribr);
-	this.blueprint.todo.legs.push(this.blueprint.coords.legul);
-	this.blueprint.todo.legs.push(this.blueprint.coords.legdl);
-	this.blueprint.todo.legs.push(this.blueprint.coords.legur);
-	this.blueprint.todo.legs.push(this.blueprint.coords.legdr);
-	this.blueprint.todo.arms.push(this.blueprint.coords.armul);
-	this.blueprint.todo.arms.push(this.blueprint.coords.armdl);
-	this.blueprint.todo.arms.push(this.blueprint.coords.armur);
-	this.blueprint.todo.arms.push(this.blueprint.coords.armdr);
+	this.blueprint.todo.ribs.push(this.blueprint.coords.rib);
+	this.blueprint.todo.arms.push(this.blueprint.coords.arml);
+	this.blueprint.todo.arms.push(this.blueprint.coords.armr);
+	this.blueprint.todo.legs.push(this.blueprint.coords.legl);
+	this.blueprint.todo.legs.push(this.blueprint.coords.legr);
 
 	this.container.addChild(this.blueprint.background);
 
@@ -492,7 +604,7 @@ GUI.prototype.CloseBlueprint = function () {
 
 	this.level.RefundSkeleton(this.blueprint.used);
 
-	this.blueprint.count = 11;
+	this.blueprint.count = 6;
 
 	this.blueprint.background.removeChildren();
 	this.container.removeChild(this.blueprint.background);
@@ -511,10 +623,12 @@ GUI.prototype.CloseBlueprint = function () {
 }
 
 GUI.prototype.Lock = function () {
+	key.off('press', this.KeyPress);
 	mouse.off('click', this.Click);
 }
 
 GUI.prototype.Unlock = function () {
+	key.on('press', this.KeyPress, this);
 	mouse.on('click', this.Click, this);
 }
 
