@@ -11,7 +11,7 @@
 		},
 		"clearing" : {
 			"frames" : [
-				{"tile" : 1}
+				{"tile" : 0}
 			],
 			"speed" : 20,
 			"loop" : true,
@@ -19,7 +19,7 @@
 		},
 		"cleared" : {
 			"frames" : [
-				{"tile" : 2}
+				{"tile" : 0}
 			],
 			"speed" : 20,
 			"loop" : true,
@@ -27,7 +27,7 @@
 		},
 		"fixed" : {
 			"frames" : [
-				{"tile" : 3}
+				{"tile" : 0}
 			],
 			"speed" : 20,
 			"loop" : true,
@@ -36,10 +36,10 @@
 	},
 	"tilesets" : [
 		{
-			"file" : "rib.png",
+			"file" : "stuff/rib.png",
 			"tilewidth" : 64,
 			"tileheight" : 64,
-			"imagewidth" : 256,
+			"imagewidth" : 64,
 			"imageheight" : 64,
 			"firstgid" : 0
 		}
