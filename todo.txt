@@ -1,6 +1,6 @@
 X - interface
 X - add hoven for pots
-	- add skeletons builder
+X - add skeletons builder
 	- reinforcement packs (start of level)
 3am
 	- level design (tutorial)

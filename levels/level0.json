@@ -15,7 +15,7 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "bones":0,
+     "bones":24,
      "cleaner":2,
      "coin":2,
      "fetcher":2,
@@ -31,9 +31,9 @@
      "objective3_quantity":0,
      "pot":2,
      "pots":0,
-     "ribs":0,
+     "ribs":6,
      "skeleton":2,
-     "skulls":0,
+     "skulls":3,
      "timer":30
     },
  "propertytypes":

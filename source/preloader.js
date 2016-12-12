@@ -10,7 +10,10 @@ function Preloader(renderer) {
 
 	this.loader = PIXI.loader;
 	this.assets = [
-		['ground_terrain', 'ground_terrain.png'],
+		['blueprint_skull', 'blueprint/skull.png'],
+		['blueprint_ribs', 'blueprint/ribs.png'],
+		['blueprint_leg', 'blueprint/leg.png'],
+		['blueprint_arm', 'blueprint/arm.png'],
 		['sea', 'sea.png'],
 		['coin', 'coin.png'],
 		['cleaner', 'cleaner.png'],
@@ -28,11 +31,15 @@ function Preloader(renderer) {
 		['monstericon', 'monstericon.png'],
 		['skeletonicon', 'skeletonicon.png'],
 		['poticon', 'poticon.png'],
+		['skullicon', 'skullicon.png'],
+		['ribicon', 'ribicon.png'],
+		['boneicon', 'boneicon.png'],
 		['broomstick', 'broomstick.png'],
 		['redcross', 'redcross.png'],
 		['crate', 'crate.png'],
 		['builder', 'builder.png'],
 		['hoven', 'hoven.png'],
+		['blueprint', 'blueprint.png'],
 		['background', 'background.jpg']
 	];
 

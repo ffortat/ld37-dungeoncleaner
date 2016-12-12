@@ -39,6 +39,7 @@ function Level(number, player, renderer) {
 	};
 	this.objects = [];
 	this.room = [];
+	this.builder = new Timer(5);
 	this.hoven = new Timer(5);
 
 	this.interface = {};
@@ -152,6 +153,11 @@ Level.prototype.Init = function(level) {
 				this.AddObject(monster);
 				break;
 		}
+	}, this);
+
+	this.builder.on('end', function () {
+		this.stuff.skeleton += 1;
+		this.update();
 	}, this);
 
 	this.hoven.on('end', function () {
@@ -560,7 +566,12 @@ Level.prototype.Move = function () {
 
 Level.prototype.Keypress = function () {
 	if (keydown[keys.escape]) {
-		this.TogglePause();
+		if (this.interface.altButtons) {
+			this.interface.CloseBlueprint();
+		} else {
+			this.TogglePause();
+		}
+		
 		keydown[keys.escape] = false;
 	}
 };
@@ -602,6 +613,25 @@ Level.prototype.RemoveWorker = function (worker) {
 	this.update();
 };
 
+Level.prototype.BuildSkeleton = function (resource) {
+	if (this.resources[resource]) {
+		this.resources[resource] -= 1
+		this.update();
+		return true;
+	}
+
+	return false;
+}
+
+Level.prototype.RefundSkeleton = function (resources) {
+	for (var resource in resources) {
+		this.resources[resource] += resources[resource];
+		resources[resource] = 0;
+	}
+	
+	this.update();
+}
+
 Level.prototype.CookPot = function () {
 	if (this.resources.pots >= 3 && !this.hoven.timer) {
 		this.resources.pots -= 3;
@@ -639,6 +669,7 @@ Level.prototype.Tick = function(length) {
 				object.Tick(length);
 			}, this);
 
+			this.builder.Tick(length);
 			this.hoven.Tick(length);
 
 			this.timer -= length;
