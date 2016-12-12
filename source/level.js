@@ -43,6 +43,7 @@ function Level(number, player, renderer) {
 	this.hoven = new Timer(5);
 
 	this.interface = {};
+	this.dialogs = {};
 	this.score = 0;
 	this.multiplier = 1;
 	this.values = {
@@ -95,6 +96,10 @@ function Level(number, player, renderer) {
 
 Level.prototype.Init = function(level) {
 	var self = this;
+
+	this.dialogs.intro = new Dialog(this.container, 'level' + this.number, 'intro');
+	this.dialogs.intro.on('end', function () { this.Play(); }, this);
+	this.dialogs.outro = new Dialog(this.container, 'level' + this.number, 'outro');
 
 	this.json = level;
 
@@ -206,6 +211,10 @@ Level.prototype.Init = function(level) {
 	while (this.next.ready.length > 0) {
 		(this.next.ready.shift())();
 	}
+
+	this.Pause();
+
+	this.dialogs.intro.Display();
 };
 
 Level.prototype.on = function (eventType, callback, self) {
@@ -729,8 +738,9 @@ Level.prototype.Tick = function(length) {
 
 			this.interface.Tick(length);
 
-			this.Draw();
 		}
+		
+		this.Draw();
 	}
 };
 
