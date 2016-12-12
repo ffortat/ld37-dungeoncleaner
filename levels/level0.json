@@ -15,14 +15,14 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "bones":24,
-     "cleaner":2,
-     "coin":2,
+     "bones":16,
+     "cleaner":0,
+     "coin":0,
      "fetcher":2,
      "finallevel":false,
-     "healer":2,
-     "heart":2,
-     "monster":2,
+     "healer":0,
+     "heart":0,
+     "monster":0,
      "objective1":"pot",
      "objective1_quantity":2,
      "objective2":"",
@@ -31,9 +31,9 @@
      "objective3_quantity":0,
      "pot":2,
      "pots":0,
-     "ribs":6,
+     "ribs":4,
      "skeleton":2,
-     "skulls":3,
+     "skulls":2,
      "timer":30
     },
  "propertytypes":

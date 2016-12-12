@@ -327,7 +327,7 @@ Level.prototype.DestroyRoom = function () {
 	}
 
 	for (var i = 0; i < skeletonCount; i += 1) {
-		var resources = ['skulls', 'ribs', 'ribs', 'bones', 'bones', 'bones', 'bones'];
+		var resources = ['skulls', 'ribs', 'ribs', 'bones', 'bones'];
 		var index;
 
 		resources.forEach(function (resource) {
@@ -439,7 +439,6 @@ Level.prototype.AddResources = function (resource) {
 
 	this.resources[resource.name] += resource.amount;
 
-	console.log(resource)
 	this.update();
 };
 

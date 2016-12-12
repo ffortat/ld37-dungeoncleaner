@@ -29,7 +29,7 @@ Resource.prototype.InitResource = function () {
 			this.amount = 3;
 			break;
 		case 'bones':
-			this.amount = 2;
+			this.amount = 4;
 			break;
 		case 'skulls':
 		case 'ribs':

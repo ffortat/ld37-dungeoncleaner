@@ -17,24 +17,24 @@
     {
      "bones":0,
      "cleaner":0,
-     "coin":0,
-     "fetcher":2,
-     "finallevel":false,
+     "coin":2,
+     "fetcher":4,
+     "finallevel":true,
      "healer":0,
-     "heart":0,
-     "monster":0,
+     "heart":2,
+     "monster":2,
      "objective1":"skeleton",
-     "objective1_quantity":2,
+     "objective1_quantity":10,
      "objective2":"pot",
-     "objective2_quantity":4,
+     "objective2_quantity":10,
      "objective3":"",
-     "objective3_quantity":0,
+     "objective3_quantity":4,
      "pot":2,
      "pots":0,
      "ribs":0,
      "skeleton":2,
      "skulls":0,
-     "timer":60
+     "timer":150
     },
  "propertytypes":
     {
