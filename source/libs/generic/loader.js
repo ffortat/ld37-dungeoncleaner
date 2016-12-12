@@ -44,7 +44,9 @@ var load = (function() {
 				ajax.getJSON(uri, function (data) {
 					setloaded(uri, data);
 					callbacks[uri].forEach(function (cb) {
-						cb.func.call(cb.object, data);
+						if (cb.func) {
+							cb.func.call(cb.object, data);
+						}
 					});
 				});
 			} else {

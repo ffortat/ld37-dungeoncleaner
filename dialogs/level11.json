@@ -1,0 +1,17 @@
+{
+	"entrypoint" : "intro",
+	"intro" : {
+		"dialog" : {
+			"text" : [
+				["", "Don’t look at me like that, you won’t have to do it all by your lonesome! You have a team, so use it!"]
+			]
+		}
+	},
+	"outro" : {
+		"dialog" : {
+			"text" : [
+				["", "Not too bad. Now get lost, a hero is coming through!"]
+			]
+		}
+	}
+}

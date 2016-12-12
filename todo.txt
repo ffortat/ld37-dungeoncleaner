@@ -2,7 +2,7 @@
 
 X - key bindings
 X - handle multisquares sprites
-	- text display (narative)
+X - text display (narative)
 	- write basic texts
 
 	- interface fixes

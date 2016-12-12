@@ -8,6 +8,22 @@ function Preloader(renderer) {
 		ready : []
 	};
 
+	load.json('dialogs/level0.json');
+	load.json('dialogs/level1.json');
+	load.json('dialogs/level2.json');
+	load.json('dialogs/level3.json');
+	load.json('dialogs/level4.json');
+	load.json('dialogs/level5.json');
+	load.json('dialogs/level6.json');
+	load.json('dialogs/level7.json');
+	load.json('dialogs/level8.json');
+	load.json('dialogs/level9.json');
+	load.json('dialogs/level10.json');
+	load.json('dialogs/level11.json');
+	load.json('dialogs/level12.json');
+	load.json('dialogs/level13.json');
+	load.json('dialogs/level14.json');
+
 	this.loader = PIXI.loader;
 	this.assets = [
 		['blueprint/background', 'blueprint/background.png'],

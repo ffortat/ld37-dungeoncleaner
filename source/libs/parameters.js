@@ -17,10 +17,10 @@ var parameters = {
 		bordersize : 2,
 		roundness : 5,
 		dimensions : {
-			x : 0,
-			y : 0,
-			width : 800,
-			height : 300
+			x : 160,
+			y : 584,
+			width : 960,
+			height : 128
 		},
 		characterdimensions : {
 			width : 300,

@@ -50,7 +50,9 @@ TextBox.prototype.Init = function (data) {
 
 	data.text.forEach(function (page) {
 		var text = new PIXI.Text(page[1], {fontFamily : this.font, fontSize: this.fontsize, fill : this.fontcolor, wordWrap : true, wordWrapWidth : this.dimensions.width - 20});
-		text.position = new PIXI.Point(this.dimensions.x + 10, this.dimensions.y + 10);
+		// text.position = new PIXI.Point(this.dimensions.x + 10, this.dimensions.y + 10);
+		// center manually
+		text.position = new PIXI.Point(this.dimensions.x + (this.dimensions.width - text.width) / 2, this.dimensions.y + (this.dimensions.height - text.height) / 2);
 		this.pages.push([page[0], text]);
 	}, this);
 
@@ -214,8 +216,9 @@ TextBox.prototype.Lock = function () {
 }
 
 TextBox.prototype.Hide = function () {
+	console.log(this);
 	this.Lock();
-	this.parent.gui.removeChild(this.container);
+	this.parent.removeChild(this.container);
 	this.container.removeChild(this.pages[this.index][1]);
 	if (this.pages[this.index][0]) {
 		this.container.removeChild(this.identities[this.pages[this.index][0]]);
