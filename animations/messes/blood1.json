@@ -1,7 +1,7 @@
 {
-	"default" : "alive",
+	"default" : "present",
 	"animations" : {
-		"dead" : {
+		"present" : {
 			"frames" : [
 				{"tile" : 0}
 			],
@@ -9,7 +9,7 @@
 			"loop" : true,
 			"loopto" : 0
 		},
-		"healing" : {
+		"clearing" : {
 			"frames" : [
 				{"tile" : 0}
 			],
@@ -17,15 +17,7 @@
 			"loop" : true,
 			"loopto" : 0
 		},
-		"healed" : {
-			"frames" : [
-				{"tile" : 0}
-			],
-			"speed" : 20,
-			"loop" : true,
-			"loopto" : 0
-		},
-		"alive" : {
+		"cleared" : {
 			"frames" : [
 				{"tile" : 0}
 			],
@@ -36,15 +28,21 @@
 	},
 	"tilesets" : [
 		{
-			"file" : "stuff/skeleton.png",
+			"file" : [
+				"stuff/blood1-1.png",
+				"stuff/blood1-2.png",
+				"stuff/blood1-3.png",
+				"stuff/blood1-4.png",
+				"stuff/blood1-5.png",
+				"stuff/blood1-6.png"
+			],
 			"tilewidth" : 64,
-			"tileheight" : 127,
+			"tileheight" : 64,
 			"imagewidth" : 64,
-			"imageheight" : 127,
+			"imageheight" : 64,
 			"firstgid" : 0
 		}
 	],
-	"collider" : { "x" : 0, "y" : 64, "width" : 64, "height" : 64 },
 	"stateful" : false,
 	"states" : 0
 }

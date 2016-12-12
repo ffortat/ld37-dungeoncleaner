@@ -21,7 +21,7 @@ Player.prototype.Reset = function () {
 	this.ribs = 0;
 	this.bones = 0;
 
-	this.room = [];
+	this.room = [[], []];
 }
 
 Player.prototype.Update = function (level) {

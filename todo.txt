@@ -1,7 +1,7 @@
 	- assets integration (continuous)
 
 X - key bindings
-	- handle multisquares sprites
+X - handle multisquares sprites
 	- text display (narative)
 	- write basic texts
 

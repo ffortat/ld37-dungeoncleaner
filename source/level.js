@@ -38,7 +38,7 @@ function Level(number, player, renderer) {
 		bones : 0
 	};
 	this.objects = [];
-	this.room = [];
+	this.room = [[], []];
 	this.builder = new Timer(5);
 	this.hoven = new Timer(5);
 
@@ -132,27 +132,42 @@ Level.prototype.Init = function(level) {
 	this.timer = level.properties.timer;
 	this.finallevel = level.properties.finallevel;
 
-	this.room.forEach(function (tileid, index) {
-		var x = index % this.width;
-		var y = Math.floor(index / this.width);
+	this.room.forEach(function (layer) {
+		layer.forEach(function (tileid, index) {
+			var x = index % this.width;
+			var y = Math.floor(index / this.width);
+			var element;
 
-		switch (tileid) {
-			case 'pots' :
-			case 'skulls' :
-			case 'ribs' :
-			case 'bones' :
-				this.AddObject(new Resource(x * level.tilewidth, y * level.tileheight, tileid, this));
-				break;
-			case 'blood' :
-			case 'mud' :
-				this.AddObject(new Mess(x * level.tilewidth, y * level.tileheight, tileid, this));
-				break;
-			case 'monster' :
-				var monster = new Monster(x * level.tilewidth, y * level.tileheight, tileid, this);
-				monster.Kill();
-				this.AddObject(monster);
-				break;
-		}
+			switch (tileid) {
+				case 'pots' :
+				case 'skulls' :
+				case 'ribs' :
+				case 'bones' :
+					element = new Resource(x * level.tilewidth, y * level.tileheight, tileid, this)
+					this.AddObject(element);
+					break;
+				case 'blood0' :
+				case 'blood1' :
+				case 'blood2' :
+				case 'blood4' :
+				case 'mud' :
+					this.AddObject(new Mess(x * level.tilewidth, y * level.tileheight, tileid, this));
+					break;
+				case 'monster' :
+					element = new Monster(x * level.tilewidth, y * level.tileheight, tileid, this)
+					element.Kill();
+					this.AddObject(element);
+					break;
+			}
+
+			if (element) {
+				element.on('load', function () {
+					var x = element.x - (element.width - this.tile.width) / 2;
+					var y = element.y - (element.height - this.tile.height);
+					element.MoveTo(x, y);
+				}, this);
+			}
+		}, this);
 	}, this);
 
 	this.builder.on('end', function () {
@@ -291,17 +306,17 @@ Level.prototype.DestroyRoom = function () {
 	var monsterCount = 0;
 
 	this.objects.forEach(function (object) {
-		var index = Math.floor(object.y / 64) * this.width + Math.floor(object.x / 64);
+		var index = (Math.floor((object.y + object.height - 64) / 64)) * this.width + Math.floor((object.x + object.width / 2) / 64);
 
 		switch (object.name) {
 			case 'pot':
-				this.room[index] = 'pots';
+				this.room[1][index] = 'pots';
 				break;
 			case 'skeleton':
 				skeletonCount += 1;
 				break;
 			case 'monster':
-				this.room[index] = object.name;
+				this.room[1][index] = object.name;
 				monsterCount += 1;
 				break;
 			case 'coin':
@@ -314,16 +329,43 @@ Level.prototype.DestroyRoom = function () {
 		}
 	}, this);
 
+	var amounts = [1, 2, 4];
 	for (var i = 0; i < monsterCount; i += 1) {
-		var index;
+		var x;
+		var y;
+		var check;
 		var tries = 0;
+		var amount = amounts[Math.floor(Math.random() * amounts.length)];
+		// amount = 1;
 
 		do {
-			index = Math.floor(Math.random() * length);
-			tries += 1;
-		} while (this.room[index] && tries < length);
+			x = Math.floor(Math.random() * (this.width - (amount >= 2 ? 1 : 0)));
+			y = Math.floor(Math.random() * (this.height - (amount === 4 ? 1 : 0)));
+			check = false;
 
-		this.room[index] = 'blood';
+			check |= this.room[0][y * this.width + x];
+
+			if (amount >= 2) {
+				check |= this.room[0][y * this.width + x + 1];
+
+				if (amount === 4) {
+					check |= this.room[0][(y + 1) * this.width + x];
+					check |= this.room[0][(y + 1) * this.width + x + 1];
+				}
+			}
+
+			tries += 1;
+		} while (check && tries < length);
+
+		this.room[0][y * this.width + x] = 'blood' + amount;
+		if (amount >= 2) {
+				this.room[0][y * this.width + x + 1] = 'blood';
+
+				if (amount === 4) {
+					this.room[0][(y + 1) * this.width + x] = 'blood';
+					this.room[0][(y + 1) * this.width + x + 1] = 'blood';
+				}
+			}
 	}
 
 	for (var i = 0; i < skeletonCount; i += 1) {
@@ -335,9 +377,9 @@ Level.prototype.DestroyRoom = function () {
 			do {
 				index = Math.floor(Math.random() * length);
 				tries += 1;
-			} while (this.room[index] && tries < length);
+			} while (this.room[1][index] && tries < length);
 
-			this.room[index] = resource;
+			this.room[1][index] = resource;
 		}, this);
 	}
 };
@@ -543,14 +585,21 @@ Level.prototype.Move = function () {
 		var x = mouse.x - this.grid.x;
 		var y = mouse.y - this.grid.y;
 
+		x = Math.floor(x / this.tile.width) * this.tile.width;
+		y = Math.floor(y / this.tile.height) * this.tile.height;
+
 		if (this.character) {
+			x -= (this.character.width - this.tile.width) / 2;
+			y -= (this.character.height - this.tile.height);
 			this.character.Display();
-			this.character.MoveTo(Math.floor(x / this.tile.width) * this.tile.width, Math.floor(y / this.tile.height) * this.tile.height);
+			this.character.MoveTo(x, y);
 		}
 
 		if (this.element) {
+			x -= (this.element.width - this.tile.width) / 2;
+			y -= (this.element.height - this.tile.height);
 			this.element.Display();
-			this.element.MoveTo(Math.floor(x / this.tile.width) * this.tile.width, Math.floor(y / this.tile.height) * this.tile.height);
+			this.element.MoveTo(x, y);
 		}
 	} else {
 		if (this.character) {

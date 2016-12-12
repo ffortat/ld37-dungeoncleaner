@@ -42,6 +42,8 @@ function Animator(x, y, container) {
 	// TODO : consider (x,y) as center
 	this.x = x;
 	this.y = y;
+	this.width = 1;
+	this.height = 1;
 
 	this.tiles = [];
 	this.tilesets = [];
@@ -66,7 +68,14 @@ Animator.prototype.Init = function (data) {
 		var stateTiles = [];
 		var index;
 		var texture = new Image();
-		texture.src = 'textures/' + tileset.file
+		if (tileset.file instanceof Array) {
+			texture.src = 'textures/' + tileset.file[Math.floor(Math.random() * tileset.file.length)];
+		} else {
+			texture.src = 'textures/' + tileset.file
+		}
+
+		this.width = tileset.tilewidth;
+		this.height = tileset.tileheight;
 
 		this.tilesets[set] = {
 			baseTexture : new PIXI.BaseTexture(texture),
@@ -117,10 +126,13 @@ Animator.prototype.Init = function (data) {
 				textureSet.push(currentTexture);
 			}, this);
 
+			var collider = data.collider ? data.collider : data.animations[animation].collider;
+
 			this.animations[state][animation] = new PIXI.extras.MovieClip(textureSet);
 			this.animations[state][animation].animationSpeed = data.animations[animation].speed / 100;
 			this.animations[state][animation].loop = data.animations[animation].loop;
 			this.animations[state][animation].pivot = new PIXI.Point(this.animations[state][animation].width / 2, this.animations[state][animation].height / 2);
+			this.animations[state][animation].collider = collider ? new PIXI.Rectangle(collider.x, collider.y, collider.width, collider.height) : null;
 		}
 	}
 
@@ -188,7 +200,11 @@ Animator.prototype.GetCenter = function () {
 
 Animator.prototype.GetRectangle = function () {
 	if (this.currentAnimation) {
-		return new PIXI.Rectangle(this.x, this.y, this.currentAnimation.width, this.currentAnimation.height);
+		if (this.currentAnimation.collider) {
+			return this.currentAnimation.collider;
+		} else {
+			return new PIXI.Rectangle(this.x, this.y, this.currentAnimation.width, this.currentAnimation.height);
+		}
 	} else {
 		return new PIXI.Rectangle(this.x, this.y, 0, 0);
 	}

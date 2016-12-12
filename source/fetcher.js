@@ -24,7 +24,12 @@ Fetcher.prototype.Act = function (target) {
 	if (target.Fetch()) {
 		this.target = target;
 
-		this.MoveTo(target.x, target.y);
+		var x = Math.floor((target.x + target.width / 2) / 64) * 64
+		var y = Math.floor((target.y + target.height - 64) / 64) * 64
+		x = x - (this.width - this.level.tile.width) / 2;
+		y = y - (this.height - this.level.tile.height);
+		
+		this.MoveTo(x, y);
 
 		this.SwitchToAnim('fetch');
 

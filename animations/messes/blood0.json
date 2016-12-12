@@ -11,7 +11,7 @@
 		},
 		"clearing" : {
 			"frames" : [
-				{"tile" : 1}
+				{"tile" : 0}
 			],
 			"speed" : 20,
 			"loop" : true,
@@ -19,7 +19,7 @@
 		},
 		"cleared" : {
 			"frames" : [
-				{"tile" : 2}
+				{"tile" : 0}
 			],
 			"speed" : 20,
 			"loop" : true,
@@ -28,10 +28,17 @@
 	},
 	"tilesets" : [
 		{
-			"file" : "mess.png",
+			"file" : [
+				"stuff/blood0-1.png",
+				"stuff/blood0-2.png",
+				"stuff/blood0-3.png",
+				"stuff/blood0-4.png",
+				"stuff/blood0-5.png",
+				"stuff/blood0-6.png"
+			],
 			"tilewidth" : 64,
 			"tileheight" : 64,
-			"imagewidth" : 192,
+			"imagewidth" : 64,
 			"imageheight" : 64,
 			"firstgid" : 0
 		}
