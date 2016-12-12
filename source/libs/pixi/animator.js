@@ -154,6 +154,10 @@ Animator.prototype.on = function (eventType, callback, self) {
 	}
 
 	this.listeners[eventType].push({func : callback, object : self});
+
+	if (eventType === 'load' && this.isLoaded) {
+		callback.call(self);
+	}
 }
 
 Animator.prototype.off = function(eventType, callback) {
