@@ -278,19 +278,23 @@ Level.prototype.CenterCamera = function (point) {
 };
 
 Level.prototype.EndLevel = function () {
-	this.ending = true;
+	if (!this.ending) {
+		this.ending = true;
 
-	if (this.CheckObjectives()) {
-		this.dialogs.outro.Display();
-		this.dialogs.outro.on('end', function () {
-			if (this.finallevel) {
-				this.EndGame();
-			} else {
-				this.Victory();
-			}
-		}, this);
-	} else {
-		this.Defeat();
+		console.log('Ending level', this.number)
+
+		if (this.CheckObjectives()) {
+			this.dialogs.outro.Display();
+			this.dialogs.outro.on('end', function () {
+				if (this.finallevel) {
+					this.EndGame();
+				} else {
+					this.Victory();
+				}
+			}, this);
+		} else {
+			this.Defeat();
+		}
 	}
 };
 
@@ -403,7 +407,8 @@ Level.prototype.DestroyRoom = function () {
 
 Level.prototype.EndGame = function () {
 	this.player.Reset();
-	currentScene = new Level(0, this.player, this.renderer);
+	// currentScene = new Level(0, this.player, this.renderer);
+	currentScene = new Menu(this.renderer);
 };
 
 Level.prototype.UpdateObjectives = function (object) {
