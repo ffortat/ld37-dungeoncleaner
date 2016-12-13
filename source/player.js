@@ -43,7 +43,9 @@ Player.prototype.Update = function (level) {
 	this.ribs = level.resources.ribs;
 	this.bones = level.resources.bones;
 
-	this.room = level.room;
+	level.room.forEach(function (item, index) {
+		this.room[index] = item;
+	}, this);
 }
 
 Player.prototype.Setup = function (level) {
@@ -65,5 +67,7 @@ Player.prototype.Setup = function (level) {
 	level.resources.ribs = this.ribs;
 	level.resources.bones = this.bones;
 
-	level.room = this.room;
+	this.room.forEach(function (item, index) {
+		level.room[index] = item;
+	}, this);
 }

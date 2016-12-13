@@ -3,14 +3,46 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Look at the mess they made again…"]
+				["DM", "Stop skullking around and get a mop. And maybe a dustpan. There are bones everywhere."]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
+			]
+		},
+		"followup" : { "dialog" : "tutorial" }
+	},
+	"tutorial" : {
+		"dialog" : {
+			"text" : [
+				["T", "You can also order Fetchers to retrieve skeleton parts."],
+				["T", "You can rebuild skeletons in the Builder. Once you have all the parts, click on the icon in the bottom right of the screen."],
+				["T", "You will be able to add the parts to the blueprint by clicking them on the right."],
+				["T", "You can exit the builder by pressing Escape."]
+			],
+			"characters" : [
+				{
+					"id" : "T",
+					"name" : "Tutorial",
+					"side" : "left"
+				}
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "These skeleton are such wimps… They totally lack guts."]
+				["DM", "Not even a thank you, these skeletons have no manners..."]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
 			]
 		}
 	}

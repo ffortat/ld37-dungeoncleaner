@@ -3,14 +3,44 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Don’t look at me like that, you won’t have to do it all by your lonesome! You have a team, so use it!\n\n*** Tips : You can rebuild pots by collecting it and puting it in the kiln. ***"]
+				["DM", "Why do they always smash the pots! There’s nothing inside, they’re just decorative!"]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
+			]
+		},
+		"followup" : { "dialog" : "tutorial" }
+	},
+	"tutorial" : {
+		"dialog" : {
+			"text" : [
+				["T", "Fetchers can also retrieve broken stuff in the room. Click the top left portrait to select the Fetcher and then click on the broken item to retrieve the fragments."],
+				["T", "You can rebuild pots by clicking on the hoven in the bottom left of the screen."]
+			],
+			"characters" : [
+				{
+					"id" : "T",
+					"name" : "Tutorial",
+					"side" : "left"
+				}
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "Not too bad. Now get lost, a hero is coming through!"]
+				["DM", "She’s here and she’s got an axe, quick!!"]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
 			]
 		}
 	}

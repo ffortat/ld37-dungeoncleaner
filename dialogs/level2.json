@@ -3,14 +3,28 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Why do they always smash the pots! There’s nothing inside, they’re just decorative!"]
+				["DM", "Look at the mess they made again…"]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "She’s here and she’s got an axe, quick!!"]
+				["DM", "These skeleton are such wimps… They totally lack guts."]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
 			]
 		}
 	}

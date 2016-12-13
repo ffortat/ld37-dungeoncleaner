@@ -10,9 +10,10 @@ X - polish interface controls
 
 X - level design (tutorial)
 
+X - don't score time level0
+X - copy room instead of overwrite
 	- textes fin
 	- testes tuto (?)
-	- don't score time level0
 	- endscreen
 
 	- menus

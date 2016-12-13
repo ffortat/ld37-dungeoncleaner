@@ -3,14 +3,47 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Hey you! Yes, you! You’re in charge of cleaning up the 4th room of the Pathway of Doom today. So hurry up and get with it. The next wave of heroes is due any moment now."]
+				["DM", "Hey you! Yes, you! You’re in charge of cleaning up the 4th room of the Pathway of Doom today. So hurry up and get with it. The next wave of heroes is due any moment now."],
+				["DM", "Here we are. The 4th room of the Pathway of Doom. Almost all the paths go through it. Now your task is to make sure that each adventurer has a new, exciting, blood-curling experience!"],
+				["DM", "Don’t look at me like that, you won’t have to do it all by your lonesome! You have a team, so use it!"]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
+			]
+		},
+		"followup" : { "dialog" : "tutorial" }
+	},
+	"tutorial" : {
+		"dialog" : {
+			"text" : [
+				["T", "Click on the pot icon at the bottom of the screen to select the pot tool and place pots in the room."],
+				["T", "Placing an item in the room requires the action of the Fetcher. You can see how many are available next to the top left Employee portrait."],
+				["T", "Once you have completed all the goals given on the top of the screen, a GO button appears. Click it to let the hero enter the room."]
+			],
+			"characters" : [
+				{
+					"id" : "T",
+					"name" : "Tutorial",
+					"side" : "left"
+				}
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "Here we are. The 4th room of the Pathway of Doom. Almost all the paths go through it. Now your task is to make sure that each adventurer has a new, exciting, blood-curling experience!"]
+				["DM", "Not too bad. Now get lost, a hero is coming through!"]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
 			]
 		}
 	}

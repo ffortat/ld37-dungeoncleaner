@@ -3,14 +3,45 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Urgh, they left an imp alive, get him patched up so that he can get killed elsewhere."]
+				["DM", "Management just informed me that the next hero needs a pick me up."],
+				["DM", "Come on, last one and we’re off. Can’t wait to get home to a good episode of the Little Dungeon in the Cavern."]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
+			]
+		},
+		"followup" : { "dialog" : "tutorial" }
+	},
+	"tutorial" : {
+		"dialog" : {
+			"text" : [
+				["T", "You now have gems and hearts to place. They give a bonus score, so use them when you have your highest multiplier!"]
+			],
+			"characters" : [
+				{
+					"id" : "T",
+					"name" : "Tutorial",
+					"side" : "left"
+				}
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "Can’t you hear? Someone’s coming and they don’t sound happy!! "]
+				["DM", "Do you ever wonder WHERE the hearts come from? I try not too."],
+				["DM", "Good job, that was the final wave. Well, for a first day, you did… Wait, someone’s coming... who’s there? YOU’RE NOT SUPPOSED TO BE HERE! Haha, I mean, we’re sorry milady but... the dungeon is, ahem, closed for today… We’re terribly sorry, but, please-don’t-get-angry-please-don’t-get-angry, you have to come back tomo… PLEASE DON’T ATTACK OUR EMPLO… Oh, who’s gonna clean that up now?!!!"]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
 			]
 		}
 	}

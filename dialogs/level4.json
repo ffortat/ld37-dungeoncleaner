@@ -3,14 +3,28 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Stop skullking around and get a mop. And maybe a dustpan. There are bones everywhere."]
+				["DM", "Why do heroes NEVER clean after themselves?"]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "Not even a thank you, these skeletons have no manners... "]
+				["DM", "Quick, or it’s your blood your team will be cleaning!!"]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
 			]
 		}
 	}

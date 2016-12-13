@@ -3,14 +3,44 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Why do heroes NEVER clean after themselves? "]
+				["DM", "Urgh, they left an imp alive, get him patched up so that he can get killed elsewhere."]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
+			]
+		},
+		"followup" : { "dialog" : "tutorial" }
+	},
+	"tutorial" : {
+		"dialog" : {
+			"text" : [
+				["T", "You can revive dead Monsters with the healer."],
+				["T", "Blood pubbles must be cleaned up by the cleaners."]
+			],
+			"characters" : [
+				{
+					"id" : "T",
+					"name" : "Tutorial",
+					"side" : "left"
+				}
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "Quick, or it’s your blood your team will be cleaning!!"]
+				["DM", "Can’t you hear? Someone’s coming and they don’t sound happy!!"]
+			],
+			"characters" : [
+				{
+					"id" : "DM",
+					"name" : "Dungeon Manager",
+					"side" : "left"
+				}
 			]
 		}
 	}

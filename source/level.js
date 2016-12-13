@@ -281,11 +281,14 @@ Level.prototype.EndLevel = function () {
 	this.ending = true;
 
 	if (this.CheckObjectives()) {
-		if (this.finallevel) {
-			this.EndGame();
-		} else {
-			this.Victory();
-		}
+		this.dialogs.outro.Display();
+		this.dialogs.outro.on('end', function () {
+			if (this.finallevel) {
+				this.EndGame();
+			} else {
+				this.Victory();
+			}
+		}, this);
 	} else {
 		this.Defeat();
 	}
@@ -296,7 +299,9 @@ Level.prototype.Victory = function () {
 	if (this.IsClean()) {
 		this.score += this.values.score.clean * this.multiplier;
 	}
-	this.score += Math.floor(this.values.score.time * this.timer) * this.multiplier;
+	if (this.number) {
+		this.score += Math.floor(this.values.score.time * this.timer) * this.multiplier;
+	}
 	this.DestroyRoom();
 	this.multiplier += 1;
 	this.player.Update(this);
@@ -305,6 +310,7 @@ Level.prototype.Victory = function () {
 };
 
 Level.prototype.Defeat = function () {
+	console.log('defeat')
 	this.player.multiplier = 1;
 	currentScene = new Level(this.number, this.player, this.renderer);
 };
@@ -313,6 +319,8 @@ Level.prototype.DestroyRoom = function () {
 	var length = this.width * this.height;
 	var skeletonCount = 0;
 	var monsterCount = 0;
+
+	this.room = [[], []];
 
 	this.objects.forEach(function (object) {
 		var index = (Math.floor((object.y + object.height - 64) / 64)) * this.width + Math.floor((object.x + object.width / 2) / 64);
@@ -484,7 +492,6 @@ Level.prototype.GetObjects = function () {
 
 Level.prototype.AddResources = function (resource) {
 	if (!resource) {
-		console.log('No resource given');
 		return;
 	}
 

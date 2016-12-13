@@ -227,8 +227,6 @@ Animator.prototype.MoveTo = function (x, y) {
 	this.x = x;
 	this.y = y;
 
-	console.log(this.currentAnimationName)
-
 	this.currentAnimation.x = x + this.currentAnimation.width / 2;
 	this.currentAnimation.y = y + this.currentAnimation.height / 2;
 }

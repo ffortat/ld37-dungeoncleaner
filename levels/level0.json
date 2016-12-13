@@ -18,7 +18,7 @@
      "bones":0,
      "cleaner":0,
      "coin":0,
-     "fetcher":0,
+     "fetcher":1,
      "finallevel":false,
      "healer":0,
      "heart":0,

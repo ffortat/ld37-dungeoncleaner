@@ -23,7 +23,7 @@ function Preloader(renderer) {
 	load.json('dialogs/level12.json');
 	load.json('dialogs/level13.json');
 	load.json('dialogs/level14.json');
-	load.json('animations/items/pots.json');
+	load.json('animations/items/pot.json');
 	load.json('animations/messes/blood0.json');
 	load.json('animations/messes/blood1.json');
 	load.json('animations/messes/blood2.json');

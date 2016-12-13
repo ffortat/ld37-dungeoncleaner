@@ -11,7 +11,6 @@ function Monster(x, y, name, level) {
 	this.state = this.states.alive;
 	this.name = name;
 	this.level = level;
-	console.log('set as', this.state);
 
 	this.duration = {
 		skeleton : 3,
@@ -44,7 +43,6 @@ Monster.prototype.healed = function () {
 
 	this.listeners['healed'] = [];
 
-	console.log('set as', this.state);
 	this.SwitchToAnim(this.state);
 
 	this.Hide();
@@ -61,7 +59,6 @@ Monster.prototype.placed = function () {
 	}
 
 	this.listeners['placed'] = [];
-	console.log('set as', this.state);
 
 	this.SwitchToAnim(this.state);
 }
@@ -75,7 +72,6 @@ Monster.prototype.Kill = function () {
 	this.state = this.states.dead;
 	this.SwitchToAnim(this.state);
 
-	console.log('set as', this.state);
 
 	return true;
 }
@@ -97,7 +93,6 @@ Monster.prototype.Place = function () {
 }
 
 Monster.prototype.Heal = function () {
-	console.log('set as', this.state);
 	if (this.state !== this.states.dead) {
 		console.log('Monster is already in state', this.state);
 		return false;
@@ -106,7 +101,6 @@ Monster.prototype.Heal = function () {
 	this.state = this.states.clearing;
 	this.heal.Start();
 	this.SwitchToAnim(this.state);
-	console.log('set as', this.state);
 
 	return true;
 }
@@ -119,7 +113,6 @@ Monster.prototype.Respawn = function () {
 
 	this.state = this.states.alive;
 	this.SwitchToAnim(this.state);
-	console.log('set as', this.state);
 
 	return true;
 }

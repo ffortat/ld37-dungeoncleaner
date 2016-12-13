@@ -119,11 +119,12 @@ Dialog.prototype.Init = function (data, dialog) {
 			self.end();
 
 			if (data[dialog].followup) {
+				console.log(data[dialog].followup.file, this.file)
 				var file = data[dialog].followup.file ? data[dialog].followup.file : this.file;
 				var followup = new Dialog(self.parent, file, data[dialog].followup.dialog);
 				followup.Display();
 			}
-		});
+		}, this);
 	}
 
 	if (this.file === 'introduction') {

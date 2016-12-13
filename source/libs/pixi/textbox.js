@@ -100,7 +100,7 @@ TextBox.prototype.Init = function (data) {
 		}, this);
 	}
 
-	if (this.pages.length > 2) {
+	if (this.pages.length > 200) {
 		var skip = new PIXI.Graphics();
 		var text = new PIXI.Text('Skip', {fontFamily : this.font, fontSize: this.fontsize, fill : this.fontcolor});
 
