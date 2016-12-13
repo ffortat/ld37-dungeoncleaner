@@ -1,7 +1,7 @@
 {
-	"default" : "idle",
+	"default" : "fetch",
 	"animations" : {
-		"idle" : {
+		"fetch" : {
 			"frames" : [
 				{"tile" : 0}
 			],
@@ -9,10 +9,9 @@
 			"loop" : true,
 			"loopto" : 0
 		},
-		"fetch" : {
+		"place" : {
 			"frames" : [
-				{"tile" : 1},
-				{"tile" : 2}
+				{"tile" : 1}
 			],
 			"speed" : 20,
 			"loop" : true,
@@ -22,13 +21,14 @@
 	"tilesets" : [
 		{
 			"file" : "fetcher.png",
-			"tilewidth" : 64,
-			"tileheight" : 128,
-			"imagewidth" : 192,
-			"imageheight" : 128,
+			"tilewidth" : 128,
+			"tileheight" : 160,
+			"imagewidth" : 256,
+			"imageheight" : 160,
 			"firstgid" : 0
 		}
 	],
+	"collider" : { "x" : 32, "y" : 96, "width" : 64, "height" : 64 },
 	"stateful" : false,
 	"states" : 0
 }

@@ -109,7 +109,7 @@ Level.prototype.Init = function(level) {
 	this.tile.width = level.tilewidth;
 	this.tile.height = level.tileheight;
 
-	var background = PIXI.Sprite.fromImage('textures/background.jpg');
+	var background = PIXI.Sprite.fromImage('textures/background.png');
 	this.map.addChild(background);
 
 	this.player.Setup(this);
@@ -653,12 +653,24 @@ Level.prototype.UseWorker = function (element) {
 };
 
 Level.prototype.UseStuff = function () {
-	this.AddObject(this.element);
-	this.UpdateObjectives(this.element);
-	this.stuff[this.element.name] -= 1;
-	this.element = null;
-	
-	this.update();
+	if (this.workers.fetcher) {
+		var stuff = this.element;
+		var character = new Fetcher(-1 * this.tile.width, 0, this);
+		character.Act(this.element);
+		this.workers.fetcher -= 1;
+
+		this.element.on('placed', function () {
+			stuff.Display();
+			this.UpdateObjectives(stuff);
+		}, this);
+
+		this.element.Hide();
+		this.AddObject(this.element);
+		this.stuff[this.element.name] -= 1;
+		this.element = null;
+		
+		this.update();
+	}
 }
 
 Level.prototype.RemoveWorker = function (worker) {

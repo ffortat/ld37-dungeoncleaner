@@ -78,9 +78,15 @@ Resource.prototype.Fetch = function () {
 
 	this.state = this.states.clearing;
 	this.timer = this.duration;
-	this.SwitchToAnim(this.state);
+	// this.SwitchToAnim(this.state);
+	// hack
+	this.Hide();
 
 	return true;
+}
+
+Resource.prototype.Place = function () {
+	return false;
 }
 
 Resource.prototype.Fix = function () {

@@ -3,14 +3,14 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Don’t look at me like that, you won’t have to do it all by your lonesome! You have a team, so use it!"]
+				["", "Why do they always smash the pots! There’s nothing inside, they’re just decorative!"]
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "Not too bad. Now get lost, a hero is coming through!"]
+				["", "She’s here and she’s got an axe, quick!!"]
 			]
 		}
 	}

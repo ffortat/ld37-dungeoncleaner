@@ -32,10 +32,18 @@ function Preloader(renderer) {
 		['blueprint/leg', 'blueprint/leg.png'],
 		['blueprint/arm', 'blueprint/arm.png'],
 		['gui/background', 'gui/background.png'],
-		['gui/fetcher', 'gui/fetcher.png'],
+		['gui/bone', 'gui/bone.png'],
 		['gui/cleaner', 'gui/cleaner.png'],
+		['gui/fetcher', 'gui/fetcher.png'],
 		['gui/healer', 'gui/healer.png'],
+		['gui/heart', 'gui/heart.png'],
+		['gui/monster', 'gui/monster.png'],
+		['gui/pot', 'gui/pot.png'],
+		['gui/rib', 'gui/rib.png'],
+		['gui/selected', 'gui/selected.png'],
 		['gui/shortcut', 'gui/shortcut.png'],
+		['gui/skeleton', 'gui/skeleton.png'],
+		['gui/skull', 'gui/skull.png'],
 		['stuff/blood0-1', 'stuff/blood0-1.png'],
 		['stuff/blood0-2', 'stuff/blood0-2.png'],
 		['stuff/blood0-3', 'stuff/blood0-3.png'],
@@ -60,7 +68,7 @@ function Preloader(renderer) {
 		['stuff/rib', 'stuff/rib.png'],
 		['stuff/skeleton', 'stuff/skeleton.png'],
 		['stuff/skull', 'stuff/skull.png'],
-		['background', 'background.jpg'],
+		['background', 'background.png'],
 		['boneicon', 'boneicon.png'],
 		['bones', 'bones.png'],
 		['builder', 'builder.png'],
@@ -91,6 +99,7 @@ function Preloader(renderer) {
 	text.position = new PIXI.Point((this.renderer.width - text.width) / 2, this.renderer.height - text.height - 20);
 	// console.log(text)
 
+	// load.ready(this.Init, this);
 	this.Init();
 }
 

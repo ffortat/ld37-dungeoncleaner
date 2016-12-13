@@ -3,14 +3,14 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Don’t look at me like that, you won’t have to do it all by your lonesome! You have a team, so use it!"]
+				["", "Management just informed me that the next hero needs a pick me up."]
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "Not too bad. Now get lost, a hero is coming through!"]
+				["", "Do you ever wonder WHERE the hearts come from? I try not too."]
 			]
 		}
 	}

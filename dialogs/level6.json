@@ -3,14 +3,14 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Don’t look at me like that, you won’t have to do it all by your lonesome! You have a team, so use it!"]
+				["", "Urgh, they left an imp alive, get him patched up so that he can get killed elsewhere."]
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "Not too bad. Now get lost, a hero is coming through!"]
+				["", "Can’t you hear? Someone’s coming and they don’t sound happy!! "]
 			]
 		}
 	}

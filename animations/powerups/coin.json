@@ -3,8 +3,7 @@
 	"animations" : {
 		"idle" : {
 			"frames" : [
-				{"tile" : 0},
-				{"tile" : 1}
+				{"tile" : 0}
 			],
 			"speed" : 20,
 			"loop" : true,
@@ -13,11 +12,11 @@
 	},
 	"tilesets" : [
 		{
-			"file" : "coin.png",
+			"file" : "stuff/coin.png",
 			"tilewidth" : 64,
-			"tileheight" : 64,
-			"imagewidth" : 128,
-			"imageheight" : 64,
+			"tileheight" : 96,
+			"imagewidth" : 64,
+			"imageheight" : 96,
 			"firstgid" : 0
 		}
 	],

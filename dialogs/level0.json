@@ -3,14 +3,14 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Don’t look at me like that, you won’t have to do it all by your lonesome! You have a team, so use it!"]
+				["", "Hey you! Yes, you! You’re in charge of cleaning up the 4th room of the Pathway of Doom today. So hurry up and get with it. The next wave of heroes is due any moment now."]
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "Not too bad. Now get lost, a hero is coming through!"]
+				["", "Here we are. The 4th room of the Pathway of Doom. Almost all the paths go through it. Now your task is to make sure that each adventurer has a new, exciting, blood-curling experience!"]
 			]
 		}
 	}

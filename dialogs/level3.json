@@ -3,14 +3,14 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Don’t look at me like that, you won’t have to do it all by your lonesome! You have a team, so use it!"]
+				["", "Look at the mess they made again…"]
 			]
 		}
 	},
 	"outro" : {
 		"dialog" : {
 			"text" : [
-				["", "Not too bad. Now get lost, a hero is coming through!"]
+				["", "These skeleton are such wimps… They totally lack guts."]
 			]
 		}
 	}

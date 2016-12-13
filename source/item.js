@@ -26,16 +26,16 @@ Item.prototype.constructor = Item;
 
 // }
 
-Item.prototype.cleared = function () {
-	this.state = this.states.cleared;
+Item.prototype.placed = function () {
+	this.state = this.states.fixed;
 
-	if (this.listeners['cleared']) {
-		this.listeners['cleared'].forEach(function (callback) {
+	if (this.listeners['placed']) {
+		this.listeners['placed'].forEach(function (callback) {
 			callback.func.call(callback.object);
 		}, this);
 	}
 
-	this.listeners['cleared'] = [];
+	this.listeners['placed'] = [];
 
 	this.SwitchToAnim(this.state);
 }
@@ -52,18 +52,21 @@ Item.prototype.Break = function () {
 	return true;
 }
 
-// Item.prototype.Fetch = function () {
-// 	if (this.state !== this.states.broken) {
-// 		console.log('Item is already in state', this.state);
-// 		return false;
-// 	}
+Item.prototype.Fetch = function () {
+	return false;
+}
 
-// 	this.state = this.states.clearing;
-// 	this.timer = this.duration;
-// 	this.SwitchToAnim(this.state);
+Item.prototype.Place = function () {
+	if (this.state !== this.states.fixed) {
+		console.log('Item is not ready');
+		return false;
+	}
 
-// 	return true;
-// }
+	this.timer = this.duration;
+	this.SwitchToAnim(this.state);
+
+	return true;
+}
 
 Item.prototype.Fix = function () {
 	if (this.state !== this.states.cleared) {
@@ -83,7 +86,7 @@ Item.prototype.Tick = function (length) {
 
 		if (this.timer <= 0) {
 			this.timer = 0;
-			this.cleared();
+			this.placed();
 		}
 	}
 }

@@ -44,7 +44,7 @@
 			"firstgid" : 0
 		}
 	],
-	"collider" : { "x" : 0, "y" : 64, "width" : 64, "height" : 64 },
+	"collider" : { "x" : 0, "y" : 63, "width" : 64, "height" : 64 },
 	"stateful" : false,
 	"states" : 0
 }

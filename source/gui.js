@@ -116,31 +116,31 @@ GUI.prototype.Init = function () {
 	this.buttons.healer.keybind.position = new PIXI.Point((this.buttons.healer.shortcut.width - this.buttons.healer.keybind.width) / 2, (this.buttons.healer.shortcut.height - this.buttons.healer.keybind.height) / 2);
 	this.buttons.healer.shortcut.addChild(this.buttons.healer.keybind);
 
-	this.buttons.pot.container = new PIXI.Container();
-	this.buttons.pot.container.scale.x = -1;
-	this.buttons.pot.container.position = new PIXI.Point(renderer.width + 38, 0);
-	this.buttons.pot.background = PIXI.Sprite.fromImage('textures/gui/background.png');
-	this.buttons.pot.background.position = new PIXI.Point(11, 32);
-	this.buttons.pot.container.addChild(this.buttons.pot.background);
+	// this.buttons.pot.container = new PIXI.Container();
+	// this.buttons.pot.container.scale.x = -1;
+	// this.buttons.pot.container.position = new PIXI.Point(renderer.width + 38, 0);
+	// this.buttons.pot.background = PIXI.Sprite.fromImage('textures/gui/background.png');
+	// this.buttons.pot.background.position = new PIXI.Point(11, 32);
+	// this.buttons.pot.container.addChild(this.buttons.pot.background);
 	this.buttons.pot.sprite = PIXI.Sprite.fromImage('textures/gui/pot.png');
-	this.buttons.pot.sprite.position = new PIXI.Point(35, 55);
-	this.buttons.pot.container.addChild(this.buttons.pot.sprite);
-	this.buttons.pot.collider = new PIXI.Rectangle(this.buttons.pot.container.x + this.buttons.pot.container.width, this.buttons.pot.container.y, -this.buttons.pot.container.width, this.buttons.pot.container.height);
-	this.buttons.pot.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
-	this.buttons.pot.counter.scale.x = -1;
-	this.buttons.pot.counter.position = new PIXI.Point(113 + (20 - this.buttons.pot.counter.width) / 2 + this.buttons.pot.counter.width, 59 + (16 - this.buttons.pot.counter.height) / 2);
-	this.buttons.pot.container.addChild(this.buttons.pot.counter);
-	this.buttons.pot.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
-	this.buttons.pot.shortcut.position = new PIXI.Point(80, 96);
-	this.buttons.pot.container.addChild(this.buttons.pot.shortcut);
-	this.buttons.pot.keybind = new PIXI.Text('1', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
-	this.buttons.pot.keybind.scale.x = -1;
-	this.buttons.pot.keybind.position = new PIXI.Point((this.buttons.pot.shortcut.width - this.buttons.pot.keybind.width) / 2 + this.buttons.pot.keybind.width, (this.buttons.pot.shortcut.height - this.buttons.pot.keybind.height) / 2);
-	this.buttons.pot.shortcut.addChild(this.buttons.pot.keybind);
+	this.buttons.pot.sprite.position = new PIXI.Point(150, 618);
+	// this.buttons.pot.container.addChild(this.buttons.pot.sprite);
+	this.buttons.pot.collider = new PIXI.Rectangle(this.buttons.pot.sprite.x, this.buttons.pot.sprite.y, this.buttons.pot.sprite.width, this.buttons.pot.sprite.height);
+	this.buttons.pot.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0x111111});
+	// this.buttons.pot.counter.scale.x = -1;
+	this.buttons.pot.counter.position = new PIXI.Point(62, 70);
+	this.buttons.pot.sprite.addChild(this.buttons.pot.counter);
+	// this.buttons.pot.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
+	// this.buttons.pot.shortcut.position = new PIXI.Point(80, 96);
+	// this.buttons.pot.container.addChild(this.buttons.pot.shortcut);
+	// this.buttons.pot.keybind = new PIXI.Text('1', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
+	// this.buttons.pot.keybind.scale.x = -1;
+	// this.buttons.pot.keybind.position = new PIXI.Point((this.buttons.pot.shortcut.width - this.buttons.pot.keybind.width) / 2 + this.buttons.pot.keybind.width, (this.buttons.pot.shortcut.height - this.buttons.pot.keybind.height) / 2);
+	// this.buttons.pot.shortcut.addChild(this.buttons.pot.keybind);
 
 	this.buttons.skeleton.container = new PIXI.Container();
 	this.buttons.skeleton.container.scale.x = -1;
-	this.buttons.skeleton.container.position = new PIXI.Point(renderer.width + 38, 128);
+	this.buttons.skeleton.container.position = new PIXI.Point(renderer.width + 38, 0);
 	this.buttons.skeleton.background = PIXI.Sprite.fromImage('textures/gui/background.png');
 	this.buttons.skeleton.background.position = new PIXI.Point(11, 32);
 	this.buttons.skeleton.container.addChild(this.buttons.skeleton.background);
@@ -154,14 +154,14 @@ GUI.prototype.Init = function () {
 	this.buttons.skeleton.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
 	this.buttons.skeleton.shortcut.position = new PIXI.Point(80, 96);
 	this.buttons.skeleton.container.addChild(this.buttons.skeleton.shortcut);
-	this.buttons.skeleton.keybind = new PIXI.Text('2', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
+	this.buttons.skeleton.keybind = new PIXI.Text('1', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
 	this.buttons.skeleton.keybind.scale.x = -1;
 	this.buttons.skeleton.keybind.position = new PIXI.Point((this.buttons.skeleton.shortcut.width - this.buttons.skeleton.keybind.width) / 2 + this.buttons.skeleton.keybind.width, (this.buttons.skeleton.shortcut.height - this.buttons.skeleton.keybind.height) / 2);
 	this.buttons.skeleton.shortcut.addChild(this.buttons.skeleton.keybind);
 
 	this.buttons.monster.container = new PIXI.Container();
 	this.buttons.monster.container.scale.x = -1;
-	this.buttons.monster.container.position = new PIXI.Point(renderer.width + 38, 256);
+	this.buttons.monster.container.position = new PIXI.Point(renderer.width + 38, 128);
 	this.buttons.monster.background = PIXI.Sprite.fromImage('textures/gui/background.png');
 	this.buttons.monster.background.position = new PIXI.Point(11, 32);
 	this.buttons.monster.container.addChild(this.buttons.monster.background);
@@ -175,54 +175,54 @@ GUI.prototype.Init = function () {
 	this.buttons.monster.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
 	this.buttons.monster.shortcut.position = new PIXI.Point(80, 96);
 	this.buttons.monster.container.addChild(this.buttons.monster.shortcut);
-	this.buttons.monster.keybind = new PIXI.Text('3', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
+	this.buttons.monster.keybind = new PIXI.Text('2', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
 	this.buttons.monster.keybind.scale.x = -1;
 	this.buttons.monster.keybind.position = new PIXI.Point((this.buttons.monster.shortcut.width - this.buttons.monster.keybind.width) / 2 + this.buttons.monster.keybind.width, (this.buttons.monster.shortcut.height - this.buttons.monster.keybind.height) / 2);
 	this.buttons.monster.shortcut.addChild(this.buttons.monster.keybind);
 
-	this.buttons.coin.container = new PIXI.Container();
-	this.buttons.coin.container.scale.x = -1;
-	this.buttons.coin.container.position = new PIXI.Point(renderer.width + 38, 384);
-	this.buttons.coin.background = PIXI.Sprite.fromImage('textures/gui/background.png');
-	this.buttons.coin.background.position = new PIXI.Point(11, 32);
-	this.buttons.coin.container.addChild(this.buttons.coin.background);
+	// this.buttons.coin.container = new PIXI.Container();
+	// this.buttons.coin.container.scale.x = -1;
+	// this.buttons.coin.container.position = new PIXI.Point(renderer.width + 38, 384);
+	// this.buttons.coin.background = PIXI.Sprite.fromImage('textures/gui/background.png');
+	// this.buttons.coin.background.position = new PIXI.Point(11, 32);
+	// this.buttons.coin.container.addChild(this.buttons.coin.background);
 	this.buttons.coin.sprite = PIXI.Sprite.fromImage('textures/gui/coin.png');
-	this.buttons.coin.sprite.position = new PIXI.Point(35, 35);
-	this.buttons.coin.container.addChild(this.buttons.coin.sprite);
-	this.buttons.coin.collider = new PIXI.Rectangle(this.buttons.coin.container.x + this.buttons.coin.container.width, this.buttons.coin.container.y, -this.buttons.coin.container.width, this.buttons.coin.container.height);
-	this.buttons.coin.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
-	this.buttons.coin.counter.scale.x = -1;
-	this.buttons.coin.counter.position = new PIXI.Point(113 + (20 - this.buttons.coin.counter.width) / 2 + this.buttons.coin.counter.width, 59 + (16 - this.buttons.coin.counter.height) / 2);
-	this.buttons.coin.container.addChild(this.buttons.coin.counter);
-	this.buttons.coin.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
-	this.buttons.coin.shortcut.position = new PIXI.Point(80, 96);
-	this.buttons.coin.container.addChild(this.buttons.coin.shortcut);
-	this.buttons.coin.keybind = new PIXI.Text('4', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
-	this.buttons.coin.keybind.scale.x = -1;
-	this.buttons.coin.keybind.position = new PIXI.Point((this.buttons.coin.shortcut.width - this.buttons.coin.keybind.width) / 2 + this.buttons.coin.keybind.width, (this.buttons.coin.shortcut.height - this.buttons.coin.keybind.height) / 2);
-	this.buttons.coin.shortcut.addChild(this.buttons.coin.keybind);
+	this.buttons.coin.sprite.position = new PIXI.Point(350, 630);
+	// this.buttons.coin.container.addChild(this.buttons.coin.sprite);
+	this.buttons.coin.collider = new PIXI.Rectangle(this.buttons.coin.sprite.x, this.buttons.coin.sprite.y, this.buttons.coin.sprite.width, this.buttons.coin.sprite.height);
+	this.buttons.coin.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0x111111});
+	// this.buttons.coin.counter.scale.x = -1;
+	this.buttons.coin.counter.position = new PIXI.Point(54, 58);
+	this.buttons.coin.sprite.addChild(this.buttons.coin.counter);
+	// this.buttons.coin.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
+	// this.buttons.coin.shortcut.position = new PIXI.Point(80, 96);
+	// this.buttons.coin.container.addChild(this.buttons.coin.shortcut);
+	// this.buttons.coin.keybind = new PIXI.Text('4', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
+	// this.buttons.coin.keybind.scale.x = -1;
+	// this.buttons.coin.keybind.position = new PIXI.Point((this.buttons.coin.shortcut.width - this.buttons.coin.keybind.width) / 2 + this.buttons.coin.keybind.width, (this.buttons.coin.shortcut.height - this.buttons.coin.keybind.height) / 2);
+	// this.buttons.coin.shortcut.addChild(this.buttons.coin.keybind);
 
-	this.buttons.heart.container = new PIXI.Container();
-	this.buttons.heart.container.scale.x = -1;
-	this.buttons.heart.container.position = new PIXI.Point(renderer.width + 38, 512);
-	this.buttons.heart.background = PIXI.Sprite.fromImage('textures/gui/background.png');
-	this.buttons.heart.background.position = new PIXI.Point(11, 32);
-	this.buttons.heart.container.addChild(this.buttons.heart.background);
+	// this.buttons.heart.container = new PIXI.Container();
+	// this.buttons.heart.container.scale.x = -1;
+	// this.buttons.heart.container.position = new PIXI.Point(renderer.width + 38, 512);
+	// this.buttons.heart.background = PIXI.Sprite.fromImage('textures/gui/background.png');
+	// this.buttons.heart.background.position = new PIXI.Point(11, 32);
+	// this.buttons.heart.container.addChild(this.buttons.heart.background);
 	this.buttons.heart.sprite = PIXI.Sprite.fromImage('textures/gui/heart.png');
-	this.buttons.heart.sprite.position = new PIXI.Point(35, 55);
-	this.buttons.heart.container.addChild(this.buttons.heart.sprite);
-	this.buttons.heart.collider = new PIXI.Rectangle(this.buttons.heart.container.x + this.buttons.heart.container.width, this.buttons.heart.container.y, -this.buttons.heart.container.width, this.buttons.heart.container.height);
-	this.buttons.heart.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
-	this.buttons.heart.counter.scale.x = -1;
-	this.buttons.heart.counter.position = new PIXI.Point(113 + (20 - this.buttons.heart.counter.width) / 2 + this.buttons.heart.counter.width, 59 + (16 - this.buttons.heart.counter.height) / 2);
-	this.buttons.heart.container.addChild(this.buttons.heart.counter);
-	this.buttons.heart.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
-	this.buttons.heart.shortcut.position = new PIXI.Point(80, 96);
-	this.buttons.heart.container.addChild(this.buttons.heart.shortcut);
-	this.buttons.heart.keybind = new PIXI.Text('5', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
-	this.buttons.heart.keybind.scale.x = -1;
-	this.buttons.heart.keybind.position = new PIXI.Point((this.buttons.heart.shortcut.width - this.buttons.heart.keybind.width) / 2 + this.buttons.heart.keybind.width, (this.buttons.heart.shortcut.height - this.buttons.heart.keybind.height) / 2);
-	this.buttons.heart.shortcut.addChild(this.buttons.heart.keybind);
+	this.buttons.heart.sprite.position = new PIXI.Point(258, 655);
+	// this.buttons.heart.container.addChild(this.buttons.heart.sprite);
+	this.buttons.heart.collider = new PIXI.Rectangle(this.buttons.heart.sprite.x, this.buttons.heart.sprite.y, this.buttons.heart.sprite.width, this.buttons.heart.sprite.height);
+	this.buttons.heart.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0x111111});
+	// this.buttons.heart.counter.scale.x = -1;
+	this.buttons.heart.counter.position = new PIXI.Point(50, 33);
+	this.buttons.heart.sprite.addChild(this.buttons.heart.counter);
+	// this.buttons.heart.shortcut = PIXI.Sprite.fromImage('textures/gui/shortcut.png');
+	// this.buttons.heart.shortcut.position = new PIXI.Point(80, 96);
+	// this.buttons.heart.container.addChild(this.buttons.heart.shortcut);
+	// this.buttons.heart.keybind = new PIXI.Text('5', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xDDDDDD});
+	// this.buttons.heart.keybind.scale.x = -1;
+	// this.buttons.heart.keybind.position = new PIXI.Point((this.buttons.heart.shortcut.width - this.buttons.heart.keybind.width) / 2 + this.buttons.heart.keybind.width, (this.buttons.heart.shortcut.height - this.buttons.heart.keybind.height) / 2);
+	// this.buttons.heart.shortcut.addChild(this.buttons.heart.keybind);
 
 	this.buttons.skull.container = new PIXI.Container();
 	this.buttons.skull.container.scale.x = -1;
@@ -290,72 +290,76 @@ GUI.prototype.Init = function () {
 	this.buttons.bone.keybind.position = new PIXI.Point((this.buttons.bone.shortcut.width - this.buttons.bone.keybind.width) / 2 + this.buttons.bone.keybind.width, (this.buttons.bone.shortcut.height - this.buttons.bone.keybind.height) / 2);
 	this.buttons.bone.shortcut.addChild(this.buttons.bone.keybind);
 
-	this.resources.pots.sprite = PIXI.Sprite.fromImage('textures/pots.png');
-	this.resources.pots.sprite.position = new PIXI.Point(0, 436);
-	this.resources.pots.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
-	this.resources.pots.counter.position = new PIXI.Point(this.resources.pots.sprite.width, this.resources.pots.sprite.height - 5 - this.resources.pots.counter.height);
-	this.resources.pots.background = new PIXI.Graphics();
-	this.resources.pots.background.position = new PIXI.Point(this.resources.pots.counter.x - 5, this.resources.pots.counter.y - 2);
-	this.resources.pots.background.beginFill(0xFFFFFF, 1)
-	this.resources.pots.background.drawRoundedRect(0, 0, this.resources.pots.counter.width + 10, this.resources.pots.counter.height + 4, 5);
-	this.resources.pots.sprite.addChild(this.resources.pots.background);
-	this.resources.pots.sprite.addChild(this.resources.pots.counter);
+	// this.resources.pots.sprite = PIXI.Sprite.fromImage('textures/pots.png');
+	// this.resources.pots.sprite.position = new PIXI.Point(0, 436);
+	this.resources.pots.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 18, fontWeight : 'bold', fill : 0x111111});
+	this.resources.pots.counter.position = new PIXI.Point(43, 568);
+	// this.resources.pots.background = new PIXI.Graphics();
+	// this.resources.pots.background.position = new PIXI.Point(this.resources.pots.counter.x - 5, this.resources.pots.counter.y - 2);
+	// this.resources.pots.background.beginFill(0xFFFFFF, 1)
+	// this.resources.pots.background.drawRoundedRect(0, 0, this.resources.pots.counter.width + 10, this.resources.pots.counter.height + 4, 5);
+	// this.resources.pots.sprite.addChild(this.resources.pots.background);
+	// this.resources.pots.sprite.addChild(this.resources.pots.counter);
 
-	this.resources.skulls.sprite = PIXI.Sprite.fromImage('textures/skulls.png');
-	this.resources.skulls.sprite.position = new PIXI.Point(0, 472);
-	this.resources.skulls.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
-	this.resources.skulls.counter.position = new PIXI.Point(this.resources.skulls.sprite.width, this.resources.skulls.sprite.height - 5 - this.resources.skulls.counter.height);
-	this.resources.skulls.background = new PIXI.Graphics();
-	this.resources.skulls.background.position = new PIXI.Point(this.resources.skulls.counter.x - 5, this.resources.skulls.counter.y - 2);
-	this.resources.skulls.background.beginFill(0xFFFFFF, 1)
-	this.resources.skulls.background.drawRoundedRect(0, 0, this.resources.skulls.counter.width + 10, this.resources.skulls.counter.height + 4, 5);
-	this.resources.skulls.sprite.addChild(this.resources.skulls.background);
-	this.resources.skulls.sprite.addChild(this.resources.skulls.counter);
+	// this.resources.skulls.sprite = PIXI.Sprite.fromImage('textures/skulls.png');
+	// this.resources.skulls.sprite.position = new PIXI.Point(0, 472);
+	this.resources.skulls.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 18, fontWeight : 'bold', fill : 0x111111});
+	this.resources.skulls.counter.position = new PIXI.Point(1212, 471);
+	// this.resources.skulls.background = new PIXI.Graphics();
+	// this.resources.skulls.background.position = new PIXI.Point(this.resources.skulls.counter.x - 5, this.resources.skulls.counter.y - 2);
+	// this.resources.skulls.background.beginFill(0xFFFFFF, 1)
+	// this.resources.skulls.background.drawRoundedRect(0, 0, this.resources.skulls.counter.width + 10, this.resources.skulls.counter.height + 4, 5);
+	// this.resources.skulls.sprite.addChild(this.resources.skulls.background);
+	// this.resources.skulls.sprite.addChild(this.resources.skulls.counter);
 
-	this.resources.ribs.sprite = PIXI.Sprite.fromImage('textures/ribs.png');
-	this.resources.ribs.sprite.position = new PIXI.Point(0, 508);
-	this.resources.ribs.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
-	this.resources.ribs.counter.position = new PIXI.Point(this.resources.ribs.sprite.width, this.resources.ribs.sprite.height - 5 - this.resources.ribs.counter.height);
-	this.resources.ribs.background = new PIXI.Graphics();
-	this.resources.ribs.background.position = new PIXI.Point(this.resources.ribs.counter.x - 5, this.resources.ribs.counter.y - 2);
-	this.resources.ribs.background.beginFill(0xFFFFFF, 1)
-	this.resources.ribs.background.drawRoundedRect(0, 0, this.resources.ribs.counter.width + 10, this.resources.ribs.counter.height + 4, 5);
-	this.resources.ribs.sprite.addChild(this.resources.ribs.background);
-	this.resources.ribs.sprite.addChild(this.resources.ribs.counter);
+	// this.resources.ribs.sprite = PIXI.Sprite.fromImage('textures/ribs.png');
+	// this.resources.ribs.sprite.position = new PIXI.Point(0, 508);
+	this.resources.ribs.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 18, fontWeight : 'bold', fill : 0x111111});
+	this.resources.ribs.counter.position = new PIXI.Point(1212, 519);
+	// this.resources.ribs.background = new PIXI.Graphics();
+	// this.resources.ribs.background.position = new PIXI.Point(this.resources.ribs.counter.x - 5, this.resources.ribs.counter.y - 2);
+	// this.resources.ribs.background.beginFill(0xFFFFFF, 1)
+	// this.resources.ribs.background.drawRoundedRect(0, 0, this.resources.ribs.counter.width + 10, this.resources.ribs.counter.height + 4, 5);
+	// this.resources.ribs.sprite.addChild(this.resources.ribs.background);
+	// this.resources.ribs.sprite.addChild(this.resources.ribs.counter);
 
-	this.resources.bones.sprite = PIXI.Sprite.fromImage('textures/bones.png');
-	this.resources.bones.sprite.position = new PIXI.Point(0, 544);
-	this.resources.bones.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
-	this.resources.bones.counter.position = new PIXI.Point(this.resources.bones.sprite.width, this.resources.bones.sprite.height - 5 - this.resources.bones.counter.height);
-	this.resources.bones.background = new PIXI.Graphics();
-	this.resources.bones.background.position = new PIXI.Point(this.resources.bones.counter.x - 5, this.resources.bones.counter.y - 2);
-	this.resources.bones.background.beginFill(0xFFFFFF, 1)
-	this.resources.bones.background.drawRoundedRect(0, 0, this.resources.bones.counter.width + 10, this.resources.bones.counter.height + 4, 5);
-	this.resources.bones.sprite.addChild(this.resources.bones.background);
-	this.resources.bones.sprite.addChild(this.resources.bones.counter);
+	// this.resources.bones.sprite = PIXI.Sprite.fromImage('textures/bones.png');
+	// this.resources.bones.sprite.position = new PIXI.Point(0, 544);
+	this.resources.bones.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 18, fontWeight : 'bold', fill : 0x111111});
+	this.resources.bones.counter.position = new PIXI.Point(1212, 568);
+	// this.resources.bones.background = new PIXI.Graphics();
+	// this.resources.bones.background.position = new PIXI.Point(this.resources.bones.counter.x - 5, this.resources.bones.counter.y - 2);
+	// this.resources.bones.background.beginFill(0xFFFFFF, 1)
+	// this.resources.bones.background.drawRoundedRect(0, 0, this.resources.bones.counter.width + 10, this.resources.bones.counter.height + 4, 5);
+	// this.resources.bones.sprite.addChild(this.resources.bones.background);
+	// this.resources.bones.sprite.addChild(this.resources.bones.counter);
 
-	this.tools.builder.sprite = PIXI.Sprite.fromImage('textures/builder.png');
-	this.tools.builder.sprite.position = new PIXI.Point(renderer.width / 2 - 5 - 96, renderer.height - 5 - 96);
-	this.tools.builder.collider = new PIXI.Rectangle(this.tools.builder.sprite.x, this.tools.builder.sprite.y, this.tools.builder.sprite.width, this.tools.builder.sprite.height);
-	this.tools.builder.timer = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0x111111});
-	this.tools.builder.timer.position = new PIXI.Point((this.tools.builder.sprite.width - this.tools.builder.timer.width) / 2, this.tools.builder.sprite.height - 5 - this.tools.builder.timer.height);
+	// this.tools.builder.sprite = PIXI.Sprite.fromImage('textures/builder.png');
+	// this.tools.builder.sprite.position = new PIXI.Point(renderer.width / 2 - 5 - 96, renderer.height - 5 - 96);
+	this.tools.builder.collider = new PIXI.Rectangle(1140, 620, 140, 100);
+	this.tools.builder.container = new PIXI.Container();
+	this.tools.builder.container.position = this.tools.builder.collider;
+	this.tools.builder.timer = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 24, fontWeight : 'bold', fill : 0x111111});
+	this.tools.builder.timer.position = new PIXI.Point((this.tools.builder.container.width - this.tools.builder.timer.width) / 2, (this.tools.builder.container.height - this.tools.builder.timer.height) / 2);
 	this.level.builder.on('start', function () {
-		this.tools.builder.sprite.addChild(this.tools.builder.timer);
+		this.tools.builder.container.addChild(this.tools.builder.timer);
 	}, this);
 	this.level.builder.on('end', function () {
-		this.tools.builder.sprite.removeChild(this.tools.builder.timer);
+		this.tools.builder.container.removeChild(this.tools.builder.timer);
 	}, this);
 
-	this.tools.hoven.sprite = PIXI.Sprite.fromImage('textures/hoven.png');
-	this.tools.hoven.sprite.position = new PIXI.Point(renderer.width / 2 + 5, renderer.height - 5 - 96);
-	this.tools.hoven.collider = new PIXI.Rectangle(this.tools.hoven.sprite.x, this.tools.hoven.sprite.y, this.tools.hoven.sprite.width, this.tools.hoven.sprite.height);
-	this.tools.hoven.timer = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0x111111});
-	this.tools.hoven.timer.position = new PIXI.Point((this.tools.hoven.sprite.width - this.tools.hoven.timer.width) / 2, this.tools.hoven.sprite.height - 5 - this.tools.hoven.timer.height);
+	// this.tools.hoven.sprite = PIXI.Sprite.fromImage('textures/hoven.png');
+	// this.tools.hoven.sprite.position = new PIXI.Point(renderer.width / 2 + 5, renderer.height - 5 - 96);
+	this.tools.hoven.collider = new PIXI.Rectangle(0, 610, 140, 110);
+	this.tools.hoven.container = new PIXI.Container();
+	this.tools.hoven.container.position = this.tools.hoven.collider;
+	this.tools.hoven.timer = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 24, fontWeight : 'bold', fill : 0x111111});
+	this.tools.hoven.timer.position = new PIXI.Point((this.tools.hoven.container.width - this.tools.hoven.timer.width) / 2, (this.tools.hoven.container.height - this.tools.hoven.timer.height) / 2);
 	this.level.hoven.on('start', function () {
-		this.tools.hoven.sprite.addChild(this.tools.hoven.timer);
+		this.tools.hoven.container.addChild(this.tools.hoven.timer);
 	}, this);
 	this.level.hoven.on('end', function () {
-		this.tools.hoven.sprite.removeChild(this.tools.hoven.timer);
+		this.tools.hoven.container.removeChild(this.tools.hoven.timer);
 	}, this);
 
 	this.blueprint.background.position = new PIXI.Point((renderer.width - this.blueprint.background.width) / 2, 58);
@@ -364,19 +368,19 @@ GUI.prototype.Init = function () {
 	this.container.addChild(this.buttons.fetcher.container);
 	this.container.addChild(this.buttons.cleaner.container);
 	this.container.addChild(this.buttons.healer.container);
-	this.container.addChild(this.buttons.pot.container);
+	this.container.addChild(this.buttons.pot.sprite);
 	this.container.addChild(this.buttons.skeleton.container);
 	this.container.addChild(this.buttons.monster.container);
-	this.container.addChild(this.buttons.coin.container);
-	this.container.addChild(this.buttons.heart.container);
+	this.container.addChild(this.buttons.coin.sprite);
+	this.container.addChild(this.buttons.heart.sprite);
 
-	this.container.addChild(this.resources.pots.sprite);
-	this.container.addChild(this.resources.skulls.sprite);
-	this.container.addChild(this.resources.ribs.sprite);
-	this.container.addChild(this.resources.bones.sprite);
+	this.container.addChild(this.resources.pots.counter);
+	this.container.addChild(this.resources.skulls.counter);
+	this.container.addChild(this.resources.ribs.counter);
+	this.container.addChild(this.resources.bones.counter);
 
-	this.container.addChild(this.tools.builder.sprite);
-	this.container.addChild(this.tools.hoven.sprite);
+	// this.container.addChild(this.tools.builder.timer);
+	// this.container.addChild(this.tools.hoven.timer);
 
 	this.timer.counter = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 48, fontWeight : 'bold', fill : 0xEEEEEE});
 	this.timer.counter.position = new PIXI.Point((renderer.width - this.timer.counter.width) / 2, 24);
@@ -664,11 +668,11 @@ GUI.prototype.OpenBlueprint = function () {
 
 		this.container.addChild(this.blueprint.background);
 
-		this.container.removeChild(this.buttons.pot.container);
+		// this.container.removeChild(this.buttons.pot.container);
 		this.container.removeChild(this.buttons.skeleton.container);
 		this.container.removeChild(this.buttons.monster.container);
-		this.container.removeChild(this.buttons.coin.container);
-		this.container.removeChild(this.buttons.heart.container);
+		// this.container.removeChild(this.buttons.coin.container);
+		// this.container.removeChild(this.buttons.heart.container);
 
 		this.container.addChild(this.buttons.skull.container);
 		this.container.addChild(this.buttons.rib.container);
@@ -694,11 +698,11 @@ GUI.prototype.CloseBlueprint = function () {
 	this.container.removeChild(this.buttons.rib.container);
 	this.container.removeChild(this.buttons.bone.container);
 
-	this.container.addChild(this.buttons.pot.container);
+	// this.container.addChild(this.buttons.pot.container);
 	this.container.addChild(this.buttons.skeleton.container);
 	this.container.addChild(this.buttons.monster.container);
-	this.container.addChild(this.buttons.coin.container);
-	this.container.addChild(this.buttons.heart.container);
+	// this.container.addChild(this.buttons.coin.container);
+	// this.container.addChild(this.buttons.heart.container);
 
 	this.altButtons = false;
 }

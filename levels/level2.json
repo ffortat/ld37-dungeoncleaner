@@ -16,7 +16,7 @@
  "properties":
     {
      "bones":0,
-     "cleaner":1,
+     "cleaner":0,
      "coin":0,
      "fetcher":2,
      "finallevel":false,
@@ -26,13 +26,13 @@
      "objective1":"skeleton",
      "objective1_quantity":4,
      "objective2":"pot",
-     "objective2_quantity":8,
+     "objective2_quantity":5,
      "objective3":"monster",
      "objective3_quantity":1,
      "pot":2,
      "pots":6,
      "ribs":0,
-     "skeleton":2,
+     "skeleton":4,
      "skulls":0,
      "timer":90
     },

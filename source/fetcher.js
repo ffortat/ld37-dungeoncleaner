@@ -16,7 +16,7 @@ Fetcher.prototype.CanAct = function (target) {
 }
 
 Fetcher.prototype.Act = function (target) {
-	if (!target.Fetch) {
+	if (!target.Fetch && !target.Place) {
 		console.log('Target has no fetch function');
 		this.Leave();
 		return;
@@ -35,6 +35,22 @@ Fetcher.prototype.Act = function (target) {
 		this.SwitchToAnim('fetch');
 
 		target.on('cleared', this.Leave, this);
+	}
+
+	if (target.Place()) {
+		this.target = target;
+
+		this.SwitchToAnim('place');
+
+		var x = Math.floor((target.x + target.width / 2) / 64) * 64
+		var y = Math.floor((target.y + target.height - 64) / 64) * 64
+		x = x - (this.width - this.level.tile.width) / 2;
+		y = y - (this.height - this.level.tile.height);
+		
+		this.MoveTo(x, y);
+
+
+		target.on('placed', this.Leave, this);
 	}
 }
 

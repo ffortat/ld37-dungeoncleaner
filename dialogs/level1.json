@@ -3,7 +3,7 @@
 	"intro" : {
 		"dialog" : {
 			"text" : [
-				["", "Don’t look at me like that, you won’t have to do it all by your lonesome! You have a team, so use it!"]
+				["", "Don’t look at me like that, you won’t have to do it all by your lonesome! You have a team, so use it!\n\n*** Tips : You can rebuild pots by collecting it and puting it in the kiln. ***"]
 			]
 		}
 	},

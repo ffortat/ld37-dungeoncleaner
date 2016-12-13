@@ -216,7 +216,6 @@ TextBox.prototype.Lock = function () {
 }
 
 TextBox.prototype.Hide = function () {
-	console.log(this);
 	this.Lock();
 	this.parent.removeChild(this.container);
 	this.container.removeChild(this.pages[this.index][1]);
