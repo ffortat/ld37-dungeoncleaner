@@ -1,14 +1,19 @@
-	- assets integration (continuous)
+X - assets integration (continuous)
 
 X - key bindings
 X - handle multisquares sprites
 X - text display (narative)
-	- write basic texts
+X - write basic texts
 
-	- interface fixes
-	- polish interface controls
+X - interface fixes
+X - polish interface controls
 
-	- level design (tutorial)
+X - level design (tutorial)
+
+	- textes fin
+	- testes tuto (?)
+	- don't score time level0
+	- endscreen
 
 	- menus
 		- main

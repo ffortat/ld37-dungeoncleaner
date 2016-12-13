@@ -1,8 +1,6 @@
 function Resource(x, y, name, level) {
 	Animator.call(this, x, y, level.dynamic);
 
-	this.duration = 5;
-	this.amount = 0;
 	this.states = {
 		broken : 'broken',
 		clearing : 'clearing',
@@ -14,7 +12,21 @@ function Resource(x, y, name, level) {
 	this.name = name;
 	this.level = level;
 
-	this.timer = 0;
+	this.amounts = {
+		pots : 3,
+		bones : 4,
+		ribs : 2,
+		skulls : 1
+	}
+	this.duration = {
+		pots : 2,
+		bones : 3,
+		ribs : 3,
+		skulls : 2
+	}
+
+	this.clear = new Timer(this.duration[name]);
+	this.amount = this.amounts[name];
 
 	load.json('animations/resources/' + name + '.json', this.Init, this);
 	this.InitResource();
@@ -24,21 +36,7 @@ Resource.prototype = Object.create(Animator.prototype);
 Resource.prototype.constructor = Resource;
 
 Resource.prototype.InitResource = function () {
-	switch (this.name) {
-		case 'pots':
-			this.amount = 3;
-			break;
-		case 'bones':
-			this.amount = 4;
-			break;
-		case 'ribs':
-			this.amount = 2;
-			break;
-		case 'skulls':
-		default:
-			this.amount = 1;
-			break;
-	}
+	this.clear.on('end', this.cleared, this);
 }
 
 Resource.prototype.cleared = function () {
@@ -77,7 +75,7 @@ Resource.prototype.Fetch = function () {
 	}
 
 	this.state = this.states.clearing;
-	this.timer = this.duration;
+	this.clear.Start();
 	// this.SwitchToAnim(this.state);
 	// hack
 	this.Hide();
@@ -102,12 +100,5 @@ Resource.prototype.Fix = function () {
 }
 
 Resource.prototype.Tick = function (length) {
-	if (this.timer) {
-		this.timer -= length;
-
-		if (this.timer <= 0) {
-			this.timer = 0;
-			this.cleared();
-		}
-	}
+	this.clear.Tick(length);
 }

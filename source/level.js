@@ -160,8 +160,8 @@ Level.prototype.Init = function(level) {
 					break;
 				case 'monster' :
 					element = new Monster(x * level.tilewidth, y * level.tileheight, tileid, this)
-					element.Kill();
 					this.AddObject(element);
+					element.Kill();
 					break;
 			}
 
@@ -345,7 +345,7 @@ Level.prototype.DestroyRoom = function () {
 		var check;
 		var tries = 0;
 		var amount = amounts[Math.floor(Math.random() * amounts.length)];
-		// amount = 1;
+		// amount = 4;
 
 		do {
 			x = Math.floor(Math.random() * (this.width - (amount >= 2 ? 1 : 0)));
@@ -483,6 +483,11 @@ Level.prototype.GetObjects = function () {
 };
 
 Level.prototype.AddResources = function (resource) {
+	if (!resource) {
+		console.log('No resource given');
+		return;
+	}
+
 	if (this.resources[resource.name] === undefined && this.stuff[resource.name] === undefined) {
 		console.log('Resource', resource.name, 'is unknown');
 		return;
@@ -574,6 +579,7 @@ Level.prototype.Use = function () {
 		if (this.character) {
 			if (this.character.isDisplayed) {
 				this.objects.some(function (element) {
+					console.log()
 					if (element.GetRectangle().contains(mouse.x - this.grid.x, mouse.y - this.grid.y)) {
 						return this.UseWorker(element);
 					}
@@ -639,6 +645,7 @@ Level.prototype.Keypress = function () {
 
 Level.prototype.UseWorker = function (element) {
 	if (this.character.CanAct(element)) {
+		this.objects.indexOf(element);
 		this.workers.queue.push(this.character);
 		this.workers[this.character.type] -= 1;
 		this.character.Act(element);

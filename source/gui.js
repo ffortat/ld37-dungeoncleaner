@@ -339,8 +339,8 @@ GUI.prototype.Init = function () {
 	this.tools.builder.collider = new PIXI.Rectangle(1140, 620, 140, 100);
 	this.tools.builder.container = new PIXI.Container();
 	this.tools.builder.container.position = this.tools.builder.collider;
-	this.tools.builder.timer = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 24, fontWeight : 'bold', fill : 0x111111});
-	this.tools.builder.timer.position = new PIXI.Point((this.tools.builder.container.width - this.tools.builder.timer.width) / 2, (this.tools.builder.container.height - this.tools.builder.timer.height) / 2);
+	this.tools.builder.timer = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 20, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.tools.builder.timer.position = new PIXI.Point((this.tools.builder.collider.width - this.tools.builder.timer.width) / 2, (this.tools.builder.collider.height - this.tools.builder.timer.height - 5));
 	this.level.builder.on('start', function () {
 		this.tools.builder.container.addChild(this.tools.builder.timer);
 	}, this);
@@ -348,17 +348,19 @@ GUI.prototype.Init = function () {
 		this.tools.builder.container.removeChild(this.tools.builder.timer);
 	}, this);
 
-	// this.tools.hoven.sprite = PIXI.Sprite.fromImage('textures/hoven.png');
-	// this.tools.hoven.sprite.position = new PIXI.Point(renderer.width / 2 + 5, renderer.height - 5 - 96);
+	this.tools.hoven.sprite = PIXI.Sprite.fromImage('textures/gui/hoven.png');
+	this.tools.hoven.sprite.position = new PIXI.Point(60, 9);
 	this.tools.hoven.collider = new PIXI.Rectangle(0, 610, 140, 110);
 	this.tools.hoven.container = new PIXI.Container();
 	this.tools.hoven.container.position = this.tools.hoven.collider;
-	this.tools.hoven.timer = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 24, fontWeight : 'bold', fill : 0x111111});
-	this.tools.hoven.timer.position = new PIXI.Point((this.tools.hoven.container.width - this.tools.hoven.timer.width) / 2, (this.tools.hoven.container.height - this.tools.hoven.timer.height) / 2);
+	this.tools.hoven.timer = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 20, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.tools.hoven.timer.position = new PIXI.Point((this.tools.hoven.collider.width - this.tools.hoven.timer.width) / 2 + 5, (this.tools.hoven.collider.height - this.tools.hoven.timer.height) / 2 - 5);
 	this.level.hoven.on('start', function () {
+		this.tools.hoven.container.addChild(this.tools.hoven.sprite);
 		this.tools.hoven.container.addChild(this.tools.hoven.timer);
 	}, this);
 	this.level.hoven.on('end', function () {
+		this.tools.hoven.container.removeChild(this.tools.hoven.sprite);
 		this.tools.hoven.container.removeChild(this.tools.hoven.timer);
 	}, this);
 
@@ -379,8 +381,8 @@ GUI.prototype.Init = function () {
 	this.container.addChild(this.resources.ribs.counter);
 	this.container.addChild(this.resources.bones.counter);
 
-	// this.container.addChild(this.tools.builder.timer);
-	// this.container.addChild(this.tools.hoven.timer);
+	this.container.addChild(this.tools.builder.container);
+	this.container.addChild(this.tools.hoven.container);
 
 	this.timer.counter = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 48, fontWeight : 'bold', fill : 0xEEEEEE});
 	this.timer.counter.position = new PIXI.Point((renderer.width - this.timer.counter.width) / 2, 24);
@@ -401,7 +403,6 @@ GUI.prototype.Init = function () {
 	this.container.addChild(this.timer.counter);
 	this.container.addChild(this.score.counter);
 	this.container.addChild(this.score.multiplier);
-	this.buttons.end.AddTo(this.container);
 
 	this.level.on('update', this.Update, this);
 
@@ -436,6 +437,10 @@ GUI.prototype.Update = function () {
 		var count = Math.max(0, this.level.objectives[index].limit - this.level.objectives[index].count);
 		objective.text = 'Place ' + count + ' ' + this.level.objectives[index].type + ' in the room.';
 	}, this);
+
+	if (this.level.CheckObjectives()) {
+		this.buttons.end.AddTo(this.container);
+	}
 }
 
 GUI.prototype.Click = function () {
@@ -621,28 +626,30 @@ GUI.prototype.KeyPress = function (code) {
 				}
 			}
 		} else {
-			if (code === keys[1]) {
-				this.level.Prepare('item', 'pot');
-			}
+			// if (code === keys[1]) {
+			// 	this.level.Prepare('item', 'pot');
+			// }
 
-			if (code === keys[2]) {
+			if (code === keys[1]) {
 				this.level.Prepare('monster', 'skeleton');
 			}
 
-			if (code === keys[3]) {
+			if (code === keys[2]) {
 				this.level.Prepare('monster', 'monster');
 			}
 
-			if (code === keys[4]) {
-				this.level.Prepare('powerup', 'coin');
-			}
+			// if (code === keys[4]) {
+			// 	this.level.Prepare('powerup', 'coin');
+			// }
 
-			if (code === keys[5]) {
-				this.level.Prepare('powerup', 'heart');
-			}
+			// if (code === keys[5]) {
+			// 	this.level.Prepare('powerup', 'heart');
+			// }
 
 			if (code === keys.space) {
-				this.level.EndLevel();
+				if (this.level.CheckObjectives()) {
+					this.level.EndLevel();
+				}
 			}
 		}
 

@@ -23,6 +23,22 @@ function Preloader(renderer) {
 	load.json('dialogs/level12.json');
 	load.json('dialogs/level13.json');
 	load.json('dialogs/level14.json');
+	load.json('animations/items/pots.json');
+	load.json('animations/messes/blood0.json');
+	load.json('animations/messes/blood1.json');
+	load.json('animations/messes/blood2.json');
+	load.json('animations/messes/blood4.json');
+	load.json('animations/monsters/monster.json');
+	load.json('animations/monsters/skeleton.json');
+	load.json('animations/powerups/coin.json');
+	load.json('animations/powerups/heart.json');
+	load.json('animations/resources/bones.json');
+	load.json('animations/resources/pots.json');
+	load.json('animations/resources/ribs.json');
+	load.json('animations/resources/skulls.json');
+	load.json('animations/cleaner.json');
+	load.json('animations/fetcher.json');
+	load.json('animations/healer.json');
 
 	this.loader = PIXI.loader;
 	this.assets = [
@@ -34,9 +50,11 @@ function Preloader(renderer) {
 		['gui/background', 'gui/background.png'],
 		['gui/bone', 'gui/bone.png'],
 		['gui/cleaner', 'gui/cleaner.png'],
+		['gui/coin', 'gui/coin.png'],
 		['gui/fetcher', 'gui/fetcher.png'],
 		['gui/healer', 'gui/healer.png'],
 		['gui/heart', 'gui/heart.png'],
+		['gui/hoven', 'gui/hoven.png'],
 		['gui/monster', 'gui/monster.png'],
 		['gui/pot', 'gui/pot.png'],
 		['gui/rib', 'gui/rib.png'],
@@ -69,26 +87,9 @@ function Preloader(renderer) {
 		['stuff/skeleton', 'stuff/skeleton.png'],
 		['stuff/skull', 'stuff/skull.png'],
 		['background', 'background.png'],
-		['boneicon', 'boneicon.png'],
-		['bones', 'bones.png'],
-		['builder', 'builder.png'],
 		['cleaner', 'cleaner.png'],
-		['coin', 'coin.png'],
-		['coinicon', 'coinicon.png'],
 		['fetcher', 'fetcher.png'],
 		['healer', 'healer.png'],
-		['heart', 'heart.png'],
-		['hearticon', 'hearticon.png'],
-		['hoven', 'hoven.png'],
-		['monster', 'monster.png'],
-		['monstericon', 'monstericon.png'],
-		['poticon', 'poticon.png'],
-		['pots', 'pots.png'],
-		['ribicon', 'ribicon.png'],
-		['ribs', 'ribs.png'],
-		['skeletonicon', 'skeletonicon.png'],
-		['skullicon', 'skullicon.png'],
-		['skulls', 'skulls.png']
 	];
 
 	this.renderer = renderer;

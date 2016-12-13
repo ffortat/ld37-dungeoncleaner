@@ -1,7 +1,6 @@
 function Monster(x, y, name, level) {
 	Animator.call(this, x, y, level.dynamic);
 
-	this.duration = 5;
 	this.states = {
 		dead : 'dead',
 		healing : 'healing',
@@ -12,19 +11,27 @@ function Monster(x, y, name, level) {
 	this.state = this.states.alive;
 	this.name = name;
 	this.level = level;
+	console.log('set as', this.state);
 
-	this.timer = 0;
+	this.duration = {
+		skeleton : 3,
+		monster : 5
+	}
+
+	this.heal = new Timer(this.duration[name]);
+	this.place = new Timer(this.duration[name]);
 
 	load.json('animations/monsters/' + name + '.json', this.Init, this);
-	// load.json('items/' + name + '.json', this.InitItem, this);
+	this.InitMonster();
 }
 
 Monster.prototype = Object.create(Animator.prototype);
 Monster.prototype.constructor = Monster;
 
-// Init.prototype.InitMonster = function (data) {
-
-// }
+Monster.prototype.InitMonster = function () {
+	this.heal.on('end', this.healed, this);
+	this.place.on('end', this.placed, this);
+}
 
 Monster.prototype.healed = function () {
 	this.state = this.states.healed;
@@ -37,10 +44,26 @@ Monster.prototype.healed = function () {
 
 	this.listeners['healed'] = [];
 
+	console.log('set as', this.state);
 	this.SwitchToAnim(this.state);
 
 	this.Hide();
 	this.level.RemoveObject(this);
+}
+
+Monster.prototype.placed = function () {
+	this.state = this.states.alive;
+
+	if (this.listeners['placed']) {
+		this.listeners['placed'].forEach(function (callback) {
+			callback.func.call(callback.object);
+		}, this);
+	}
+
+	this.listeners['placed'] = [];
+	console.log('set as', this.state);
+
+	this.SwitchToAnim(this.state);
 }
 
 Monster.prototype.Kill = function () {
@@ -52,18 +75,38 @@ Monster.prototype.Kill = function () {
 	this.state = this.states.dead;
 	this.SwitchToAnim(this.state);
 
+	console.log('set as', this.state);
+
+	return true;
+}
+
+Monster.prototype.Fetch = function () {
+	return false;
+}
+
+Monster.prototype.Place = function () {
+	if (this.state !== this.states.alive) {
+		console.log('Monster is not ready');
+		return false;
+	}
+
+	this.place.Start();
+	this.SwitchToAnim(this.state);
+
 	return true;
 }
 
 Monster.prototype.Heal = function () {
+	console.log('set as', this.state);
 	if (this.state !== this.states.dead) {
 		console.log('Monster is already in state', this.state);
 		return false;
 	}
 
 	this.state = this.states.clearing;
-	this.timer = this.duration;
+	this.heal.Start();
 	this.SwitchToAnim(this.state);
+	console.log('set as', this.state);
 
 	return true;
 }
@@ -76,17 +119,12 @@ Monster.prototype.Respawn = function () {
 
 	this.state = this.states.alive;
 	this.SwitchToAnim(this.state);
+	console.log('set as', this.state);
 
 	return true;
 }
 
 Monster.prototype.Tick = function (length) {
-	if (this.timer) {
-		this.timer -= length;
-
-		if (this.timer <= 0) {
-			this.timer = 0;
-			this.healed();
-		}
-	}
+	this.heal.Tick(length);
+	this.place.Tick(length);
 }

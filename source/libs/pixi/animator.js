@@ -133,6 +133,15 @@ Animator.prototype.Init = function (data) {
 			this.animations[state][animation].loop = data.animations[animation].loop;
 			this.animations[state][animation].pivot = new PIXI.Point(this.animations[state][animation].width / 2, this.animations[state][animation].height / 2);
 			this.animations[state][animation].collider = collider ? new PIXI.Rectangle(collider.x, collider.y, collider.width, collider.height) : null;
+
+			switch (data.animations[animation].blend) {
+				case 'add':
+					this.animations[state][animation].blendMode = PIXI.BLEND_MODES.ADD;
+					break;
+				default:
+					this.animations[state][animation].blendMode = PIXI.BLEND_MODES.NORMAL;
+					break;
+			}
 		}
 	}
 
@@ -205,7 +214,7 @@ Animator.prototype.GetCenter = function () {
 Animator.prototype.GetRectangle = function () {
 	if (this.currentAnimation) {
 		if (this.currentAnimation.collider) {
-			return this.currentAnimation.collider;
+			return new PIXI.Rectangle(this.x + this.currentAnimation.collider.x, this.y + this.currentAnimation.collider.y, this.currentAnimation.collider.width, this.currentAnimation.collider.height);
 		} else {
 			return new PIXI.Rectangle(this.x, this.y, this.currentAnimation.width, this.currentAnimation.height);
 		}
@@ -217,6 +226,8 @@ Animator.prototype.GetRectangle = function () {
 Animator.prototype.MoveTo = function (x, y) {
 	this.x = x;
 	this.y = y;
+
+	console.log(this.currentAnimationName)
 
 	this.currentAnimation.x = x + this.currentAnimation.width / 2;
 	this.currentAnimation.y = y + this.currentAnimation.height / 2;

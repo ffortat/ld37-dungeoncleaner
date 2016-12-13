@@ -12,6 +12,7 @@ Healer.prototype = Object.create(Animator.prototype);
 Healer.prototype.constructor = Healer;
 
 Healer.prototype.CanAct = function (target) {
+	console.log('can act ?')
 	return !(!target.Heal);
 }
 

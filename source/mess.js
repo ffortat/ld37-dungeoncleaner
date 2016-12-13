@@ -1,7 +1,6 @@
 function Mess(x, y, name, level) {
 	Animator.call(this, x, y, level.dynamic);
 
-	this.duration = 5;
 	this.states = {
 		present : 'present',
 		clearing : 'clearing',
@@ -12,13 +11,25 @@ function Mess(x, y, name, level) {
 	this.name = name;
 	this.level = level;
 
-	this.timer = 0;
+	this.duration = {
+		blood0 : 1,
+		blood1 : 2,
+		blood2 : 4,
+		blood4 : 8
+	}
+
+	this.clear = new Timer(this.duration[name]);
 
 	load.json('animations/messes/' + name + '.json', this.Init, this);
+	this.InitMess();
 }
 
 Mess.prototype = Object.create(Animator.prototype);
 Mess.prototype.constructor = Mess;
+
+Mess.prototype.InitMess = function () {
+	this.clear.on('end', this.cleared, this);
+}
 
 Mess.prototype.cleared = function () {
 	this.state = this.states.cleared;
@@ -44,19 +55,14 @@ Mess.prototype.Clean = function () {
 	}
 
 	this.state = this.states.clearing;
-	this.timer = this.duration;
-	this.SwitchToAnim(this.state);
+	this.clear.Start();
+	// this.SwitchToAnim(this.state);
+	// hack
+	this.Hide();
 
 	return true;
 }
 
 Mess.prototype.Tick = function (length) {
-	if (this.timer) {
-		this.timer -= length;
-
-		if (this.timer <= 0) {
-			this.timer = 0;
-			this.cleared();
-		}
-	}
+	this.clear.Tick(length);
 }

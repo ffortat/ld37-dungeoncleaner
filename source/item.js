@@ -1,7 +1,6 @@
 function Item(x, y, name, level) {
 	Animator.call(this, x, y, level.dynamic);
 
-	this.duration = 5;
 	this.states = {
 		broken : 'broken',
 		clearing : 'clearing',
@@ -13,18 +12,22 @@ function Item(x, y, name, level) {
 	this.name = name;
 	this.level = level;
 
-	this.timer = 0;
+	this.duration = {
+		pot : 1
+	}
+
+	this.place = new Timer(this.duration[name]);
 
 	load.json('animations/items/' + name + '.json', this.Init, this);
-	// load.json('items/' + name + '.json', this.InitItem, this);
+	this.InitItem();
 }
 
 Item.prototype = Object.create(Animator.prototype);
 Item.prototype.constructor = Item;
 
-// Item.prototype.InitItem = function (data) {
-
-// }
+Item.prototype.InitItem = function () {
+	this.place.on('end', this.placed, this);
+}
 
 Item.prototype.placed = function () {
 	this.state = this.states.fixed;
@@ -62,7 +65,7 @@ Item.prototype.Place = function () {
 		return false;
 	}
 
-	this.timer = this.duration;
+	this.place.Start();
 	this.SwitchToAnim(this.state);
 
 	return true;
@@ -81,12 +84,5 @@ Item.prototype.Fix = function () {
 }
 
 Item.prototype.Tick = function (length) {
-	if (this.timer) {
-		this.timer -= length;
-
-		if (this.timer <= 0) {
-			this.timer = 0;
-			this.placed();
-		}
-	}
+	this.place.Tick(length);
 }

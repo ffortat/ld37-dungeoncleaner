@@ -28,11 +28,15 @@ Cleaner.prototype.Act = function (target) {
 		var x = Math.floor((target.x + target.width / 2))
 		var y = Math.floor((target.y + target.height / 2))
 		x = x - this.width / 2;
-		y = y - (this.height - this.level.tile.height) - this.level.tile.height / 2;
+		y = y - (this.height - this.level.tile.height);
 		
 		this.MoveTo(x, y);
 
-		this.SwitchToAnim('clean');
+		if (target.width > 64) {
+			this.SwitchToAnim('clean4');
+		} else {
+			this.SwitchToAnim('clean1');
+		}
 
 		target.on('cleared', this.Leave, this);
 	}

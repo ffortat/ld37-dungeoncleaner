@@ -18,7 +18,7 @@ var parameters = {
 		roundness : 5,
 		dimensions : {
 			x : 160,
-			y : 584,
+			y : 296,
 			width : 960,
 			height : 128
 		},
