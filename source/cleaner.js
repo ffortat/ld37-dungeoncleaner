@@ -18,6 +18,7 @@ Cleaner.prototype.CanAct = function (target) {
 Cleaner.prototype.Act = function (target) {
 	if (!target.Clean) {
 		console.log('Target has no clean function');
+		this.Leave();
 		return;
 	}
 

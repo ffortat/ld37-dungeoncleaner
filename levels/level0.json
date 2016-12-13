@@ -20,7 +20,7 @@
      "coin":0,
      "fetcher":2,
      "finallevel":false,
-     "healer":0,
+     "healer":1,
      "heart":0,
      "monster":1,
      "objective1":"pot",

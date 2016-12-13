@@ -18,6 +18,7 @@ Fetcher.prototype.CanAct = function (target) {
 Fetcher.prototype.Act = function (target) {
 	if (!target.Fetch) {
 		console.log('Target has no fetch function');
+		this.Leave();
 		return;
 	}
 

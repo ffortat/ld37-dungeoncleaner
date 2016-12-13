@@ -34,6 +34,8 @@ Healer.prototype.Act = function (target) {
 		this.SwitchToAnim('heal');
 
 		target.on('healed', this.Leave, this);
+	} else {
+		this.Leave();
 	}
 }
 

@@ -289,49 +289,47 @@ GUI.prototype.Init = function () {
 	this.buttons.bone.keybind.scale.x = -1;
 	this.buttons.bone.keybind.position = new PIXI.Point((this.buttons.bone.shortcut.width - this.buttons.bone.keybind.width) / 2 + this.buttons.bone.keybind.width, (this.buttons.bone.shortcut.height - this.buttons.bone.keybind.height) / 2);
 	this.buttons.bone.shortcut.addChild(this.buttons.bone.keybind);
-	
-	this.buttons.end = new Button('End', 5, renderer.height - 64 - 5, 128, 64);
 
 	this.resources.pots.sprite = PIXI.Sprite.fromImage('textures/pots.png');
 	this.resources.pots.sprite.position = new PIXI.Point(0, 436);
-	this.resources.pots.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.resources.pots.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
 	this.resources.pots.counter.position = new PIXI.Point(this.resources.pots.sprite.width, this.resources.pots.sprite.height - 5 - this.resources.pots.counter.height);
 	this.resources.pots.background = new PIXI.Graphics();
 	this.resources.pots.background.position = new PIXI.Point(this.resources.pots.counter.x - 5, this.resources.pots.counter.y - 2);
-	this.resources.pots.background.beginFill(0xCC3333, 1)
+	this.resources.pots.background.beginFill(0xFFFFFF, 1)
 	this.resources.pots.background.drawRoundedRect(0, 0, this.resources.pots.counter.width + 10, this.resources.pots.counter.height + 4, 5);
 	this.resources.pots.sprite.addChild(this.resources.pots.background);
 	this.resources.pots.sprite.addChild(this.resources.pots.counter);
 
 	this.resources.skulls.sprite = PIXI.Sprite.fromImage('textures/skulls.png');
 	this.resources.skulls.sprite.position = new PIXI.Point(0, 472);
-	this.resources.skulls.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.resources.skulls.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
 	this.resources.skulls.counter.position = new PIXI.Point(this.resources.skulls.sprite.width, this.resources.skulls.sprite.height - 5 - this.resources.skulls.counter.height);
 	this.resources.skulls.background = new PIXI.Graphics();
 	this.resources.skulls.background.position = new PIXI.Point(this.resources.skulls.counter.x - 5, this.resources.skulls.counter.y - 2);
-	this.resources.skulls.background.beginFill(0xCC3333, 1)
+	this.resources.skulls.background.beginFill(0xFFFFFF, 1)
 	this.resources.skulls.background.drawRoundedRect(0, 0, this.resources.skulls.counter.width + 10, this.resources.skulls.counter.height + 4, 5);
 	this.resources.skulls.sprite.addChild(this.resources.skulls.background);
 	this.resources.skulls.sprite.addChild(this.resources.skulls.counter);
 
 	this.resources.ribs.sprite = PIXI.Sprite.fromImage('textures/ribs.png');
 	this.resources.ribs.sprite.position = new PIXI.Point(0, 508);
-	this.resources.ribs.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.resources.ribs.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
 	this.resources.ribs.counter.position = new PIXI.Point(this.resources.ribs.sprite.width, this.resources.ribs.sprite.height - 5 - this.resources.ribs.counter.height);
 	this.resources.ribs.background = new PIXI.Graphics();
 	this.resources.ribs.background.position = new PIXI.Point(this.resources.ribs.counter.x - 5, this.resources.ribs.counter.y - 2);
-	this.resources.ribs.background.beginFill(0xCC3333, 1)
+	this.resources.ribs.background.beginFill(0xFFFFFF, 1)
 	this.resources.ribs.background.drawRoundedRect(0, 0, this.resources.ribs.counter.width + 10, this.resources.ribs.counter.height + 4, 5);
 	this.resources.ribs.sprite.addChild(this.resources.ribs.background);
 	this.resources.ribs.sprite.addChild(this.resources.ribs.counter);
 
 	this.resources.bones.sprite = PIXI.Sprite.fromImage('textures/bones.png');
 	this.resources.bones.sprite.position = new PIXI.Point(0, 544);
-	this.resources.bones.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.resources.bones.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
 	this.resources.bones.counter.position = new PIXI.Point(this.resources.bones.sprite.width, this.resources.bones.sprite.height - 5 - this.resources.bones.counter.height);
 	this.resources.bones.background = new PIXI.Graphics();
 	this.resources.bones.background.position = new PIXI.Point(this.resources.bones.counter.x - 5, this.resources.bones.counter.y - 2);
-	this.resources.bones.background.beginFill(0xCC3333, 1)
+	this.resources.bones.background.beginFill(0xFFFFFF, 1)
 	this.resources.bones.background.drawRoundedRect(0, 0, this.resources.bones.counter.width + 10, this.resources.bones.counter.height + 4, 5);
 	this.resources.bones.sprite.addChild(this.resources.bones.background);
 	this.resources.bones.sprite.addChild(this.resources.bones.counter);
@@ -371,7 +369,6 @@ GUI.prototype.Init = function () {
 	this.container.addChild(this.buttons.monster.container);
 	this.container.addChild(this.buttons.coin.container);
 	this.container.addChild(this.buttons.heart.container);
-	this.buttons.end.AddTo(this.container);
 
 	this.container.addChild(this.resources.pots.sprite);
 	this.container.addChild(this.resources.skulls.sprite);
@@ -381,23 +378,26 @@ GUI.prototype.Init = function () {
 	this.container.addChild(this.tools.builder.sprite);
 	this.container.addChild(this.tools.hoven.sprite);
 
-	this.timer.counter = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE});
-	this.timer.counter.position = new PIXI.Point(1024, 16);
+	this.timer.counter = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 48, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.timer.counter.position = new PIXI.Point((renderer.width - this.timer.counter.width) / 2, 24);
 
 	this.score.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 24, fontWeight : 'bold', fill : 0xEEEEEE});
-	this.score.counter.position = new PIXI.Point((renderer.width - this.score.counter.width) / 2, 16);
+	this.score.counter.position = new PIXI.Point(1128 - this.score.counter.width, 16);
 	this.score.multiplier = new PIXI.Text('', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0xEEEEEE});
-	this.score.multiplier.position = new PIXI.Point((renderer.width - this.score.multiplier.width) / 2, 16 + this.score.counter.height + 8);
+	this.score.multiplier.position = new PIXI.Point(1128 - this.score.multiplier.width, 16 + this.score.counter.height + 4);
 
 	this.level.objectives.forEach(function (objective, index) {
 		this.objectives.push(new PIXI.Text('', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0xEEEEEE}));
-		this.objectives[index].position = new PIXI.Point(192, 8 + 20 * index);
+		this.objectives[index].position = new PIXI.Point(160, 20 + 20 * index);
 		this.container.addChild(this.objectives[index]);
 	}, this);
+
+	this.buttons.end = new Button('GO', 400, 20, 64, 64);
 
 	this.container.addChild(this.timer.counter);
 	this.container.addChild(this.score.counter);
 	this.container.addChild(this.score.multiplier);
+	this.buttons.end.AddTo(this.container);
 
 	this.level.on('update', this.Update, this);
 
@@ -424,8 +424,9 @@ GUI.prototype.Update = function () {
 	this.resources.bones.counter.text = 'x' + this.level.resources.bones;
 
 	this.score.counter.text = '' + this.level.score;
-	this.score.counter.position = new PIXI.Point((renderer.width - this.score.counter.width) / 2, 16);
+	this.score.counter.position = new PIXI.Point(1128 - this.score.counter.width, 16);
 	this.score.multiplier.text = this.level.multiplier > 1 ? 'x' + this.level.multiplier : '';
+	this.score.multiplier.position = new PIXI.Point(1128 - this.score.multiplier.width, 16 + this.score.counter.height);
 
 	this.objectives.forEach(function (objective, index) {
 		var count = Math.max(0, this.level.objectives[index].limit - this.level.objectives[index].count);
@@ -653,26 +654,28 @@ GUI.prototype.KeyPress = function (code) {
 }
 
 GUI.prototype.OpenBlueprint = function () {
-	this.blueprint.todo.skull.push(this.blueprint.coords.skull);
-	this.blueprint.todo.ribs.push(this.blueprint.coords.rib);
-	this.blueprint.todo.arms.push(this.blueprint.coords.arml);
-	this.blueprint.todo.arms.push(this.blueprint.coords.armr);
-	this.blueprint.todo.legs.push(this.blueprint.coords.legl);
-	this.blueprint.todo.legs.push(this.blueprint.coords.legr);
+	if (!this.level.builder.timer) {
+		this.blueprint.todo.skull.push(this.blueprint.coords.skull);
+		this.blueprint.todo.ribs.push(this.blueprint.coords.rib);
+		this.blueprint.todo.arms.push(this.blueprint.coords.arml);
+		this.blueprint.todo.arms.push(this.blueprint.coords.armr);
+		this.blueprint.todo.legs.push(this.blueprint.coords.legl);
+		this.blueprint.todo.legs.push(this.blueprint.coords.legr);
 
-	this.container.addChild(this.blueprint.background);
+		this.container.addChild(this.blueprint.background);
 
-	this.container.removeChild(this.buttons.pot.container);
-	this.container.removeChild(this.buttons.skeleton.container);
-	this.container.removeChild(this.buttons.monster.container);
-	this.container.removeChild(this.buttons.coin.container);
-	this.container.removeChild(this.buttons.heart.container);
+		this.container.removeChild(this.buttons.pot.container);
+		this.container.removeChild(this.buttons.skeleton.container);
+		this.container.removeChild(this.buttons.monster.container);
+		this.container.removeChild(this.buttons.coin.container);
+		this.container.removeChild(this.buttons.heart.container);
 
-	this.container.addChild(this.buttons.skull.container);
-	this.container.addChild(this.buttons.rib.container);
-	this.container.addChild(this.buttons.bone.container);
+		this.container.addChild(this.buttons.skull.container);
+		this.container.addChild(this.buttons.rib.container);
+		this.container.addChild(this.buttons.bone.container);
 
-	this.altButtons = true;
+		this.altButtons = true;
+	}
 }
 
 GUI.prototype.CloseBlueprint = function () {

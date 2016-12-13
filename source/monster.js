@@ -37,7 +37,10 @@ Monster.prototype.healed = function () {
 
 	this.listeners['healed'] = [];
 
-	this.SwitchToAnim('healed');
+	this.SwitchToAnim(this.state);
+
+	this.Hide();
+	this.level.RemoveObject(this);
 }
 
 Monster.prototype.Kill = function () {

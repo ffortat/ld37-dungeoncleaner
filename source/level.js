@@ -378,7 +378,7 @@ Level.prototype.DestroyRoom = function () {
 	}
 
 	for (var i = 0; i < skeletonCount; i += 1) {
-		var resources = ['skulls', 'ribs', 'ribs', 'bones', 'bones'];
+		var resources = ['skulls', 'ribs', 'bones', 'bones'];
 		var index;
 
 		resources.forEach(function (resource) {
@@ -483,12 +483,16 @@ Level.prototype.GetObjects = function () {
 };
 
 Level.prototype.AddResources = function (resource) {
-	if (this.resources[resource.name] === undefined) {
+	if (this.resources[resource.name] === undefined && this.stuff[resource.name] === undefined) {
 		console.log('Resource', resource.name, 'is unknown');
 		return;
 	}
 
-	this.resources[resource.name] += resource.amount;
+	if (this.resources[resource.name] !== undefined) {
+		this.resources[resource.name] += resource.amount;
+	} else if (this.stuff[resource.name] !== undefined) {
+		this.stuff[resource.name] += 1;
+	}
 
 	this.update();
 };
