@@ -45,3 +45,7 @@ Healer.prototype.Leave = function () {
 	this.level.RemoveWorker(this);
 }
 
+Healer.prototype.Clone = function () {
+	return new Healer(this.x, this.y, this.name, this.level);
+}
+

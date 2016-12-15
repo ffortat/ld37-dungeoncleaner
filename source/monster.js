@@ -9,6 +9,7 @@ function Monster(x, y, name, level) {
 	}
 
 	this.state = this.states.alive;
+	this.type = 'monster';
 	this.name = name;
 	this.level = level;
 
@@ -115,6 +116,10 @@ Monster.prototype.Respawn = function () {
 	this.SwitchToAnim(this.state);
 
 	return true;
+}
+
+Monster.prototype.Clone = function () {
+	return new Monster(this.x, this.y, this.name, this.level);
 }
 
 Monster.prototype.Tick = function (length) {

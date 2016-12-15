@@ -46,3 +46,7 @@ Cleaner.prototype.Leave = function () {
 	this.Hide();
 	this.level.RemoveWorker(this);
 }
+
+Cleaner.prototype.Clone = function () {
+	return new Cleaner(this.x, this.y, this.name, this.level);
+}

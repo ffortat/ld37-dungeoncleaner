@@ -125,7 +125,7 @@ GUI.prototype.Init = function () {
 	this.buttons.pot.sprite = PIXI.Sprite.fromImage('textures/gui/pot.png');
 	this.buttons.pot.sprite.position = new PIXI.Point(150, 618);
 	// this.buttons.pot.container.addChild(this.buttons.pot.sprite);
-	this.buttons.pot.collider = new PIXI.Rectangle(this.buttons.pot.sprite.x, this.buttons.pot.sprite.y, this.buttons.pot.sprite.width, this.buttons.pot.sprite.height);
+	this.buttons.pot.collider = new PIXI.Rectangle(this.buttons.pot.sprite.x, this.buttons.pot.sprite.y + 32, this.buttons.pot.sprite.width, this.buttons.pot.sprite.height - 32);
 	this.buttons.pot.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 16, fontWeight : 'bold', fill : 0x111111});
 	// this.buttons.pot.counter.scale.x = -1;
 	this.buttons.pot.counter.position = new PIXI.Point(62, 70);
@@ -386,6 +386,8 @@ GUI.prototype.Init = function () {
 
 	this.timer.counter = new PIXI.Text('00:00', {fontFamily : 'Arial', fontSize: 48, fontWeight : 'bold', fill : 0xEEEEEE});
 	this.timer.counter.position = new PIXI.Point((renderer.width - this.timer.counter.width) / 2, 24);
+	this.timer.pause = new PIXI.Text('PAUSED', {fontFamily : 'Arial', fontSize: 32, fontWeight : 'bold', fill : 0xEEEEEE});
+	this.timer.pause.position = new PIXI.Point((renderer.width - this.timer.pause.width) / 2, 32);
 
 	this.score.counter = new PIXI.Text('0', {fontFamily : 'Arial', fontSize: 24, fontWeight : 'bold', fill : 0xEEEEEE});
 	this.score.counter.position = new PIXI.Point(1128 - this.score.counter.width, 16);
@@ -445,18 +447,6 @@ GUI.prototype.Update = function () {
 
 GUI.prototype.Click = function () {
 	if (!this.level.paused) {
-		if (this.buttons.fetcher.collider.contains(mouse.x, mouse.y)) {
-			this.level.Prepare('fetcher');
-		}
-		
-		if (this.buttons.cleaner.collider.contains(mouse.x, mouse.y)) {
-			this.level.Prepare('cleaner');
-		}
-
-		if (this.buttons.healer.collider.contains(mouse.x, mouse.y)) {
-			this.level.Prepare('healer');
-		}
-
 		if (this.altButtons) {
 			if (this.buttons.skull.collider.contains(mouse.x, mouse.y)) {
 				if (this.blueprint.todo.skull.length) {
@@ -523,6 +513,18 @@ GUI.prototype.Click = function () {
 				}
 			}
 		} else {
+			if (this.buttons.fetcher.collider.contains(mouse.x, mouse.y)) {
+				this.level.Prepare('fetcher');
+			}
+			
+			if (this.buttons.cleaner.collider.contains(mouse.x, mouse.y)) {
+				this.level.Prepare('cleaner');
+			}
+
+			if (this.buttons.healer.collider.contains(mouse.x, mouse.y)) {
+				this.level.Prepare('healer');
+			}
+
 			if (this.buttons.pot.collider.contains(mouse.x, mouse.y)) {
 				this.level.Prepare('item', 'pot');
 			}
@@ -560,18 +562,6 @@ GUI.prototype.Click = function () {
 
 GUI.prototype.KeyPress = function (code) {
 	if (!this.level.paused) {
-		if (code === keys.q) {
-			this.level.Prepare('fetcher');
-		}
-		
-		if (code === keys.w) {
-			this.level.Prepare('cleaner');
-		}
-
-		if (code === keys.e) {
-			this.level.Prepare('healer');
-		}
-
 		if (this.altButtons) {
 			if (code === keys[1]) {
 				if (this.blueprint.todo.skull.length) {
@@ -626,6 +616,17 @@ GUI.prototype.KeyPress = function (code) {
 				}
 			}
 		} else {
+			if (code === keys.q) {
+				this.level.Prepare('fetcher');
+			}
+			
+			if (code === keys.w) {
+				this.level.Prepare('cleaner');
+			}
+
+			if (code === keys.e) {
+				this.level.Prepare('healer');
+			}
 			// if (code === keys[1]) {
 			// 	this.level.Prepare('item', 'pot');
 			// }
@@ -662,6 +663,16 @@ GUI.prototype.KeyPress = function (code) {
 			this.level.CookPot();
 		}
 	}
+}
+
+GUI.prototype.Pause = function () {
+	this.container.removeChild(this.timer.counter);
+	this.container.addChild(this.timer.pause);
+}
+
+GUI.prototype.Play = function () {
+	this.container.removeChild(this.timer.pause);
+	this.container.addChild(this.timer.counter);
 }
 
 GUI.prototype.OpenBlueprint = function () {

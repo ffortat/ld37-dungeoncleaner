@@ -22,7 +22,7 @@
      "finallevel":false,
      "healer":0,
      "heart":0,
-     "monster":1,
+     "monster":0,
      "objective1":"skeleton",
      "objective1_quantity":1,
      "objective2":"pot",

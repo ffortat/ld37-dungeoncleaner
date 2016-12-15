@@ -51,6 +51,7 @@ function Dialog(container, file, dialog) {
 
 	this.listeners = {
 		end : [],
+		followup : [],
 		answer : []
 	}
 
@@ -116,12 +117,14 @@ Dialog.prototype.Init = function (data, dialog) {
 		});
 	} else {
 		this.textbox.on('end', function () {
-			self.end();
+			this.end();
 
 			if (data[dialog].followup) {
-				console.log(data[dialog].followup.file, this.file)
 				var file = data[dialog].followup.file ? data[dialog].followup.file : this.file;
 				var followup = new Dialog(self.parent, file, data[dialog].followup.dialog);
+				
+				this.followup(followup);
+				
 				followup.Display();
 			}
 		}, this);
@@ -164,6 +167,16 @@ Dialog.prototype.end = function (success) {
 	}
 	
 	this.Hide();
+}
+
+Dialog.prototype.followup = function (dialog) {
+	if (this.listeners.followup.length) {
+		this.listeners.followup.forEach(function (callback) {
+			callback.func.call(callback.object, dialog);
+		});
+
+		this.listeners.followup = [];
+	}
 }
 
 Dialog.prototype.answered = function () {

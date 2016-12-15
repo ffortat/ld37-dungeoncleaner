@@ -40,7 +40,7 @@ function Level(number, player, renderer) {
 	this.objects = [];
 	this.room = [[], []];
 	this.builder = new Timer(5);
-	this.hoven = new Timer(5);
+	this.hoven = new Timer(2);
 
 	this.interface = {};
 	this.dialogs = {};
@@ -99,6 +99,10 @@ Level.prototype.Init = function(level) {
 
 	this.dialogs.intro = new Dialog(this.container, 'level' + this.number, 'intro');
 	this.dialogs.intro.on('end', function () { this.Play(); }, this);
+	this.dialogs.intro.on('followup', function (followup) {
+		this.Pause();
+		followup.on('end', function () { this.Play(); }, this);
+	}, this);
 	this.dialogs.outro = new Dialog(this.container, 'level' + this.number, 'outro');
 
 	this.json = level;
@@ -584,10 +588,12 @@ Level.prototype.Prepare = function (type, name) {
 			console.log('Type unknown to prepare');
 			break;
 	}
+
+	this.Move();
 };
 
 Level.prototype.Use = function () {
-	if (! this.paused) {
+	if (!this.paused) {
 		if (this.character) {
 			if (this.character.isDisplayed) {
 				this.objects.some(function (element) {
@@ -647,6 +653,12 @@ Level.prototype.Keypress = function () {
 	if (key.down[keys.escape]) {
 		if (this.interface.altButtons) {
 			this.interface.CloseBlueprint();
+		} else if (this.character) {
+			this.character.Hide();
+			this.character = null;
+		} else if (this.element) {
+			this.element.Hide();
+			this.element = null;
 		} else {
 			this.TogglePause();
 		}
@@ -661,7 +673,14 @@ Level.prototype.UseWorker = function (element) {
 		this.workers.queue.push(this.character);
 		this.workers[this.character.type] -= 1;
 		this.character.Act(element);
-		this.character = null;
+
+		if (key.down[keys.shift]) {
+			var type = this.character.type;
+			this.character = null;
+			this.Prepare(type);
+		} else {
+			this.character = null;		
+		}
 
 		this.update();
 
@@ -686,8 +705,16 @@ Level.prototype.UseStuff = function () {
 		this.element.Hide();
 		this.AddObject(this.element);
 		this.stuff[this.element.name] -= 1;
-		this.element = null;
 		
+		if (key.down[keys.shift]) {
+			var type = this.element.type;
+			var name = this.element.name;
+			this.element = null;
+			this.Prepare(type, name);
+		} else {
+			this.element = null;
+		}
+
 		this.update();
 	}
 }
@@ -745,11 +772,17 @@ Level.prototype.TogglePause = function () {
 };
 
 Level.prototype.Pause = function () {
-	this.paused = true;
+	if (!this.paused) {
+		this.interface.Pause();
+		this.paused = true;
+	}
 };
 
 Level.prototype.Play = function () {
-	this.paused = false;
+	if (this.paused) {
+		this.interface.Play();
+		this.paused = false;
+	}
 };
 
 Level.prototype.Tick = function(length) {

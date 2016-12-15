@@ -10,6 +10,7 @@ function Item(x, y, name, level) {
 
 	this.state = this.states.fixed;
 	this.name = name;
+	this.type = 'item';
 	this.level = level;
 
 	this.duration = {
@@ -81,6 +82,10 @@ Item.prototype.Fix = function () {
 	this.SwitchToAnim(this.state);
 
 	return true;
+}
+
+Item.prototype.Clone = function () {
+	return new Item(this.x, this.y, this.name, this.level);
 }
 
 Item.prototype.Tick = function (length) {

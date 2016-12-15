@@ -1,6 +1,7 @@
 function Powerup(x, y, name, level) {
 	Animator.call(this, x, y, level.dynamic);
 
+	this.type = 'powerup';
 	this.name = name;
 	this.level = level;
 
@@ -40,6 +41,10 @@ Powerup.prototype.Place = function () {
 	this.timer.Start();
 
 	return true;
+}
+
+Powerup.prototype.Clone = function () {
+	return new Powerup(this.x, this.y, this.name, this.level);
 }
 
 Powerup.prototype.Tick = function (length) {

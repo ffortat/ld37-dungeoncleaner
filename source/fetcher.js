@@ -65,3 +65,7 @@ Fetcher.prototype.Leave = function () {
 	this.Hide();
 	this.level.RemoveWorker(this);
 }
+
+Fetcher.prototype.Clone = function () {
+	return new Fetcher(this.x, this.y, this.name, this.level);
+}
