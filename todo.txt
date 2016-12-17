@@ -6,5 +6,12 @@
 
 	- clean/fetch order impact
 	- reinforcement packs (start of level)
+
 	- leaderboard
 	- fullscreen
+
+
+	- découpe interface
+	- animations (mouvements)
+	- animations (particules heal)
+	- score tableau (écran transition)
