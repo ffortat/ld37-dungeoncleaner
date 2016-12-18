@@ -36,7 +36,7 @@
 	},
 	"tilesets" : [
 		{
-			"file" : "stuff/monster.png",
+			"file" : "stuff/enemy_imp.png",
 			"tilewidth" : 128,
 			"tileheight" : 128,
 			"imagewidth" : 256,

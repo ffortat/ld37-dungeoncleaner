@@ -36,7 +36,7 @@
 	},
 	"tilesets" : [
 		{
-			"file" : "stuff/skeleton.png",
+			"file" : "stuff/enemy_skeleton.png",
 			"tilewidth" : 64,
 			"tileheight" : 127,
 			"imagewidth" : 64,

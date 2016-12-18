@@ -67,7 +67,7 @@ GUI.prototype.Init = function () {
 	this.buttons.fetcher.background = PIXI.Sprite.fromImage('textures/gui/background.png');
 	this.buttons.fetcher.background.position = new PIXI.Point(11, 32);
 	this.buttons.fetcher.container.addChild(this.buttons.fetcher.background);
-	this.buttons.fetcher.sprite = PIXI.Sprite.fromImage('textures/gui/fetcher.png');
+	this.buttons.fetcher.sprite = PIXI.Sprite.fromImage('textures/gui/portrait_fetcher.png');
 	this.buttons.fetcher.container.addChild(this.buttons.fetcher.sprite);
 	this.buttons.fetcher.collider = new PIXI.Rectangle(this.buttons.fetcher.container.x, this.buttons.fetcher.container.y, this.buttons.fetcher.container.width, this.buttons.fetcher.container.height);
 	this.buttons.fetcher.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
@@ -85,7 +85,7 @@ GUI.prototype.Init = function () {
 	this.buttons.cleaner.background = PIXI.Sprite.fromImage('textures/gui/background.png');
 	this.buttons.cleaner.background.position = new PIXI.Point(11, 32);
 	this.buttons.cleaner.container.addChild(this.buttons.cleaner.background);
-	this.buttons.cleaner.sprite = PIXI.Sprite.fromImage('textures/gui/cleaner.png');
+	this.buttons.cleaner.sprite = PIXI.Sprite.fromImage('textures/gui/portrait_cleaner.png');
 	this.buttons.cleaner.container.addChild(this.buttons.cleaner.sprite);
 	this.buttons.cleaner.collider = new PIXI.Rectangle(this.buttons.cleaner.container.x, this.buttons.cleaner.container.y, this.buttons.cleaner.container.width, this.buttons.cleaner.container.height);
 	this.buttons.cleaner.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
@@ -103,7 +103,7 @@ GUI.prototype.Init = function () {
 	this.buttons.healer.background = PIXI.Sprite.fromImage('textures/gui/background.png');
 	this.buttons.healer.background.position = new PIXI.Point(11, 32);
 	this.buttons.healer.container.addChild(this.buttons.healer.background);
-	this.buttons.healer.sprite = PIXI.Sprite.fromImage('textures/gui/healer.png');
+	this.buttons.healer.sprite = PIXI.Sprite.fromImage('textures/gui/portrait_healer.png');
 	this.buttons.healer.container.addChild(this.buttons.healer.sprite);
 	this.buttons.healer.collider = new PIXI.Rectangle(this.buttons.healer.container.x, this.buttons.healer.container.y, this.buttons.healer.container.width, this.buttons.healer.container.height);
 	this.buttons.healer.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
@@ -144,7 +144,7 @@ GUI.prototype.Init = function () {
 	this.buttons.skeleton.background = PIXI.Sprite.fromImage('textures/gui/background.png');
 	this.buttons.skeleton.background.position = new PIXI.Point(11, 32);
 	this.buttons.skeleton.container.addChild(this.buttons.skeleton.background);
-	this.buttons.skeleton.sprite = PIXI.Sprite.fromImage('textures/gui/skeleton.png');
+	this.buttons.skeleton.sprite = PIXI.Sprite.fromImage('textures/gui/portrait_skeleton.png');
 	this.buttons.skeleton.container.addChild(this.buttons.skeleton.sprite);
 	this.buttons.skeleton.collider = new PIXI.Rectangle(this.buttons.skeleton.container.x + this.buttons.skeleton.container.width, this.buttons.skeleton.container.y, -this.buttons.skeleton.container.width, this.buttons.skeleton.container.height);
 	this.buttons.skeleton.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
@@ -165,7 +165,7 @@ GUI.prototype.Init = function () {
 	this.buttons.monster.background = PIXI.Sprite.fromImage('textures/gui/background.png');
 	this.buttons.monster.background.position = new PIXI.Point(11, 32);
 	this.buttons.monster.container.addChild(this.buttons.monster.background);
-	this.buttons.monster.sprite = PIXI.Sprite.fromImage('textures/gui/monster.png');
+	this.buttons.monster.sprite = PIXI.Sprite.fromImage('textures/gui/portrait_imp.png');
 	this.buttons.monster.container.addChild(this.buttons.monster.sprite);
 	this.buttons.monster.collider = new PIXI.Rectangle(this.buttons.monster.container.x + this.buttons.monster.container.width, this.buttons.monster.container.y, -this.buttons.monster.container.width, this.buttons.monster.container.height);
 	this.buttons.monster.counter = new PIXI.Text('x0', {fontFamily : 'Arial', fontSize: 14, fontWeight : 'bold', fill : 0x111111});
@@ -452,7 +452,7 @@ GUI.prototype.Click = function () {
 				if (this.blueprint.todo.skull.length) {
 					if (this.level.BuildSkeleton('skulls', 1)) {
 						var coords = this.blueprint.todo.skull.shift();
-						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skull.png');
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skeleton_skull.png');
 						sprite.scale.x = coords.scale;
 						sprite.position = coords;
 						this.blueprint.background.addChild(sprite);
@@ -466,7 +466,7 @@ GUI.prototype.Click = function () {
 				if (this.blueprint.todo.ribs.length) {
 					if (this.level.BuildSkeleton('ribs', 2)) {
 						var coords = this.blueprint.todo.ribs.shift();
-						var sprite = PIXI.Sprite.fromImage('textures/blueprint/ribs.png');
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skeleton_ribs.png');
 						sprite.scale.x = coords.scale;
 						sprite.position = coords;
 						this.blueprint.background.addChild(sprite);
@@ -481,7 +481,7 @@ GUI.prototype.Click = function () {
 				if (this.blueprint.todo.arms.length) {
 					if (this.level.BuildSkeleton('bones', 2)) {
 						var coords = this.blueprint.todo.arms.shift();
-						var sprite = PIXI.Sprite.fromImage('textures/blueprint/arm.png');
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skeleton_arm.png');
 						sprite.scale.x = coords.scale;
 						sprite.position = coords;
 						this.blueprint.background.addChild(sprite);
@@ -491,7 +491,7 @@ GUI.prototype.Click = function () {
 				} else if (this.blueprint.todo.legs.length) {
 					if (this.level.BuildSkeleton('bones', 2)) {
 						var coords = this.blueprint.todo.legs.shift();
-						var sprite = PIXI.Sprite.fromImage('textures/blueprint/leg.png');
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skeleton_leg.png');
 						sprite.scale.x = coords.scale;
 						sprite.position = coords;
 						this.blueprint.background.addChild(sprite);
@@ -567,7 +567,7 @@ GUI.prototype.KeyPress = function (code) {
 				if (this.blueprint.todo.skull.length) {
 					if (this.level.BuildSkeleton('skulls', 1)) {
 						var coords = this.blueprint.todo.skull.shift();
-						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skull.png');
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skeleton_skull.png');
 						sprite.scale.x = coords.scale;
 						sprite.position = coords;
 						this.blueprint.background.addChild(sprite);
@@ -581,7 +581,7 @@ GUI.prototype.KeyPress = function (code) {
 				if (this.blueprint.todo.ribs.length) {
 					if (this.level.BuildSkeleton('ribs', 2)) {
 						var coords = this.blueprint.todo.ribs.shift();
-						var sprite = PIXI.Sprite.fromImage('textures/blueprint/ribs.png');
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skeleton_ribs.png');
 						sprite.scale.x = coords.scale;
 						sprite.position = coords;
 						this.blueprint.background.addChild(sprite);
@@ -596,7 +596,7 @@ GUI.prototype.KeyPress = function (code) {
 				if (this.blueprint.todo.arms.length) {
 					if (this.level.BuildSkeleton('bones', 2)) {
 						var coords = this.blueprint.todo.arms.shift();
-						var sprite = PIXI.Sprite.fromImage('textures/blueprint/arm.png');
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skeleton_arm.png');
 						sprite.scale.x = coords.scale;
 						sprite.position = coords;
 						this.blueprint.background.addChild(sprite);
@@ -606,7 +606,7 @@ GUI.prototype.KeyPress = function (code) {
 				} else if (this.blueprint.todo.legs.length) {
 					if (this.level.BuildSkeleton('bones', 2)) {
 						var coords = this.blueprint.todo.legs.shift();
-						var sprite = PIXI.Sprite.fromImage('textures/blueprint/leg.png');
+						var sprite = PIXI.Sprite.fromImage('textures/blueprint/skeleton_leg.png');
 						sprite.scale.x = coords.scale;
 						sprite.position = coords;
 						this.blueprint.background.addChild(sprite);

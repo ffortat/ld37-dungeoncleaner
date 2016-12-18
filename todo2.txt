@@ -1,0 +1,82 @@
+Découper + (heal)
+Boutons
+Score (transition level)
+
+Liste de sons
+
+Bras jambe squelette
+
+Dessins
+	Patron du dongeon
+
+
+
+InGame
+	Décors
+		Mur du fond de la pièce
+	Objets
+		Pot cassé à refaire
+
+GUI
+	Général
+		Fenêtres
+	Écran titre
+	Fin de niveau
+	Fin de partie
+	HUD
+		Objectifs bien cadrés
+		Boutons (Go) à refaire (affordance)
+
+
+Sons
+	Musiques
+		Menu
+		Jeu
+		Pause
+	
+	GUI
+		Clic de fenêtre
+		Fermeture de fenêtre
+		
+		Objets
+			Placer un pot
+			Carton ouvert (objet placé)
+			
+		Employés
+			Déménageur
+				Sélection
+					-> Ouais ?
+					-> Qu'est-ce que j'vous apporte?
+					-> C'est du lourd ?
+					-> Qu'est-ce que vous voulez ?
+					-> Combien de kilos patron ?
+				Action
+					-> Ok, d'accord !
+					-> J'y vais !
+					-> C'est comme si c'était fait
+					-> Allez on vous l'apporte.
+					-> Livraison en cours !
+					-> c'est prêt dans deux secondes.
+			Balayeur
+				Sélection
+					-> Technicien de surface en place
+					-> À votre service
+					-> Nettoyeur à votre disposition
+					-> Un problème d'hygiène ? Je suis votre homme
+					-> Que désirez-vous ?
+			Nurse
+	
+	Sons d'entre-niveaux
+	
+
+
+Code
+	Placer un objet :
+		visible à 50% d'opacité en survol
+		une fois cliqué, laisser la visibilité à 50%, le carton tombe du ciel et le recouvre
+		une fois le temps écoulé, le carton remonte, l'objet est visible à 100% d'opacité
+	Ne pas afficher les boutons non-utilisables
+	
+
+Déménageur utilisé pour poser les objets ? Oui
+Faire trembler les icônes de personnages une fois utilisés

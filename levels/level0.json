@@ -22,7 +22,7 @@
      "finallevel":false,
      "healer":0,
      "heart":0,
-     "monster":0,
+     "monster":2,
      "objective1":"pot",
      "objective1_quantity":2,
      "objective2":"",
@@ -32,7 +32,7 @@
      "pot":2,
      "pots":0,
      "ribs":0,
-     "skeleton":0,
+     "skeleton":4,
      "skulls":0,
      "timer":3599
     },

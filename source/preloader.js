@@ -28,8 +28,8 @@ function Preloader(renderer) {
 	load.json('animations/messes/blood1.json');
 	load.json('animations/messes/blood2.json');
 	load.json('animations/messes/blood4.json');
-	load.json('animations/monsters/monster.json');
-	load.json('animations/monsters/skeleton.json');
+	load.json('animations/monsters/enemy_monster.json');
+	load.json('animations/monsters/enemy_skeleton.json');
 	load.json('animations/powerups/coin.json');
 	load.json('animations/powerups/heart.json');
 	load.json('animations/resources/bones.json');
@@ -43,24 +43,24 @@ function Preloader(renderer) {
 	this.loader = PIXI.loader;
 	this.assets = [
 		['blueprint/background', 'blueprint/background.png'],
-		['blueprint/skull', 'blueprint/skull.png'],
-		['blueprint/ribs', 'blueprint/ribs.png'],
-		['blueprint/leg', 'blueprint/leg.png'],
-		['blueprint/arm', 'blueprint/arm.png'],
+		['blueprint/skeleton_skull', 'blueprint/skeleton_skull.png'],
+		['blueprint/skeleton_ribs', 'blueprint/skeleton_ribs.png'],
+		['blueprint/skeleton_leg', 'blueprint/skeleton_leg.png'],
+		['blueprint/skeleton_arm', 'blueprint/skeleton_arm.png'],
 		['gui/background', 'gui/background.png'],
 		['gui/bone', 'gui/bone.png'],
-		['gui/cleaner', 'gui/cleaner.png'],
 		['gui/coin', 'gui/coin.png'],
-		['gui/fetcher', 'gui/fetcher.png'],
-		['gui/healer', 'gui/healer.png'],
 		['gui/heart', 'gui/heart.png'],
 		['gui/hoven', 'gui/hoven.png'],
-		['gui/monster', 'gui/monster.png'],
+		['gui/portrait_fetcher', 'gui/portrait_fetcher.png'],
+		['gui/portrait_cleaner', 'gui/portrait_cleaner.png'],
+		['gui/portrait_healer', 'gui/portrait_healer.png'],
+		['gui/portrait_skeleton', 'gui/portrait_skeleton.png'],
+		['gui/portrait_imp', 'gui/portrait_imp.png'],
 		['gui/pot', 'gui/pot.png'],
 		['gui/rib', 'gui/rib.png'],
 		['gui/selected', 'gui/selected.png'],
 		['gui/shortcut', 'gui/shortcut.png'],
-		['gui/skeleton', 'gui/skeleton.png'],
 		['gui/skull', 'gui/skull.png'],
 		['stuff/blood0-1', 'stuff/blood0-1.png'],
 		['stuff/blood0-2', 'stuff/blood0-2.png'],
@@ -81,10 +81,10 @@ function Preloader(renderer) {
 		['stuff/blood4-1', 'stuff/blood4-1.png'],
 		['stuff/blood4-2', 'stuff/blood4-2.png'],
 		['stuff/bone', 'stuff/bone.png'],
-		['stuff/monster', 'stuff/monster.png'],
+		['stuff/enemy_imp', 'stuff/enemy_imp.png'],
+		['stuff/enemy_skeleton', 'stuff/enemy_skeleton.png'],
 		['stuff/pot', 'stuff/pot.png'],
 		['stuff/rib', 'stuff/rib.png'],
-		['stuff/skeleton', 'stuff/skeleton.png'],
 		['stuff/skull', 'stuff/skull.png'],
 		['background', 'background.png'],
 		['cleaner', 'cleaner.png'],
