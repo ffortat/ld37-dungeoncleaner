@@ -644,14 +644,16 @@ Level.prototype.Move = function () {
 };
 
 Level.prototype.Keypress = function () {
-	if (key.down[keys.escape]) {
+	if (key.down[keys.c]) {
 		if (this.interface.altButtons) {
 			this.interface.CloseBlueprint();
-		} else {
-			this.TogglePause();
+			key.down[keys.c] = false;
 		}
-		
-		key.down[keys.escape] = false;
+	}
+
+	if (key.down[keys.p]) {
+		this.TogglePause();
+		key.down[keys.p] = false;
 	}
 };
 

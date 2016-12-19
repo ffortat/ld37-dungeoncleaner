@@ -21,7 +21,7 @@
 				["T", "You can also order Fetchers to retrieve skeleton parts."],
 				["T", "You can rebuild skeletons in the Builder. Once you have all the parts, click on the icon in the bottom right of the screen."],
 				["T", "You will be able to add the parts to the blueprint by clicking them on the right."],
-				["T", "You can exit the builder by pressing Escape."]
+				["T", "You can exit the builder by pressing C."]
 			],
 			"characters" : [
 				{
