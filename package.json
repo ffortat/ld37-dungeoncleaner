@@ -1,0 +1,14 @@
+{
+  "name": "DungeonCleaner",
+  "description": "Dungeon Cleaner",
+  "version": "0.1.0",
+  "main": "index.html",
+  "author": "Florent Fortat",
+  "private": true,
+  "window": {
+    "icon": "textures/icon.png",
+    "width": 1280,
+    "height": 720,
+    "resizable": false
+  }
+}
