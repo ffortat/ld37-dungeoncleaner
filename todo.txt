@@ -1,3 +1,11 @@
+	- change behaviour of escape
+	- changement curseur sur clickable
+	- score tableau (écran transition)
+	- découpe interface
+	- reorder assets in room for overlapping
+
+	- build windows version nwjs
+	
 	- menus
 		- main
 		- credits
@@ -11,7 +19,10 @@
 	- fullscreen
 
 
-	- découpe interface
 	- animations (mouvements)
 	- animations (particules heal)
-	- score tableau (écran transition)
+	
+	- rework builder :
+		resources bras/jambe
+		attachement au corps, placement mains/pieds (auto x2)
+		confirmation bouton ou auto avec anim (squelette complet vers icone dans UI)
