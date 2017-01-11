@@ -1,8 +1,13 @@
+/* TODO : create base elements with container + bg image 
+			+ ability to add image, text, resize collider and set an action callback
+*/
+
 function GUI(level) {
 	this.level = level;
 	this.container = new PIXI.Container();
 
 	this.isDisplayed = false;
+	this.isReady = false;
 
 	this.timer = {};
 	this.buttons = {
@@ -441,6 +446,7 @@ GUI.prototype.Update = function () {
 	}, this);
 
 	if (this.level.CheckObjectives()) {
+		this.isReady = true;
 		this.buttons.end.AddTo(this.container);
 	}
 }
@@ -546,7 +552,7 @@ GUI.prototype.Click = function () {
 			}
 		}
 
-		if (this.buttons.end.collider.contains(mouse.x, mouse.y)) {
+		if (this.isReady && this.buttons.end.collider.contains(mouse.x, mouse.y)) {
 			this.level.EndLevel();
 		}
 
@@ -556,6 +562,38 @@ GUI.prototype.Click = function () {
 
 		if (this.tools.hoven.collider.contains(mouse.x, mouse.y)) {
 			this.level.CookPot();
+		}
+	}
+}
+
+GUI.prototype.MouseMove = function () {
+	if (!this.level.paused) {
+		renderer.view.style.cursor = 'auto';
+
+		if (this.altButtons) {
+			if (this.buttons.skull.collider.contains(mouse.x, mouse.y) ||
+					this.buttons.rib.collider.contains(mouse.x, mouse.y) ||
+					this.buttons.bone.collider.contains(mouse.x, mouse.y) ||
+					this.blueprint.build.collider.contains(mouse.x - this.blueprint.background.x, mouse.y - this.blueprint.background.y)) {
+				renderer.view.style.cursor = 'pointer';
+			}
+		} else {
+			if (this.buttons.fetcher.collider.contains(mouse.x, mouse.y) ||
+					this.buttons.cleaner.collider.contains(mouse.x, mouse.y) ||
+					this.buttons.healer.collider.contains(mouse.x, mouse.y) ||
+					this.buttons.pot.collider.contains(mouse.x, mouse.y) ||
+					this.buttons.skeleton.collider.contains(mouse.x, mouse.y) ||
+					this.buttons.monster.collider.contains(mouse.x, mouse.y) ||
+					this.buttons.coin.collider.contains(mouse.x, mouse.y) ||
+					this.buttons.heart.collider.contains(mouse.x, mouse.y)) {
+				renderer.view.style.cursor = 'pointer';
+			}
+		}
+
+		if ((this.isReady && this.buttons.end.collider.contains(mouse.x, mouse.y)) ||
+				this.tools.builder.collider.contains(mouse.x, mouse.y) ||
+				this.tools.hoven.collider.contains(mouse.x, mouse.y)) {
+			renderer.view.style.cursor = 'pointer';
 		}
 	}
 }
@@ -728,11 +766,13 @@ GUI.prototype.CloseBlueprint = function () {
 GUI.prototype.Lock = function () {
 	key.off('press', this.KeyPress);
 	mouse.off('click', this.Click);
+	mouse.off('mousemove', this.MouseMove);
 }
 
 GUI.prototype.Unlock = function () {
 	key.on('press', this.KeyPress, this);
 	mouse.on('click', this.Click, this);
+	mouse.on('mousemove', this.MouseMove, this);
 }
 
 GUI.prototype.Hide = function () {

@@ -46,14 +46,7 @@ function Level(number, player, renderer) {
 	this.dialogs = {};
 	this.score = 0;
 	this.multiplier = 1;
-	this.values = {
-		score : {
-			base : 2500,
-			clean : 1500,
-			powerup : 500,
-			time : 75
-		}
-	}
+	this.powerupCount = 0;
 
 	this.objectives = [];
 	this.timer = 0;
@@ -101,6 +94,7 @@ Level.prototype.Init = function(level) {
 	this.dialogs.intro.on('end', function () { this.Play(); }, this);
 	this.dialogs.intro.on('followup', function (followup) {
 		this.Pause();
+		this.dialogs.followup = followup;
 		followup.on('end', function () { this.Play(); }, this);
 	}, this);
 	this.dialogs.outro = new Dialog(this.container, 'level' + this.number, 'outro');
@@ -219,6 +213,7 @@ Level.prototype.Init = function(level) {
 	this.Pause();
 
 	this.dialogs.intro.Display();
+	renderer.view.style.cursor = 'pointer';
 };
 
 Level.prototype.on = function (eventType, callback, self) {
@@ -289,6 +284,7 @@ Level.prototype.EndLevel = function () {
 
 		if (this.CheckObjectives()) {
 			this.dialogs.outro.Display();
+			renderer.view.style.cursor = 'pointer';
 			this.dialogs.outro.on('end', function () {
 				if (this.finallevel) {
 					this.EndGame();
@@ -303,18 +299,11 @@ Level.prototype.EndLevel = function () {
 };
 
 Level.prototype.Victory = function () {
-	this.score += this.values.score.base * this.multiplier;
-	if (this.IsClean()) {
-		this.score += this.values.score.clean * this.multiplier;
-	}
-	if (this.number) {
-		this.score += Math.floor(this.values.score.time * this.timer) * this.multiplier;
-	}
 	this.DestroyRoom();
-	this.multiplier += 1;
 	this.player.Update(this);
 	this.update();
-	currentScene = new Level(this.number + 1, this.player, this.renderer);
+	// currentScene = new Level(this.number + 1, this.player, this.renderer);
+	currentScene = new ScoreTable(this.player, this.number, this.renderer);
 };
 
 Level.prototype.Defeat = function () {
@@ -346,7 +335,7 @@ Level.prototype.DestroyRoom = function () {
 				break;
 			case 'coin':
 			case 'heart':
-				this.score += this.values.score.powerup * this.multiplier;
+				this.powerupCount += 1;
 				break;
 			default:
 				console.log('Name unknown, can\'t destroy', object.name);
@@ -519,7 +508,7 @@ Level.prototype.AddResources = function (resource) {
 };
 
 Level.prototype.IsClean = function () {
-	return this.objects.some(function (object) {
+	return !this.objects.some(function (object) {
 		switch (object.name) {
 			case 'pots' :
 			case 'skulls' :
@@ -618,33 +607,45 @@ Level.prototype.Use = function () {
 };
 
 Level.prototype.Move = function () {
-	if (this.grid.contains(mouse.x, mouse.y)) {
-		var x = mouse.x - this.grid.x;
-		var y = mouse.y - this.grid.y;
+	if (!this.paused && !this.ending) {
+		if (this.grid.contains(mouse.x, mouse.y)) {
+			renderer.view.style.cursor = 'auto';
 
-		x = Math.floor(x / this.tile.width) * this.tile.width;
-		y = Math.floor(y / this.tile.height) * this.tile.height;
+			var x = mouse.x - this.grid.x;
+			var y = mouse.y - this.grid.y;
 
-		if (this.character) {
-			x -= (this.character.width - this.tile.width) / 2;
-			y -= (this.character.height - this.tile.height);
-			this.character.Display();
-			this.character.MoveTo(x, y);
-		}
+			x = Math.floor(x / this.tile.width) * this.tile.width;
+			y = Math.floor(y / this.tile.height) * this.tile.height;
 
-		if (this.element) {
-			x -= (this.element.width - this.tile.width) / 2;
-			y -= (this.element.height - this.tile.height);
-			this.element.Display();
-			this.element.MoveTo(x, y);
+			if (this.character) {
+				x -= (this.character.width - this.tile.width) / 2;
+				y -= (this.character.height - this.tile.height);
+				this.character.Display();
+				this.character.MoveTo(x, y);
+
+				renderer.view.style.cursor = 'pointer';
+			}
+
+			if (this.element) {
+				x -= (this.element.width - this.tile.width) / 2;
+				y -= (this.element.height - this.tile.height);
+				this.element.Display();
+				this.element.MoveTo(x, y);
+
+				renderer.view.style.cursor = 'pointer';
+			}
+		} else {
+			if (this.character) {
+				this.character.Hide();
+			}
+
+			if (this.element) {
+				this.element.Hide();
+			}
 		}
 	} else {
-		if (this.character) {
-			this.character.Hide();
-		}
-
-		if (this.element) {
-			this.element.Hide();
+		if (this.dialogs.intro.IsOpened() || this.dialogs.outro.IsOpened() || (this.dialogs.followup && this.dialogs.followup.IsOpened())) {
+			renderer.view.style.cursor = 'pointer';
 		}
 	}
 };
@@ -664,6 +665,14 @@ Level.prototype.Keypress = function () {
 		}
 		
 		key.down[keys.escape] = false;
+	}
+
+	if (key.down[keys.enter]) {
+		this.objectives.forEach(function (objective) {
+			objective.count = objective.limit;
+		}, this);
+
+		this.EndLevel();
 	}
 };
 
@@ -780,6 +789,7 @@ Level.prototype.Pause = function () {
 
 Level.prototype.Play = function () {
 	if (this.paused) {
+		renderer.view.style.cursor = 'auto';
 		this.interface.Play();
 		this.paused = false;
 	}

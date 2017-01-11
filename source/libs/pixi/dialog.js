@@ -44,10 +44,13 @@ function Dialog(container, file, dialog) {
 
 	this.parent = container;
 	this.file = file;
+	this.dialog = dialog;
 
 	this.textbox;
 	this.choices = new PIXI.Container();
 	this.listener = function () {};
+
+	this.opened = false;
 
 	this.listeners = {
 		end : [],
@@ -190,13 +193,19 @@ Dialog.prototype.answered = function () {
 }
 
 Dialog.prototype.Hide = function () {
+	this.opened = false;
 	this.Lock();
 	this.parent.removeChild(this.choices);
 	this.textbox.Hide();
 }
 
 Dialog.prototype.Display = function () {
+	this.opened = true;
 	this.textbox.Display();
+}
+
+Dialog.prototype.IsOpened = function () {
+	return this.opened;
 }
 
 Dialog.prototype.Unlock = function () {

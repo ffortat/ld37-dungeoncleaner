@@ -1,5 +1,6 @@
-function Timer(duration) {
+function Timer(duration, speed) {
 	this.duration = duration ? duration : 5;
+	this.speed = speed ? speed : 1;
 
 	this.timer = 0;
 
@@ -40,6 +41,14 @@ Timer.prototype.start = function () {
 	}
 }
 
+Timer.prototype.tick = function () {
+	if (this.listeners['tick']) {
+		this.listeners['tick'].forEach(function (listener) {
+			listener.func.call(listener.object, Math.ceil(this.timer));
+		}, this);
+	}
+}
+
 Timer.prototype.end = function () {
 	if (this.listeners['end']) {
 		this.listeners['end'].forEach(function (listener) {
@@ -53,9 +62,23 @@ Timer.prototype.Start = function () {
 	this.start();
 }
 
+Timer.prototype.IsRunning = function () {
+	return this.timer !== 0;
+}
+
+Timer.prototype.Stop = function () {
+	this.timer = 0;
+	this.end();
+}
+
 Timer.prototype.Tick = function (length) {
 	if (this.timer) {
-		this.timer -= length;
+		var oldTime = this.timer;
+		this.timer -= length * this.speed;
+
+		if (Math.ceil(this.timer) < Math.ceil(oldTime)) {
+			this.tick();
+		}
 
 		if (this.timer <= 0) {
 			this.timer = 0;

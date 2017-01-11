@@ -5,6 +5,11 @@ function Player() {
 Player.prototype.Reset = function () {
 	this.score = 0;
 	this.multiplier = 1;
+	this.scoreDetail = {
+		clean : false,
+		timeLeft : 0,
+		powerups : 0
+	};
 
 	this.fetcher = 0;
 	this.cleaner = 0;
@@ -27,6 +32,9 @@ Player.prototype.Reset = function () {
 Player.prototype.Update = function (level) {
 	this.score = level.score;
 	this.multiplier = level.multiplier;
+	this.scoreDetail.clean = level.IsClean();
+	this.scoreDetail.timeLeft = level.timer;
+	this.scoreDetail.powerups = level.powerupCount;
 
 	this.fetcher = level.workers.fetcher;
 	this.cleaner = level.workers.cleaner;
