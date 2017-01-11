@@ -152,6 +152,11 @@ Animator.prototype.Init = function (data) {
 
 	if (this.isDisplayed) {
 		this.container.addChild(this.currentAnimation);
+
+		// DUNGEON CLEANER
+		if (this.level && this.level.ReorderRoom) {
+			this.level.ReorderRoom();
+		}
 	}
 
 	this.loaded();
@@ -229,12 +234,22 @@ Animator.prototype.MoveTo = function (x, y) {
 
 	this.currentAnimation.x = x + this.currentAnimation.width / 2;
 	this.currentAnimation.y = y + this.currentAnimation.height / 2;
+
+	// DUNGEON CLEANER
+	if (this.level && this.level.ReorderRoom) {
+		this.level.ReorderRoom();
+	}
 }
 
 Animator.prototype.Hide = function () {
 	if (this.isDisplayed) {
 		this.container.removeChild(this.currentAnimation);
 		this.isDisplayed = false;
+
+		// DUNGEON CLEANER
+		if (this.level && this.level.ReorderRoom) {
+			this.level.ReorderRoom();
+		}
 	}
 }
 
@@ -242,6 +257,11 @@ Animator.prototype.Display = function () {
 	if (!this.isDisplayed) {
 		this.container.addChild(this.currentAnimation);
 		this.isDisplayed = true;
+
+		// DUNGEON CLEANER
+		if (this.level && this.level.ReorderRoom) {
+			this.level.ReorderRoom();
+		}
 	}
 }
 

@@ -1,11 +1,3 @@
-	- change behaviour of escape
-	- changement curseur sur clickable
-	- score tableau (écran transition)
-	- découpe interface
-	- reorder assets in room for overlapping
-
-	- build windows version nwjs
-	
 	- menus
 		- main
 		- credits
@@ -17,7 +9,6 @@
 
 	- leaderboard
 	- fullscreen
-
 
 	- animations (mouvements)
 	- animations (particules heal)

@@ -107,7 +107,7 @@ Level.prototype.Init = function(level) {
 	this.tile.width = level.tilewidth;
 	this.tile.height = level.tileheight;
 
-	var background = PIXI.Sprite.fromImage('textures/background.png');
+	var background = PIXI.Sprite.fromImage('textures/background-clear.png');
 	this.map.addChild(background);
 
 	this.player.Setup(this);
@@ -483,6 +483,31 @@ Level.prototype.RemoveObject = function (object) {
 		}
 	}
 };
+
+Level.prototype.ReorderRoom = function () {
+	function orderRule(a, b) {
+		var ax = a.x + (a.collider ? a.collider.x : 0);
+		var ay = a.y + (a.collider ? a.collider.y : 0);
+		var bx = b.x + (b.collider ? b.collider.x : 0);
+		var by = b.y + (b.collider ? b.collider.y : 0);
+
+		if (ay > by || (ay === by && ax < bx)) {
+			return -1;
+		}
+
+		if (ay < by || (ay === by && ax > bx)) {
+			return 1;
+		}
+
+		return 0;
+	}
+
+	var children = this.dynamic.children;
+	children.sort(orderRule);
+	children.forEach(function (child) {
+		this.dynamic.setChildIndex(child, 0);
+	}, this);
+}
 
 Level.prototype.GetObjects = function () {
 	return this.objects;
